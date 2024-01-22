@@ -1,3 +1,15 @@
+import React from "react";
+import {
+  FormControl,
+  FormLabel,
+  Select,
+  Radio,
+  Box,
+  RadioGroup,
+  HStack,
+  Flex,
+} from "@chakra-ui/react";
+
 interface Props {
   question: string;
   inputType: string;
@@ -6,19 +18,29 @@ interface Props {
 
 export const FormQuestion = ({ question, inputType, options }: Props) => {
   return (
-    <div className="question">
-      <label>{question}</label>
+    <FormControl>
+      <FormLabel>{question}</FormLabel>
       {inputType === "select" && options ? (
-        <select>
+        <Select placeholder="Select option">
           {options.map((option, index) => (
             <option key={index} value={option}>
               {option}
             </option>
           ))}
-        </select>
+        </Select>
       ) : (
-        <input type={inputType} />
+        ""
       )}
-    </div>
+      {inputType == "radio" && (
+        <Flex justifyContent={"center"}>
+          <RadioGroup>
+            <HStack gap={4}>
+              <Radio>Yes</Radio>
+              <Radio>No</Radio>
+            </HStack>
+          </RadioGroup>
+        </Flex>
+      )}
+    </FormControl>
   );
 };

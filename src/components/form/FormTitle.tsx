@@ -1,7 +1,11 @@
+import { Box, Heading } from "@chakra-ui/react";
+
 export const FormTitle = () => {
   return (
-    <div className="title">
-      <h2>You're invited! To our daughter's birthday.</h2>
-    </div>
+    <Box bg="pink.500" color="white" w={"100%"} textAlign={"center"} py={8}>
+      <Heading as="h1" size="xl" fontFamily="Grape Nuts, sans-serif">
+        Party Invitation
+      </Heading>
+    </Box>
   );
 };

@@ -1,11 +1,15 @@
 import "./App.css";
 import Form from "./pages/Form";
 
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+
+const theme = extendTheme({});
+
 function App() {
   return (
-    <div>
+    <ChakraProvider theme={theme}>
       <Form />
-    </div>
+    </ChakraProvider>
   );
 }
 
