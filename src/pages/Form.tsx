@@ -2,23 +2,9 @@ import React from "react";
 import { FormHeader } from "../components/form/FormHeader";
 import { FormTitle } from "../components/form/FormTitle";
 import { FormDescription } from "../components/form/FormDescription";
-import { FormQuestion } from "../components/form/FormQuestion";
+import { FormQuestions } from "../components/form/FormQuestions";
 
 import { Box, VStack, Button, Flex, Container } from "@chakra-ui/react";
-
-const questions = [
-  {
-    question: "Would you be able to join us?",
-    inputType: "radio",
-    options: ["Yes", "No"],
-  },
-  {
-    question: "What is your meal preference?",
-    inputType: "select",
-    options: ["Vegetarian", "Vegan", "Non-Vegetarian", "Gluten-Free"],
-  },
-  // Add more questions as needed
-];
 
 const Form = () => {
   return (
@@ -40,14 +26,7 @@ const Form = () => {
             <FormTitle />
             <FormDescription />
             <form>
-              {questions.map((q, index) => (
-                <FormQuestion
-                  key={index}
-                  question={q.question}
-                  inputType={q.inputType}
-                  options={q.options}
-                />
-              ))}
+              <FormQuestions />
               <Flex justifyContent="center" width="full" mt={8}>
                 <Button colorScheme="pink" type="submit">
                   Submit
