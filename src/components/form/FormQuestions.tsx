@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { DropdownQuestion } from "./DropdownQuestion";
+import { CheckboxQuestion } from "./CheckboxQuestion";
 
 const questions = [
+  {
+    question: "Question example here",
+    inputType: "checkbox",
+    options: ["Option 1", "Option 2", "Option 3", "Other"],
+  },
   {
     question: "What is your meal preference?",
     inputType: "multiple-choice",
@@ -19,7 +25,7 @@ const questions = [
 export const FormQuestions = () => {
   const [answers, setAnswers] = useState({});
 
-  const handleAnswerChange = (question: string, value: string) => {
+  const handleAnswerChange = (question: string, value: string | string[]) => {
     setAnswers((prev) => ({ ...prev, [question]: value }));
     console.log(`${question} | ${value}`);
   };
@@ -46,6 +52,18 @@ export const FormQuestions = () => {
                 question={q.question}
                 options={q.options}
                 onChange={(value) => handleAnswerChange(q.question, value)}
+              />
+            );
+            break;
+          case "checkbox":
+            rt = (
+              <CheckboxQuestion
+                key={index}
+                question={q.question}
+                options={q.options}
+                onChange={(selectedOptions) =>
+                  handleAnswerChange(q.question, selectedOptions)
+                }
               />
             );
             break;
