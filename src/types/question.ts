@@ -1,9 +1,9 @@
 export enum InputType {
+  MultiChoices = "Multi Choices",
   Checkbox = "Checkbox",
+  Dropdown = "Dropdown",
   ShortAnswer = "Short Answer",
   Paragraph = "Paragraph Answer",
-  MultiChoices = "Multi Choices",
-  Dropdown = "Dropdown",
 }
 
 export interface Question {
