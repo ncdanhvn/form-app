@@ -12,4 +12,5 @@ export interface Question {
   inputType: InputType;
   options: string[];
   other?: string;
+  required: boolean;
 }

@@ -9,10 +9,12 @@ import {
   Text,
   Container,
   IconButton,
+  Divider,
+  Checkbox,
 } from "@chakra-ui/react";
 import { Question, InputType } from "../types/question";
 import CreateMultiOptionsQuestion from "../components/createForm/CreateMultiOptionsQuestion";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 
 const CreateForm = () => {
   const formUid = "hardcoded-uid"; // Replace this with dynamic UID later
@@ -23,6 +25,7 @@ const CreateForm = () => {
       inputType: InputType.MultiChoices,
       options: ["Option 1", "Option 2"],
       other: "",
+      required: false,
     },
   ]);
 
@@ -39,6 +42,7 @@ const CreateForm = () => {
       question: "",
       inputType: InputType.MultiChoices, // Default type, can be changed
       options: [""],
+      required: false,
     };
 
     setQuestions([...questions, newQuestion]);
@@ -69,29 +73,21 @@ const CreateForm = () => {
               },
             }}
           >
-            <HStack justifyContent="space-between" mb={2}>
-              <Input
-                value={question.question}
-                onChange={(e) =>
-                  onUpdateQuestion(index, {
-                    ...question,
-                    question: e.target.value,
-                  })
-                }
-                variant="flushed"
-                placeholder="The question goes here"
-                fontWeight={600}
-                mb={2}
-                w={"100%"}
-              />
-              <IconButton
-                aria-label="Delete option"
-                icon={<CloseIcon />}
-                onClick={() => deleteQuestion(index)}
-                size="xs"
-                alignSelf={"self-start"}
-              />
-            </HStack>
+            <Input
+              value={question.question}
+              onChange={(e) =>
+                onUpdateQuestion(index, {
+                  ...question,
+                  question: e.target.value,
+                })
+              }
+              variant="flushed"
+              placeholder="The question goes here"
+              fontWeight={600}
+              mb={2}
+              w={"100%"}
+            />
+
             <Select
               value={question.inputType}
               onChange={(e) =>
@@ -121,6 +117,26 @@ const CreateForm = () => {
                 key={index}
               />
             )}
+            <Divider my={4} />
+            <HStack justifyContent="end" spacing={4}>
+              <Checkbox
+                isChecked={question.required}
+                onChange={(e) => {
+                  const updatedQuestion = {
+                    ...question,
+                    required: e.target.checked,
+                  };
+                  onUpdateQuestion(index, updatedQuestion);
+                }}
+              >
+                Required
+              </Checkbox>
+              <IconButton
+                aria-label="Delete question"
+                icon={<DeleteIcon />}
+                onClick={() => deleteQuestion(index)}
+              />
+            </HStack>
           </Box>
         ))}
         <Button onClick={addQuestion} mt={4} colorScheme="blue">
