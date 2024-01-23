@@ -1,12 +1,31 @@
-import React from "react";
+import React, { FormEvent, useState } from "react";
+import { Box, VStack, Button, Flex, Container } from "@chakra-ui/react";
 import { FormHeader } from "../components/form/FormHeader";
 import { FormTitle } from "../components/form/FormTitle";
 import { FormDescription } from "../components/form/FormDescription";
 import { FormQuestions } from "../components/form/FormQuestions";
 
-import { Box, VStack, Button, Flex, Container } from "@chakra-ui/react";
+import { saveAnswers } from "../services/firestoreService";
 
 const Form = () => {
+  const [answers, setAnswers] = useState({});
+
+  const handleAnswerChange = (question: string, value: string | string[]) => {
+    setAnswers((prev) => ({ ...prev, [question]: value }));
+    console.log(`${question} | ${value}`);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      await saveAnswers(answers);
+      console.log("Answers saved successfully");
+    } catch (error) {
+      console.error("Error saving answers: ", error);
+    }
+  };
+
   return (
     <Box
       bgImage="./images/party-invitation-bg.webp"
@@ -25,8 +44,8 @@ const Form = () => {
           <VStack w={"100%"} gap={4} mb={8}>
             <FormTitle />
             <FormDescription />
-            <form>
-              <FormQuestions />
+            <form onSubmit={handleSubmit}>
+              <FormQuestions handleAnswerChange={handleAnswerChange} />
               <Flex justifyContent="center" width="full" mt={8}>
                 <Button colorScheme="pink" type="submit">
                   Submit

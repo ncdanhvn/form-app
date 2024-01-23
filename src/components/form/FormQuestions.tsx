@@ -35,14 +35,11 @@ const questions = [
   // You can add more questions here
 ];
 
-export const FormQuestions = () => {
-  const [answers, setAnswers] = useState({});
+interface Props {
+  handleAnswerChange: (question: string, value: string | string[]) => void;
+}
 
-  const handleAnswerChange = (question: string, value: string | string[]) => {
-    setAnswers((prev) => ({ ...prev, [question]: value }));
-    console.log(`${question} | ${value}`);
-  };
-
+export const FormQuestions = ({ handleAnswerChange }: Props) => {
   return (
     <VStack gap={4}>
       {questions.map((q, index) => {
