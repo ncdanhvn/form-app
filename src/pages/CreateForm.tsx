@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Question, InputType } from "../types/question";
 import CreateMultipleChoiceQuestion from "../components/createForm/CreateMultipleChoiceQuestion";
+import CreateCheckboxQuestion from "../components/createForm/CreateCheckboxQuestion";
 
 const CreateForm = () => {
   const formUid = "hardcoded-uid"; // Replace this with dynamic UID later
@@ -55,6 +56,14 @@ const CreateForm = () => {
             </Select>
             {question.inputType === InputType.MultiChoices && (
               <CreateMultipleChoiceQuestion
+                index={index}
+                question={question}
+                onUpdateQuestion={onUpdateQuestion}
+                key={index}
+              />
+            )}
+            {question.inputType === InputType.Checkbox && (
+              <CreateCheckboxQuestion
                 index={index}
                 question={question}
                 onUpdateQuestion={onUpdateQuestion}

@@ -16,7 +16,7 @@ interface Props {
   onUpdateQuestion: (index: number, question: Question) => void;
 }
 
-const CreateMultipleChoiceQuestion: React.FC<Props> = ({
+const CreateDropdownQuestion: React.FC<Props> = ({
   question,
   index,
   onUpdateQuestion,
@@ -94,4 +94,4 @@ const CreateMultipleChoiceQuestion: React.FC<Props> = ({
   );
 };
 
-export default CreateMultipleChoiceQuestion;
+export default CreateDropdownQuestion;
