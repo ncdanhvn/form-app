@@ -14,7 +14,7 @@ export const DropdownQuestion: React.FC<DropdownQuestionProps> = ({
 }) => {
   return (
     <FormControl>
-      <FormLabel>{question}</FormLabel>
+      <FormLabel fontWeight={600}>{question}</FormLabel>
       <Select
         placeholder="Select option"
         onChange={(e) => onChange(e.target.value)}

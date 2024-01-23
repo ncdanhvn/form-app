@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { RadioGroup, Radio, Stack, Input } from "@chakra-ui/react";
+import {
+  RadioGroup,
+  Radio,
+  Stack,
+  Input,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 
 interface MultipleChoiceQuestionProps {
   question: string;
@@ -30,8 +37,8 @@ export const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
   };
 
   return (
-    <div>
-      <p>{question}</p>
+    <FormControl>
+      <FormLabel fontWeight={600}>{question}</FormLabel>
       <RadioGroup onChange={handleChange} value={value}>
         <Stack direction="column">
           {options.map((option, index) => (
@@ -48,6 +55,6 @@ export const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
           onChange={handleOtherChange}
         />
       )}
-    </div>
+    </FormControl>
   );
 };

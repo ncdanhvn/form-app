@@ -41,7 +41,7 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
 
   return (
     <FormControl>
-      <FormLabel>{question}</FormLabel>
+      <FormLabel fontWeight={600}>{question}</FormLabel>
       <CheckboxGroup value={selectedOptions} onChange={handleCheckboxChange}>
         <Stack direction="column">
           {options.map((option, index) => (

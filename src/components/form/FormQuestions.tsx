@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { DropdownQuestion } from "./DropdownQuestion";
 import { CheckboxQuestion } from "./CheckboxQuestion";
+import { VStack } from "@chakra-ui/react";
 
 const questions = [
   {
@@ -31,7 +32,7 @@ export const FormQuestions = () => {
   };
 
   return (
-    <>
+    <VStack gap={4}>
       {questions.map((q, index) => {
         let rt;
         switch (q.inputType) {
@@ -72,6 +73,6 @@ export const FormQuestions = () => {
         return rt;
       })}
       {/* Render other types of questions here if needed */}
-    </>
+    </VStack>
   );
 };
