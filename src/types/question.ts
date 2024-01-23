@@ -1,14 +1,15 @@
 export enum InputType {
-  Checkbox = "checkbox",
-  ShortAnswer = "short-answer",
-  Paragraph = "paragraph",
-  MultiChoices = "multi-choices",
-  Dropdown = "dropdown",
+  Checkbox = "Checkbox",
+  ShortAnswer = "Short Answer",
+  Paragraph = "Paragraph Answer",
+  MultiChoices = "Multi Choices",
+  Dropdown = "Dropdown",
 }
 
 export interface Question {
   questionNumber: number;
   question: string;
   inputType: InputType;
-  options?: string[];
+  options: string[];
+  other?: string;
 }
