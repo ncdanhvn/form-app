@@ -7,6 +7,8 @@ import { FormQuestions } from "../components/form/FormQuestions";
 
 import { saveAnswers } from "../services/firestoreService";
 
+const formUid = "7DgXAwHJQPrNVK1HS7kg";
+
 const Form = () => {
   const [boxHeight, setBoxHeight] = useState("100vh");
   const parentRef = useRef<HTMLDivElement>(null);
@@ -30,7 +32,7 @@ const Form = () => {
     event.preventDefault();
 
     try {
-      await saveAnswers(answers);
+      await saveAnswers(formUid, answers);
       console.log("Answers saved successfully");
     } catch (error) {
       console.error("Error saving answers: ", error);
@@ -57,7 +59,10 @@ const Form = () => {
               <FormTitle />
               <FormDescription />
               <form onSubmit={handleSubmit}>
-                <FormQuestions handleAnswerChange={handleAnswerChange} />
+                <FormQuestions
+                  handleAnswerChange={handleAnswerChange}
+                  formUid={formUid}
+                />
                 <Flex justifyContent="center" width="full" mt={8}>
                   <Button colorScheme="pink" type="submit">
                     Submit

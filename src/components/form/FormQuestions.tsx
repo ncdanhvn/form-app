@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { DropdownQuestion } from "./DropdownQuestion";
 import { CheckboxQuestion } from "./CheckboxQuestion";
@@ -6,7 +6,7 @@ import { VStack } from "@chakra-ui/react";
 import { ParagraphQuestion } from "./ParagraphQuestion";
 import { ShortAnswerQuestion } from "./ShortAnswerQuestion";
 import { loadQuestions } from "../../services/firestoreService";
-import { InputType } from "../../types/question";
+import { InputType, Question } from "../../types/question";
 
 // const questions = [
 //   {
@@ -37,14 +37,26 @@ import { InputType } from "../../types/question";
 //   // You can add more questions here
 // ];
 
-const formUid = "7DgXAwHJQPrNVK1HS7kg";
-const questions = await loadQuestions(formUid);
-
 interface Props {
+  formUid: string;
   handleAnswerChange: (question: string, value: string | string[]) => void;
 }
 
-export const FormQuestions = ({ handleAnswerChange }: Props) => {
+export const FormQuestions = ({ handleAnswerChange, formUid }: Props) => {
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const loadedQuestions = await loadQuestions(formUid);
+        setQuestions(loadedQuestions);
+      } catch (error) {
+        console.error("Error loading questions: ", error);
+      }
+    };
+    fetchQuestions();
+  }, [formUid]);
+
   return (
     <VStack gap={4}>
       {questions.map((q, index) => {
