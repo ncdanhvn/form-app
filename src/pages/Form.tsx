@@ -10,7 +10,7 @@ const Form = () => {
   return (
     <Box
       bgImage="./images/party-invitation-bg.webp"
-      height="100vh"
+      height="100%"
       width="100vw"
       bgPosition="center"
       bgRepeat="no-repeat"

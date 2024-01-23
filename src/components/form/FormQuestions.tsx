@@ -3,6 +3,8 @@ import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { DropdownQuestion } from "./DropdownQuestion";
 import { CheckboxQuestion } from "./CheckboxQuestion";
 import { VStack } from "@chakra-ui/react";
+import { ParagraphQuestion } from "./ParagraphQuestion";
+import { ShortAnswerQuestion } from "./ShortAnswerQuestion";
 
 const questions = [
   {
@@ -20,6 +22,16 @@ const questions = [
     inputType: "dropdown",
     options: ["Vegetarian", "Vegan", "Non-Vegetarian", "Gluten-Free"],
   },
+  {
+    question: "Example of short answer question?",
+    inputType: "short-answer",
+    options: [],
+  },
+  {
+    question: "Example of paragraph question?",
+    inputType: "paragraph",
+    options: [],
+  },
   // You can add more questions here
 ];
 
@@ -34,10 +46,9 @@ export const FormQuestions = () => {
   return (
     <VStack gap={4}>
       {questions.map((q, index) => {
-        let rt;
         switch (q.inputType) {
           case "multiple-choice":
-            rt = (
+            return (
               <MultipleChoiceQuestion
                 key={index}
                 question={q.question}
@@ -45,9 +56,8 @@ export const FormQuestions = () => {
                 onChange={(value) => handleAnswerChange(q.question, value)}
               />
             );
-            break;
           case "dropdown":
-            rt = (
+            return (
               <DropdownQuestion
                 key={index}
                 question={q.question}
@@ -55,9 +65,8 @@ export const FormQuestions = () => {
                 onChange={(value) => handleAnswerChange(q.question, value)}
               />
             );
-            break;
           case "checkbox":
-            rt = (
+            return (
               <CheckboxQuestion
                 key={index}
                 question={q.question}
@@ -67,10 +76,25 @@ export const FormQuestions = () => {
                 }
               />
             );
-            break;
+          case "short-answer":
+            return (
+              <ShortAnswerQuestion
+                key={index}
+                question={q.question}
+                onChange={(value) => handleAnswerChange(q.question, value)}
+              />
+            );
+          case "paragraph":
+            return (
+              <ParagraphQuestion
+                key={index}
+                question={q.question}
+                onChange={(value) => handleAnswerChange(q.question, value)}
+              />
+            );
+          default:
+            return null;
         }
-
-        return rt;
       })}
       {/* Render other types of questions here if needed */}
     </VStack>
