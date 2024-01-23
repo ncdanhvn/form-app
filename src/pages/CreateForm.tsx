@@ -54,7 +54,21 @@ const CreateForm = () => {
     <Container>
       <VStack spacing={4}>
         {questions.map((question, index) => (
-          <Box key={index} p={4} borderWidth="1px" borderRadius="lg" w={"100%"}>
+          <Box
+            key={index}
+            p={4}
+            borderWidth="2px"
+            borderColor={"black.100"}
+            borderRadius="lg"
+            w={"100%"}
+            sx={{
+              transition: "border-color 0.2s ease, border-width 0.2s ease",
+              ":hover": {
+                borderColor: "blue.500",
+                borderWidth: "2px",
+              },
+            }}
+          >
             <HStack justifyContent="space-between" mb={2}>
               <Input
                 value={question.question}
