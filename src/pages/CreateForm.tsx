@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Question, InputType } from "../types/question";
 import CreateMultiOptionsQuestion from "../components/createForm/CreateMultiOptionsQuestion";
+import CreateTextQuestion from "../components/createForm/CreateTextQuestion";
 
 const CreateForm = () => {
   const formUid = "hardcoded-uid"; // Replace this with dynamic UID later
@@ -63,6 +64,16 @@ const CreateForm = () => {
                 question={question}
                 onUpdateQuestion={onUpdateQuestion}
                 inputType={question.inputType}
+                key={index}
+              />
+            )}
+            {[InputType.Paragraph, InputType.ShortAnswer].includes(
+              question.inputType
+            ) && (
+              <CreateTextQuestion
+                index={index}
+                question={question}
+                onUpdateQuestion={onUpdateQuestion}
                 key={index}
               />
             )}
