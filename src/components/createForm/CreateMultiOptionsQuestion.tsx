@@ -51,17 +51,6 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
 
   return (
     <Box>
-      <Input
-        value={question.question}
-        onChange={(e) =>
-          onUpdateQuestion(index, { ...question, question: e.target.value })
-        }
-        variant="flushed"
-        placeholder="Your question goes here"
-        fontWeight={600}
-        mb={2}
-        w={"100%"}
-      />
       {question.options.map((option, optIndex) => {
         return (
           <HStack key={optIndex} spacing={4} mb={2} align={"center"}>

@@ -8,10 +8,11 @@ import {
   HStack,
   Text,
   Container,
+  IconButton,
 } from "@chakra-ui/react";
 import { Question, InputType } from "../types/question";
 import CreateMultiOptionsQuestion from "../components/createForm/CreateMultiOptionsQuestion";
-import CreateTextQuestion from "../components/createForm/CreateTextQuestion";
+import { CloseIcon } from "@chakra-ui/icons";
 
 const CreateForm = () => {
   const formUid = "hardcoded-uid"; // Replace this with dynamic UID later
@@ -32,12 +33,51 @@ const CreateForm = () => {
     setQuestions(newQuestions);
   };
 
+  const addQuestion = () => {
+    const newQuestion: Question = {
+      questionNumber: questions.length + 1,
+      question: "",
+      inputType: InputType.MultiChoices, // Default type, can be changed
+      options: [""],
+    };
+
+    setQuestions([...questions, newQuestion]);
+  };
+
+  const deleteQuestion = (index: number) => {
+    setQuestions(
+      questions.filter((_, questionIndex) => questionIndex !== index)
+    );
+  };
+
   return (
     <Container>
       <VStack spacing={4}>
         {questions.map((question, index) => (
           <Box key={index} p={4} borderWidth="1px" borderRadius="lg" w={"100%"}>
-            <Text mb={2}>Question {question.questionNumber}</Text>
+            <HStack justifyContent="space-between" mb={2}>
+              <Input
+                value={question.question}
+                onChange={(e) =>
+                  onUpdateQuestion(index, {
+                    ...question,
+                    question: e.target.value,
+                  })
+                }
+                variant="flushed"
+                placeholder="The question goes here"
+                fontWeight={600}
+                mb={2}
+                w={"100%"}
+              />
+              <IconButton
+                aria-label="Delete option"
+                icon={<CloseIcon />}
+                onClick={() => deleteQuestion(index)}
+                size="xs"
+                alignSelf={"self-start"}
+              />
+            </HStack>
             <Select
               value={question.inputType}
               onChange={(e) =>
@@ -67,18 +107,11 @@ const CreateForm = () => {
                 key={index}
               />
             )}
-            {[InputType.Paragraph, InputType.ShortAnswer].includes(
-              question.inputType
-            ) && (
-              <CreateTextQuestion
-                index={index}
-                question={question}
-                onUpdateQuestion={onUpdateQuestion}
-                key={index}
-              />
-            )}
           </Box>
         ))}
+        <Button onClick={addQuestion} mt={4} colorScheme="blue">
+          Add Question
+        </Button>
       </VStack>
     </Container>
   );
