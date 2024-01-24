@@ -1,5 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Checkbox, Divider, HStack, IconButton } from "@chakra-ui/react";
+import { Switch, Divider, HStack, IconButton } from "@chakra-ui/react";
 import { Question } from "../../types/question";
 
 interface Props {
@@ -19,7 +19,7 @@ const QuestionFooter = ({
     <>
       <Divider my={4} />
       <HStack justifyContent="end" spacing={4}>
-        <Checkbox
+        <Switch
           isChecked={question.required}
           onChange={(e) => {
             const updatedQuestion = {
@@ -28,9 +28,10 @@ const QuestionFooter = ({
             };
             onUpdateQuestion(index, updatedQuestion);
           }}
+          size={"sm"}
         >
           Required
-        </Checkbox>
+        </Switch>
         <IconButton
           aria-label="Delete question"
           icon={<DeleteIcon />}
