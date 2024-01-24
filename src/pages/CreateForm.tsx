@@ -2,20 +2,13 @@ import { Button, Container, Input, Textarea, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import OneQuestion from "../components/createForm/OneQuestion";
 import { InputType, Question } from "../types/question";
-import { updateForm } from "../services/formServices";
+import { loadForm, updateForm } from "../services/formServices";
+
+const formUid = "oV4Nt0NHgvFDYdGFVlOe"; // Replace this with dynamic UID later
+const form = await loadForm(formUid);
 
 const CreateForm = () => {
-  const formUid = "oV4Nt0NHgvFDYdGFVlOe"; // Replace this with dynamic UID later
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      questionNumber: 1,
-      question: "This is a multi-choices question",
-      inputType: InputType.MultiChoices,
-      options: ["Option 1", "Option 2"],
-      other: "",
-      required: false,
-    },
-  ]);
+  const [questions, setQuestions] = useState<Question[]>(form.questions);
 
   const onUpdateQuestion = (index: number, updatedQuestion: Question) => {
     const newQuestions = [...questions];
@@ -43,8 +36,8 @@ const CreateForm = () => {
     );
   };
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(form.title);
+  const [description, setDescription] = useState(form.description);
 
   const onUploadForm = async () => {
     await updateForm(formUid, {
