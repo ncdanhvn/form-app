@@ -1,16 +1,20 @@
 import { firestore } from "../firebaseConfig";
 import { collection, addDoc, getDocs, doc } from "firebase/firestore";
 import { Question } from "../types/question";
+import { Answer } from "../types/answer";
 
-export const saveAnswers = async (
-  formUid: string,
-  answers: { [questionNumber: string]: any }
-) => {
+export const saveAnswers = async (formUid: string, answers: Answer[]) => {
   try {
     const submissionDocRef = doc(firestore, "submission", formUid);
     const answersCollectionRef = collection(submissionDocRef, "answers");
 
-    const docRef = await addDoc(answersCollectionRef, answers);
+    // Transform the array of answers into an object
+    const answersObject = answers.reduce((obj, item) => {
+      obj[item.questionUid] = item.value;
+      return obj;
+    }, {} as { [questionUid: string]: string | string[] });
+
+    const docRef = await addDoc(answersCollectionRef, answersObject);
     console.log("Answer document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding answer document: ", e);

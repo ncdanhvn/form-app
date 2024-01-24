@@ -26,19 +26,25 @@ const Form = () => {
 
   // Get form from db to display
   const [form, setForm] = useState<FormType>();
+  const [answers, setAnswers] = useState<Answer[]>([]);
+
   useEffect(() => {
     const fetchForm = async () => {
       try {
         const form = await loadForm(formUid);
         setForm(form);
+        if (form)
+          setAnswers(
+            form.questions.map(
+              (q) => ({ questionUid: q.questionUid, value: "" } as Answer)
+            )
+          );
       } catch (error) {
         console.error("Error loading form: ", error);
       }
     };
     fetchForm();
   }, [formUid]);
-
-  const [answers, setAnswers] = useState<Answer[]>([]);
 
   const handleAnswerChange = (
     questionUid: string,
