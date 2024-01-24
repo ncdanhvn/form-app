@@ -1,13 +1,15 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Box, VStack, Button, Flex, Container } from "@chakra-ui/react";
 import { FormHeader } from "../components/form/FormHeader";
-import { FormTitle } from "../components/form/FormTitle";
-import { FormDescription } from "../components/form/FormDescription";
+import FormTitle from "../components/form/FormTitle";
+import FormDescription from "../components/form/FormDescription";
 import { FormQuestions } from "../components/form/FormQuestions";
 
 import { saveAnswers } from "../services/firestoreService";
+import { loadForm } from "../services/formServices";
+import { Form as FormType } from "../types/form";
 
-const formUid = "7DgXAwHJQPrNVK1HS7kg";
+const formUid = "yBpOOBYf1uzKgAMsByQu";
 
 const Form = () => {
   const [boxHeight, setBoxHeight] = useState("100vh");
@@ -22,6 +24,7 @@ const Form = () => {
   };
 
   const [answers, setAnswers] = useState({});
+  const [form, setForm] = useState<FormType>();
 
   const handleAnswerChange = (question: string, value: string | string[]) => {
     setAnswers((prev) => ({ ...prev, [question]: value }));
@@ -39,40 +42,54 @@ const Form = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchForm = async () => {
+      try {
+        const form = await loadForm(formUid);
+        setForm(form);
+      } catch (error) {
+        console.error("Error loading form: ", error);
+      }
+    };
+    fetchForm();
+  }, [formUid]);
+
   return (
     <div ref={parentRef}>
-      <Box
-        bgImage="./images/party-invitation-bg.webp"
-        height={boxHeight}
-        width="100vw"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        bgSize="cover"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
-          <VStack gap={0}>
-            <FormHeader />
-            <VStack w={"100%"} gap={4} mb={8}>
-              <FormTitle />
-              <FormDescription />
-              <form onSubmit={handleSubmit}>
-                <FormQuestions
-                  handleAnswerChange={handleAnswerChange}
-                  formUid={formUid}
-                />
-                <Flex justifyContent="center" width="full" mt={8}>
-                  <Button colorScheme="pink" type="submit">
-                    Submit
-                  </Button>
-                </Flex>
-              </form>
+      {form && (
+        <Box
+          bgImage="./images/party-invitation-bg.webp"
+          height={boxHeight}
+          width="100vw"
+          bgPosition="center"
+          bgRepeat="no-repeat"
+          bgSize="cover"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
+            <VStack gap={0}>
+              <FormHeader />
+              <VStack w={"100%"} gap={4} mb={8}>
+                <FormTitle title={form.title} />
+                <FormDescription description={form.description} />
+                <form onSubmit={handleSubmit}>
+                  <FormQuestions
+                    handleAnswerChange={handleAnswerChange}
+                    questions={form.questions}
+                  />
+                  <Flex justifyContent="center" width="full" mt={8}>
+                    <Button colorScheme="pink" type="submit">
+                      Submit
+                    </Button>
+                  </Flex>
+                </form>
+              </VStack>
             </VStack>
-          </VStack>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
+      )}
     </div>
   );
 };

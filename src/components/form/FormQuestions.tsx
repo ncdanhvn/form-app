@@ -38,25 +38,11 @@ import { InputType, Question } from "../../types/question";
 // ];
 
 interface Props {
-  formUid: string;
+  questions: Question[];
   handleAnswerChange: (question: string, value: string | string[]) => void;
 }
 
-export const FormQuestions = ({ handleAnswerChange, formUid }: Props) => {
-  const [questions, setQuestions] = useState<Question[]>([]);
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const loadedQuestions = await loadQuestions(formUid);
-        setQuestions(loadedQuestions);
-      } catch (error) {
-        console.error("Error loading questions: ", error);
-      }
-    };
-    fetchQuestions();
-  }, [formUid]);
-
+export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
   return (
     <VStack gap={4}>
       {questions.map((q, index) => {
