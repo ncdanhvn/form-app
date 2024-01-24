@@ -2,9 +2,10 @@ import { Button, Container, Input, Textarea, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import OneQuestion from "../components/createForm/OneQuestion";
 import { InputType, Question } from "../types/question";
+import { updateForm } from "../services/formServices";
 
 const CreateForm = () => {
-  const formUid = "hardcoded-uid"; // Replace this with dynamic UID later
+  const formUid = "oV4Nt0NHgvFDYdGFVlOe"; // Replace this with dynamic UID later
   const [questions, setQuestions] = useState<Question[]>([
     {
       questionNumber: 1,
@@ -44,6 +45,15 @@ const CreateForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const onUploadForm = async () => {
+    await updateForm(formUid, {
+      title,
+      description,
+      questions,
+      uid: formUid,
+    });
+  };
+
   return (
     <Container my={6}>
       {/* Questions */}
@@ -74,6 +84,7 @@ const CreateForm = () => {
           <Button onClick={addQuestion} mt={4} colorScheme="blue">
             Add Question
           </Button>
+          <Button onClick={onUploadForm}>Save Form</Button>
         </VStack>
       </VStack>
     </Container>
