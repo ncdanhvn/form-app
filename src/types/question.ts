@@ -7,6 +7,7 @@ export enum InputType {
 }
 
 export interface Question {
+  questionUid: string;
   questionNumber: number;
   question: string;
   inputType: InputType;

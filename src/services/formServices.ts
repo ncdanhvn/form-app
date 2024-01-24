@@ -42,12 +42,19 @@ export const updateForm = async (formUid: string, updatedForm: Form) => {
     // Update each question in the questions sub-collection
     const questionsCollectionRef = collection(formRef, "questions");
     for (const question of updatedForm.questions) {
-      const questionRef = doc(
-        questionsCollectionRef,
-        question.questionNumber.toString()
-      );
+      let questionRef;
+      if (question.questionUid) {
+        // Update existing question
+        questionRef = doc(questionsCollectionRef, question.questionUid);
+      } else {
+        // Create new question with auto-generated UID
+        questionRef = doc(questionsCollectionRef);
+        question.questionUid = questionRef.id; // Update questionUid with auto-generated id
+      }
       await setDoc(questionRef, question);
     }
+
+    console.log("Update form succesfully!");
   } catch (error) {
     console.error("Error updating form: ", error);
     throw error;

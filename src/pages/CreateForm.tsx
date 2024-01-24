@@ -4,7 +4,7 @@ import OneQuestion from "../components/createForm/OneQuestion";
 import { InputType, Question } from "../types/question";
 import { loadForm, updateForm } from "../services/formServices";
 
-const formUid = "oV4Nt0NHgvFDYdGFVlOe"; // Replace this with dynamic UID later
+const formUid = "yBpOOBYf1uzKgAMsByQu"; // Replace this with dynamic UID later
 const form = await loadForm(formUid);
 
 const CreateForm = () => {
@@ -25,6 +25,7 @@ const CreateForm = () => {
       options: [""],
       required: false,
       other: null,
+      questionUid: "",
     };
 
     setQuestions([...questions, newQuestion]);
@@ -53,13 +54,13 @@ const CreateForm = () => {
       {/* Questions */}
       <VStack spacing={4}>
         <Input
-          value={title}
+          value={title ?? ""}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Form Title"
           mb={4}
         />
         <Textarea
-          value={description}
+          value={description ?? ""}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Form Description"
           mb={4}
