@@ -82,16 +82,16 @@ export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
             return (
               <ShortAnswerQuestion
                 key={index}
-                question={q.question}
-                onChange={(value) => handleAnswerChange(q.question, value)}
+                question={q}
+                onChange={(value) => handleAnswerChange(q.questionUid, value)}
               />
             );
           case InputType.Paragraph:
             return (
               <ParagraphQuestion
                 key={index}
-                question={q.question}
-                onChange={(value) => handleAnswerChange(q.question, value)}
+                question={q}
+                onChange={(value) => handleAnswerChange(q.questionUid, value)}
               />
             );
           default:
