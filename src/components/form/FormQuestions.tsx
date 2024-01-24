@@ -55,7 +55,7 @@ export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
               <MultipleChoiceQuestion
                 key={index}
                 question={q}
-                onAnwerValueChange={(newAnswerValue) =>
+                onAnswerValueChange={(newAnswerValue) =>
                   handleAnswerChange(q.questionUid, newAnswerValue)
                 }
               />
@@ -73,10 +73,9 @@ export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
             return (
               <CheckboxQuestion
                 key={index}
-                question={q.question}
-                options={q.options!}
-                onChange={(selectedOptions) =>
-                  handleAnswerChange(q.question, selectedOptions)
+                question={q}
+                onAnswerValueChange={(newAnswerValue) =>
+                  handleAnswerChange(q.questionUid, newAnswerValue)
                 }
               />
             );

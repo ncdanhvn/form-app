@@ -7,17 +7,16 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
+import { Question } from "../../types/question";
 
 interface CheckboxQuestionProps {
-  question: string;
-  options: string[];
-  onChange: (selectedOptions: string[]) => void;
+  question: Question;
+  onAnswerValueChange: (selectedOptions: string[]) => void;
 }
 
 export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
   question,
-  options,
-  onChange,
+  onAnswerValueChange,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [otherValue, setOtherValue] = useState("");
@@ -25,9 +24,9 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
   const handleCheckboxChange = (values: string[]) => {
     setSelectedOptions(values);
     if (!values.includes("Other")) {
-      onChange(values.filter((v) => v !== "Other"));
+      onAnswerValueChange(values.filter((v) => v !== "Other"));
     } else {
-      onChange([...values.filter((v) => v !== "Other"), otherValue]);
+      onAnswerValueChange([...values.filter((v) => v !== "Other"), otherValue]);
     }
   };
 
@@ -36,19 +35,20 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
     const newSelectedOptions = selectedOptions.includes("Other")
       ? [...selectedOptions.filter((v) => v !== "Other"), e.target.value]
       : [...selectedOptions, e.target.value];
-    onChange(newSelectedOptions);
+    onAnswerValueChange(newSelectedOptions);
   };
 
   return (
     <FormControl>
-      <FormLabel fontWeight={600}>{question}</FormLabel>
+      <FormLabel fontWeight={600}>{question.question}</FormLabel>
       <CheckboxGroup value={selectedOptions} onChange={handleCheckboxChange}>
         <Stack direction="column">
-          {options.map((option, index) => (
+          {question.options.map((option, index) => (
             <Checkbox key={index} value={option}>
               {option}
             </Checkbox>
           ))}
+          {question.other && <Checkbox value={"Other"}>Other</Checkbox>}
         </Stack>
       </CheckboxGroup>
       {selectedOptions.includes("Other") && (

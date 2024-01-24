@@ -50,6 +50,7 @@ const Form = () => {
       answer.value = newValue;
       setAnswers(newAnswers);
     }
+    console.log(`${questionUid} | ${newValue}`);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
