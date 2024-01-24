@@ -64,9 +64,8 @@ export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
             return (
               <DropdownQuestion
                 key={index}
-                question={q.question}
-                options={q.options!}
-                onChange={(value) => handleAnswerChange(q.question, value)}
+                question={q}
+                onChange={(value) => handleAnswerChange(q.questionUid, value)}
               />
             );
           case InputType.Checkbox:
