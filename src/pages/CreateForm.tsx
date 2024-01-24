@@ -28,7 +28,7 @@ const CreateForm = () => {
       inputType: InputType.MultiChoices, // Default type, can be changed
       options: [""],
       required: false,
-      other: null,
+      other: false,
       questionUid: "",
     };
 
