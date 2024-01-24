@@ -5,7 +5,7 @@ import FormTitle from "../components/form/FormTitle";
 import FormDescription from "../components/form/FormDescription";
 import { FormQuestions } from "../components/form/FormQuestions";
 
-import { saveAnswers } from "../services/firestoreService";
+import { saveAnswers } from "../services/submissionServices";
 import { loadForm } from "../services/formServices";
 import { Form as FormType } from "../types/form";
 import { Answer } from "../types/answer";

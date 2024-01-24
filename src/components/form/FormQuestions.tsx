@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
-import { DropdownQuestion } from "./DropdownQuestion";
-import { CheckboxQuestion } from "./CheckboxQuestion";
 import { VStack } from "@chakra-ui/react";
+import { InputType, Question } from "../../types/question";
+import { CheckboxQuestion } from "./CheckboxQuestion";
+import { DropdownQuestion } from "./DropdownQuestion";
+import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { ParagraphQuestion } from "./ParagraphQuestion";
 import { ShortAnswerQuestion } from "./ShortAnswerQuestion";
-import { loadQuestions } from "../../services/firestoreService";
-import { InputType, Question } from "../../types/question";
 
 // const questions = [
 //   {
