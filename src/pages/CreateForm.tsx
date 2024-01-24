@@ -2,7 +2,11 @@ import { Button, Container, Input, Textarea, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import OneQuestion from "../components/createForm/OneQuestion";
 import { InputType, Question } from "../types/question";
-import { loadForm, updateForm } from "../services/formServices";
+import {
+  loadForm,
+  updateForm,
+  deleteFormQuestion,
+} from "../services/formServices";
 
 const formUid = "yBpOOBYf1uzKgAMsByQu"; // Replace this with dynamic UID later
 const form = await loadForm(formUid);
@@ -31,7 +35,9 @@ const CreateForm = () => {
     setQuestions([...questions, newQuestion]);
   };
 
-  const deleteQuestion = (index: number) => {
+  const deleteQuestion = async (index: number) => {
+    const questionUid = questions[index].questionUid;
+    if (questionUid) await deleteFormQuestion(formUid, questionUid);
     setQuestions(
       questions.filter((_, questionIndex) => questionIndex !== index)
     );

@@ -6,6 +6,7 @@ import {
   updateDoc,
   getDoc,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import { Form } from "../types/form";
 import { Question } from "../types/question";
@@ -86,5 +87,38 @@ export const loadForm = async (formUid: string): Promise<Form> => {
   } catch (error) {
     console.error("Error loading form: ", error);
     throw error;
+  }
+};
+
+export const deleteFormQuestion = async (
+  formUid: string,
+  questionUid: string
+) => {
+  try {
+    // Check if the form exists
+    const formRef = doc(firestore, "forms", formUid);
+    const formSnap = await getDoc(formRef);
+    if (!formSnap.exists()) {
+      console.error(`Form with UID: ${formUid} does not exist.`);
+      return;
+    }
+
+    // Check if the question exists
+    const questionRef = doc(formRef, "questions", questionUid);
+    const questionSnap = await getDoc(questionRef);
+    if (!questionSnap.exists()) {
+      console.error(
+        `Question with UID: ${questionUid} does not exist in form: ${formUid}.`
+      );
+      return;
+    }
+
+    // Delete the question
+    await deleteDoc(questionRef);
+    console.log(
+      `Question with UID: ${questionUid} has been deleted from form: ${formUid}.`
+    );
+  } catch (error) {
+    console.error("Error deleting question: ", error);
   }
 };
