@@ -42,7 +42,7 @@ export const updateForm = async (formUid: string, updatedForm: Form) => {
 
     // Update each question in the questions sub-collection
     const questionsCollectionRef = collection(formRef, "questions");
-    for (const question of updatedForm.questions) {
+    for (const [index, question] of updatedForm.questions.entries()) {
       let questionRef;
       if (question.questionUid) {
         // Update existing question
@@ -52,6 +52,7 @@ export const updateForm = async (formUid: string, updatedForm: Form) => {
         questionRef = doc(questionsCollectionRef);
         question.questionUid = questionRef.id; // Update questionUid with auto-generated id
       }
+      question.questionNumber = index;
       await setDoc(questionRef, question);
     }
 
@@ -82,6 +83,7 @@ export const loadForm = async (formUid: string): Promise<Form> => {
       questions.push({ ...doc.data() } as Question);
     });
 
+    questions.sort((a, b) => a.questionNumber - b.questionNumber);
     // Combine form data with questions
     return { ...formData, questions } as Form;
   } catch (error) {

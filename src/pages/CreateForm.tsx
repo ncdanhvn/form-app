@@ -23,7 +23,7 @@ const CreateForm = () => {
 
   const addQuestion = () => {
     const newQuestion: Question = {
-      questionNumber: questions.length + 1,
+      questionNumber: questions.length,
       question: "",
       inputType: InputType.MultiChoices, // Default type, can be changed
       options: [""],
