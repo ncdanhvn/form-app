@@ -8,6 +8,7 @@ import { FormQuestions } from "../components/form/FormQuestions";
 import { saveAnswers } from "../services/firestoreService";
 import { loadForm } from "../services/formServices";
 import { Form as FormType } from "../types/form";
+import { Answer } from "../types/answer";
 
 const formUid = "yBpOOBYf1uzKgAMsByQu";
 
@@ -23,12 +24,32 @@ const Form = () => {
     }
   };
 
-  const [answers, setAnswers] = useState({});
+  // Get form from db to display
   const [form, setForm] = useState<FormType>();
+  useEffect(() => {
+    const fetchForm = async () => {
+      try {
+        const form = await loadForm(formUid);
+        setForm(form);
+      } catch (error) {
+        console.error("Error loading form: ", error);
+      }
+    };
+    fetchForm();
+  }, [formUid]);
 
-  const handleAnswerChange = (question: string, value: string | string[]) => {
-    setAnswers((prev) => ({ ...prev, [question]: value }));
-    console.log(`${question} | ${value}`);
+  const [answers, setAnswers] = useState<Answer[]>([]);
+
+  const handleAnswerChange = (
+    questionUid: string,
+    newValue: string | string[]
+  ) => {
+    const newAnswers = [...answers];
+    const answer = newAnswers.find((a) => a.questionUid === questionUid);
+    if (answer) {
+      answer.value = newValue;
+      setAnswers(newAnswers);
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -41,18 +62,6 @@ const Form = () => {
       console.error("Error saving answers: ", error);
     }
   };
-
-  useEffect(() => {
-    const fetchForm = async () => {
-      try {
-        const form = await loadForm(formUid);
-        setForm(form);
-      } catch (error) {
-        console.error("Error loading form: ", error);
-      }
-    };
-    fetchForm();
-  }, [formUid]);
 
   return (
     <div ref={parentRef}>

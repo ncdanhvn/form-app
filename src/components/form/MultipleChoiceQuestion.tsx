@@ -7,48 +7,48 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
+import { Question } from "../../types/question";
 
 interface MultipleChoiceQuestionProps {
-  question: string;
-  options: string[];
-  onChange: (value: string) => void; // For passing the selected value back to the parent
+  question: Question;
+  onAnswerValueChange: (newAnswerValue: string) => void;
 }
 
 export const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
   question,
-  options,
-  onChange,
+  onAnswerValueChange,
 }) => {
-  const [value, setValue] = useState("");
+  const [answerValue, setAnswerValue] = useState("");
   const [otherValue, setOtherValue] = useState("");
 
-  const handleChange = (nextValue: string) => {
-    setValue(nextValue);
-    if (nextValue !== "Other") {
-      onChange(nextValue);
+  const handleSelectionChange = (newSelection: string) => {
+    setAnswerValue(newSelection);
+    if (newSelection !== "Other") {
+      onAnswerValueChange(newSelection);
     } else {
-      onChange(otherValue);
+      onAnswerValueChange(otherValue);
     }
   };
 
   const handleOtherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOtherValue(event.target.value);
-    onChange(event.target.value);
+    onAnswerValueChange(event.target.value);
   };
 
   return (
     <FormControl>
-      <FormLabel fontWeight={600}>{question}</FormLabel>
-      <RadioGroup onChange={handleChange} value={value}>
+      <FormLabel fontWeight={600}>{question.question}</FormLabel>
+      <RadioGroup onChange={handleSelectionChange} value={answerValue}>
         <Stack direction="column">
-          {options.map((option, index) => (
+          {question.options.map((option, index) => (
             <Radio key={index} value={option}>
               {option}
             </Radio>
           ))}
+          {question.other && <Radio value={"Other"}>Other</Radio>}
         </Stack>
       </RadioGroup>
-      {value === "Other" && (
+      {answerValue === "Other" && (
         <Input
           placeholder="Please specify"
           value={otherValue}

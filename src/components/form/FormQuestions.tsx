@@ -39,7 +39,10 @@ import { InputType, Question } from "../../types/question";
 
 interface Props {
   questions: Question[];
-  handleAnswerChange: (question: string, value: string | string[]) => void;
+  handleAnswerChange: (
+    questionUid: string,
+    newValue: string | string[]
+  ) => void;
 }
 
 export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
@@ -51,9 +54,10 @@ export const FormQuestions = ({ handleAnswerChange, questions }: Props) => {
             return (
               <MultipleChoiceQuestion
                 key={index}
-                question={q.question}
-                options={q.options!}
-                onChange={(value) => handleAnswerChange(q.question, value)}
+                question={q}
+                onAnwerValueChange={(newAnswerValue) =>
+                  handleAnswerChange(q.questionUid, newAnswerValue)
+                }
               />
             );
           case InputType.Dropdown:
