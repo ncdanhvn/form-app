@@ -51,6 +51,7 @@ const CreateForm = () => {
             question={question}
             onUpdateQuestion={onUpdateQuestion}
             deleteQuestion={deleteQuestion}
+            key={index}
           />
         ))}
         <Button onClick={addQuestion} mt={4} colorScheme="blue">

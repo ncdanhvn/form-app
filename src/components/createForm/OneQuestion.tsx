@@ -18,7 +18,6 @@ const OneQuestion = ({
 }: Props) => {
   return (
     <Box
-      key={index}
       p={4}
       borderWidth="2px"
       borderColor={"black.100"}
@@ -74,7 +73,6 @@ const OneQuestion = ({
           question={question}
           onUpdateQuestion={onUpdateQuestion}
           inputType={question.inputType}
-          key={index}
         />
       )}
       {/* Footer */}
@@ -83,7 +81,6 @@ const OneQuestion = ({
         question={question}
         onUpdateQuestion={onUpdateQuestion}
         deleteQuestion={deleteQuestion}
-        key={index}
       />
     </Box>
   );
