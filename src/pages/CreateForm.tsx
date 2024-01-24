@@ -1,4 +1,4 @@
-import { Button, Container, VStack } from "@chakra-ui/react";
+import { Button, Container, Input, Textarea, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import OneQuestion from "../components/createForm/OneQuestion";
 import { InputType, Question } from "../types/question";
@@ -41,22 +41,40 @@ const CreateForm = () => {
     );
   };
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   return (
-    <Container>
+    <Container my={6}>
       {/* Questions */}
       <VStack spacing={4}>
-        {questions.map((question, index) => (
-          <OneQuestion
-            index={index}
-            question={question}
-            onUpdateQuestion={onUpdateQuestion}
-            deleteQuestion={deleteQuestion}
-            key={index}
-          />
-        ))}
-        <Button onClick={addQuestion} mt={4} colorScheme="blue">
-          Add Question
-        </Button>
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Form Title"
+          mb={4}
+        />
+        <Textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Form Description"
+          mb={4}
+          rows={3}
+        />
+        <VStack spacing={2} width={"100%"}>
+          {questions.map((question, index) => (
+            <OneQuestion
+              index={index}
+              question={question}
+              onUpdateQuestion={onUpdateQuestion}
+              deleteQuestion={deleteQuestion}
+              key={index}
+            />
+          ))}
+          <Button onClick={addQuestion} mt={4} colorScheme="blue">
+            Add Question
+          </Button>
+        </VStack>
       </VStack>
     </Container>
   );
