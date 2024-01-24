@@ -46,7 +46,7 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
   const handleOtherOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onUpdateQuestion(index, {
       ...question,
-      other: question.other === undefined ? "" : undefined,
+      other: question.other === null ? "" : null,
     });
   };
 
@@ -97,7 +97,7 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
       {inputType !== InputType.Dropdown && (
         <Box>
           <Checkbox
-            isChecked={!(question.other === undefined)}
+            isChecked={!(question.other === null)}
             onChange={handleOtherOptionChange}
             mb={2}
           >

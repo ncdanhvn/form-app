@@ -11,6 +11,6 @@ export interface Question {
   question: string;
   inputType: InputType;
   options: string[];
-  other?: string;
+  other: string | null;
   required: boolean;
 }
