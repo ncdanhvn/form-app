@@ -53,7 +53,18 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
     <Box>
       {question.options.map((option, optIndex) => {
         return (
-          <HStack key={optIndex} spacing={4} mb={2} align={"center"}>
+          <HStack
+            key={optIndex}
+            spacing={4}
+            mb={2}
+            align={"center"}
+            position={"relative"}
+            sx={{
+              "&:hover #delete-option-button": {
+                opacity: 1,
+              },
+            }}
+          >
             {inputType === InputType.Checkbox && <NonReactCheckbox />}
             <Input
               key={optIndex}
@@ -63,10 +74,17 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
               placeholder={`Option ${optIndex + 1}`}
             />
             <IconButton
+              id="delete-option-button"
               aria-label="Delete option"
               icon={<CloseIcon />}
               onClick={() => deleteOption(optIndex)}
               size="xs"
+              sx={{
+                position: "absolute",
+                right: 0, // Adjust as needed
+                opacity: 0,
+                transition: "opacity 0.3s",
+              }}
             />
           </HStack>
         );
