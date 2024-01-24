@@ -11,6 +11,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import { Question, InputType } from "../../types/question";
 import NonReactCheckbox from "./NonReactCheckbox";
+import NonReactRadioButton from "./NonReactRadioButton";
 
 interface Props {
   question: Question;
@@ -66,6 +67,7 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
             }}
           >
             {inputType === InputType.Checkbox && <NonReactCheckbox />}
+            {inputType === InputType.MultiChoices && <NonReactRadioButton />}
             <Input
               key={optIndex}
               value={option}
