@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ColorResult, SketchPicker } from "react-color";
 import { backgroundGallery } from "../../resources/imageResources"; // Import the list of images
 import ImageGallery from "../ImageGallery";
-import { useCanvasStore } from "../../stores/canvasStore";
+import useCanvasStore from "../../stores/canvasStore";
 
 const sketchPickerStyle = {
   default: {

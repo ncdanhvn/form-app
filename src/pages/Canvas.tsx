@@ -1,44 +1,65 @@
-import React from "react";
-import { Box, Container, Text } from "@chakra-ui/react";
-import { useCanvasStore } from "../stores/canvasStore";
+import { Box, Container, VStack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import CanvasEditPanel from "../components/canvas/CanvasEditPanel"; // Import the CanvasEditPanel component
+import useCanvasStore from "../stores/canvasStore";
+
+import FormTitleCanvas from "../components/canvas/FormTitleCanvas";
+import { FormHeader } from "../components/form/FormHeader";
+import { loadForm } from "../services/formServices";
+import { Form as FormType } from "../types/form";
+
+const formUid = "yBpOOBYf1uzKgAMsByQu";
 
 const Canvas: React.FC = () => {
   const { background } = useCanvasStore();
 
-  return (
-    <>
-      {/* Wrap your existing Box and the CanvasEditPanel in a Flex container */}
-      <Box display="flex" height="100vh" width="100vw">
-        {/* Canvas Content */}
-        <Box
-          {...(background.type === "color"
-            ? { bg: background.color }
-            : { bgImage: background.image })}
-          flex="1" // This makes sure the canvas takes up all space except for the edit panel
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          bgPosition="center"
-          bgRepeat="no-repeat"
-          bgSize="cover"
-        >
-          <Container
-            bg="white"
-            borderRadius="lg"
-            p={0}
-            overflow="hidden"
-            h={60}
-          >
-            <Text>Some content here</Text>
-          </Container>
-        </Box>
+  // Get form from db to display
+  const [form, setForm] = useState<FormType>();
 
-        <Box width="300px" flexShrink={0} height="100vh">
-          <CanvasEditPanel />
+  useEffect(() => {
+    const fetchForm = async () => {
+      try {
+        const form = await loadForm(formUid);
+        setForm(form);
+      } catch (error) {
+        console.error("Error loading form: ", error);
+      }
+    };
+    fetchForm();
+  }, [formUid]);
+
+  return (
+    form && (
+      <>
+        <Box display="flex" height="100vh" width="100vw">
+          <Box
+            {...(background.type === "color"
+              ? { bg: background.color }
+              : { bgImage: background.image })}
+            flex="1"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            bgPosition="center"
+            bgRepeat="no-repeat"
+            bgSize="cover"
+          >
+            <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
+              <VStack gap={0}>
+                <FormHeader />
+                <VStack w={"100%"} gap={4} mb={8}>
+                  <FormTitleCanvas title={form.title} />
+                </VStack>
+              </VStack>
+            </Container>
+          </Box>
+
+          <Box width="300px" flexShrink={0} height="100vh">
+            <CanvasEditPanel />
+          </Box>
         </Box>
-      </Box>
-    </>
+      </>
+    )
   );
 };
 

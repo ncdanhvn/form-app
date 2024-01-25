@@ -1,12 +1,10 @@
-import React from "react";
 import {
   Accordion,
-  AccordionItem,
   AccordionButton,
-  AccordionPanel,
   AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
-  Text,
 } from "@chakra-ui/react";
 import BackgroundAccordion from "./BackgroundAccordion";
 
@@ -21,7 +19,7 @@ const CanvasEditPanel = () => {
       bg="white"
       boxShadow="md"
     >
-      <Accordion allowMultiple defaultIndex={[0]}>
+      <Accordion allowToggle defaultIndex={[0]}>
         <AccordionItem>
           <AccordionButton>
             <Box flex="1" textAlign="left">
@@ -33,20 +31,14 @@ const CanvasEditPanel = () => {
             <BackgroundAccordion />
           </AccordionPanel>
         </AccordionItem>
-
-        {/* Repeat AccordionItem for each section: Header, Title, Description, Questions */}
-
-        {/* Example for Header */}
         <AccordionItem>
           <AccordionButton>
             <Box flex="1" textAlign="left">
-              Header
+              Title
             </Box>
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel pb={4}>
-            {/* Header edit options go here */}
-          </AccordionPanel>
+          <AccordionPanel pb={4}></AccordionPanel>
         </AccordionItem>
 
         {/* Add other sections similarly */}

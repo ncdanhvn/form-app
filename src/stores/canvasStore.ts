@@ -7,11 +7,18 @@ interface Background {
   image: string;
 }
 
+interface FormTitle {
+  backgroundColor: string;
+}
+
 interface CanvasState {
   background: Background;
   setBackgroundType: (type: "color" | "image") => void;
   setBackgroundColor: (color: string) => void;
   setBackgroundImage: (image: string) => void;
+
+  formTitle: FormTitle;
+  setFormTitleBg: (color: string) => void;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
@@ -30,4 +37,10 @@ export const useCanvasStore = create<CanvasState>((set) => ({
     set(({ background }) => ({
       background: { ...background, image },
     })),
+
+  formTitle: { backgroundColor: "#D53F8C" },
+  setFormTitleBg: (backgroundColor) =>
+    set(({ formTitle }) => ({ formTitle: { ...formTitle, backgroundColor } })),
 }));
+
+export default useCanvasStore;
