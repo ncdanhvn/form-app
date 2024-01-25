@@ -8,6 +8,7 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+import BackgroundAccordion from "./BackgroundAccordion";
 
 const CanvasEditPanel = () => {
   return (
@@ -29,7 +30,7 @@ const CanvasEditPanel = () => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
-            {/* Background edit options go here */}
+            <BackgroundAccordion />
           </AccordionPanel>
         </AccordionItem>
 

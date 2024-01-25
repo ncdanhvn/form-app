@@ -1,14 +1,33 @@
 import { create } from "zustand";
+import { backgroundGallery } from "../resources/imageResources";
+
+interface Background {
+  type: "color" | "image";
+  color: string;
+  image: string;
+}
 
 interface CanvasState {
-  backgroundType: "color" | "image";
-  backgroundValue: string;
-  updateBackground: (newBackground: string, type: "color" | "image") => void;
+  background: Background;
+  setBackgroundType: (type: "color" | "image") => void;
+  setBackgroundColor: (color: string) => void;
+  setBackgroundImage: (image: string) => void;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
-  backgroundType: "image",
-  backgroundValue: "url('./images/party-invitation-bg.webp')",
-  updateBackground: (newBackground, type) =>
-    set(() => ({ backgroundType: type, backgroundValue: newBackground })),
+  background: {
+    color: "#ffffff",
+    image: backgroundGallery[0],
+    type: "image",
+  },
+  setBackgroundType: (type) =>
+    set(({ background }) => ({ background: { ...background, type } })),
+  setBackgroundColor: (color) =>
+    set(({ background }) => ({
+      background: { ...background, color },
+    })),
+  setBackgroundImage: (image) =>
+    set(({ background }) => ({
+      background: { ...background, image },
+    })),
 }));

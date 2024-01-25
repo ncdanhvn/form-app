@@ -4,7 +4,7 @@ import { useCanvasStore } from "../stores/canvasStore";
 import CanvasEditPanel from "../components/canvas/CanvasEditPanel"; // Import the CanvasEditPanel component
 
 const Canvas: React.FC = () => {
-  const { backgroundType, backgroundValue } = useCanvasStore();
+  const { background } = useCanvasStore();
 
   return (
     <>
@@ -12,9 +12,9 @@ const Canvas: React.FC = () => {
       <Box display="flex" height="100vh" width="100vw">
         {/* Canvas Content */}
         <Box
-          {...(backgroundType === "color"
-            ? { bg: backgroundValue }
-            : { bgImage: backgroundValue })}
+          {...(background.type === "color"
+            ? { bg: background.color }
+            : { bgImage: background.image })}
           flex="1" // This makes sure the canvas takes up all space except for the edit panel
           display="flex"
           alignItems="center"
