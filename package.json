@@ -13,6 +13,8 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "firebase": "^10.7.2",
     "framer-motion": "^10.18.0",
     "react": "^18.2.0",
@@ -20,6 +22,7 @@
     "react-router-dom": "^6.10.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20.11.6",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
