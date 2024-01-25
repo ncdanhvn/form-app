@@ -8,32 +8,50 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Input,
   RadioGroup,
   Radio,
   Stack,
+  Box,
 } from "@chakra-ui/react";
 import { SketchPicker, ColorResult } from "react-color";
+import ImageGallery from "./ImageGallery";
+import { backgroundGallery } from "../resources/imageResources"; // Import the list of images
 
-interface BackgroundCustomizationDialogProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   updateBackground: (newBackground: string, type: "color" | "image") => void;
 }
 
-const BackgroundCustomizationDialog: React.FC<
-  BackgroundCustomizationDialogProps
-> = ({ isOpen, onClose, updateBackground }) => {
+const sketchPickerStyle = {
+  default: {
+    picker: {
+      width: "300px",
+    },
+  },
+};
+
+const BackgroundCustomizationDialog: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  updateBackground,
+}) => {
   const [color, setColor] = useState<string>("#ffffff");
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [backgroundType, setBackgroundType] = useState<"color" | "image">(
     "color"
   );
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
+
+  const handleSelectImage = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+  };
 
   const handleSave = () => {
-    const newBackground =
-      backgroundType === "color" ? color : `url(${imageUrl})`;
-    updateBackground(newBackground, backgroundType);
+    if (backgroundType === "color") {
+      updateBackground(color, "color");
+    } else {
+      updateBackground(selectedImageUrl, "image");
+    }
     onClose();
   };
 
@@ -45,32 +63,41 @@ const BackgroundCustomizationDialog: React.FC<
         <ModalCloseButton />
         <ModalBody>
           <RadioGroup
+            mb={4}
             onChange={(setValue) =>
               setBackgroundType(setValue as "color" | "image")
             }
             value={backgroundType}
           >
-            <Stack direction="row">
+            <Stack direction="row" justifyContent={"center"} spacing={8}>
               <Radio value="color">Color</Radio>
-              <Radio value="image">Image URL</Radio>
+              <Radio value="image">Image</Radio>
             </Stack>
           </RadioGroup>
 
           {backgroundType === "color" ? (
-            <SketchPicker
-              color={color}
-              onChangeComplete={(color: ColorResult) => setColor(color.hex)}
-            />
+            <Box display="flex" justifyContent="center">
+              <SketchPicker
+                color={color}
+                onChangeComplete={(color: ColorResult) => setColor(color.hex)}
+                styles={sketchPickerStyle}
+              />
+            </Box>
           ) : (
-            <Input
-              placeholder="Enter image URL"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
+            <ImageGallery
+              onSelectImage={handleSelectImage}
+              images={backgroundGallery}
+              selectedImage={selectedImageUrl}
             />
           )}
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSave}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={handleSave}
+            disabled={backgroundType === "image"}
+          >
             Save
           </Button>
           <Button variant="ghost" onClick={onClose}>
