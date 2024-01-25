@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   Container,
   IconButton,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import React from "react";
 import BackgroundCustomizationDialog from "../components/BackgroundCustomizationDialog";
-import { EditIcon } from "@chakra-ui/icons";
+import { useCanvasStore } from "../stores/canvasStore";
 
 const Canvas: React.FC = () => {
-  const [background, setBackground] = useState<{
-    type: "color" | "image";
-    value: string;
-  }>({ type: "image", value: "url('./images/party-invitation-bg.webp')" });
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const updateBackground = (newBackground: string, type: "color" | "image") => {
-    setBackground({ type, value: newBackground });
-  };
-
+  const { backgroundType, backgroundValue, updateBackground } =
+    useCanvasStore();
   return (
     <>
       <Box
@@ -32,9 +25,9 @@ const Canvas: React.FC = () => {
         position="relative" // Make the outer box a positioning context
       >
         <Box
-          {...(background.type === "color"
-            ? { bg: background.value }
-            : { bgImage: background.value })}
+          {...(backgroundType === "color"
+            ? { bg: backgroundValue }
+            : { bgImage: backgroundValue })}
           position="absolute" // Set to absolute
           top={0}
           left={0}
