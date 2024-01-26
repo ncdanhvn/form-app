@@ -7,6 +7,7 @@ import FormTitleCanvas from "../components/canvas/FormTitleCanvas";
 import { FormHeader } from "../components/form/FormHeader";
 import { loadForm } from "../services/formServices";
 import { Form as FormType } from "../types/form";
+import FormDescriptionCanvas from "../components/canvas/FormDescriptionCanvas";
 
 const formUid = "yBpOOBYf1uzKgAMsByQu";
 
@@ -45,10 +46,11 @@ const Canvas: React.FC = () => {
             bgSize="cover"
           >
             <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
-              <VStack gap={0}>
+              <VStack spacing={0}>
                 <FormHeader />
-                <VStack w={"100%"} gap={4} mb={8}>
+                <VStack w={"100%"} spacing={0}>
                   <FormTitleCanvas title={form.title} />
+                  <FormDescriptionCanvas description={form.description} />
                 </VStack>
               </VStack>
             </Container>

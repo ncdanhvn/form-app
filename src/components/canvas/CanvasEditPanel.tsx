@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import BackgroundAccordion from "./BackgroundAccordion";
 import TitleAccordion from "./TitleAccordion";
+import DescriptionAccordion from "./DescriptionAccordion";
 
 const CanvasEditPanel = () => {
   return (
@@ -41,6 +42,17 @@ const CanvasEditPanel = () => {
           </AccordionButton>
           <AccordionPanel pb={4}>
             <TitleAccordion />
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <AccordionButton>
+            <Box flex="1" textAlign="left">
+              Description
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <DescriptionAccordion />
           </AccordionPanel>
         </AccordionItem>
 
