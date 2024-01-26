@@ -5,22 +5,22 @@ interface Background {
   type: "color" | "image";
   color: string;
   image: string;
+  setBackgroundType: (type: "color" | "image") => void;
+  setBackgroundColor: (color: string) => void;
+  setBackgroundImage: (image: string) => void;
 }
 
 interface Title {
   backgroundColor: string;
   isBold: boolean;
+  setTitleBgColor: (color: string) => void;
+  setTitleIsBold: (isBold: boolean) => void;
 }
 
 interface CanvasState {
   background: Background;
-  setBackgroundType: (type: "color" | "image") => void;
-  setBackgroundColor: (color: string) => void;
-  setBackgroundImage: (image: string) => void;
 
   title: Title;
-  setTitleBgColor: (color: string) => void;
-  setTitleIsBold: (isBold: boolean) => void;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
@@ -28,27 +28,30 @@ export const useCanvasStore = create<CanvasState>((set) => ({
     color: "#ffffff",
     image: backgroundGallery[0],
     type: "image",
+    setBackgroundType: (type) =>
+      set(({ background }) => ({ background: { ...background, type } })),
+    setBackgroundColor: (color) =>
+      set(({ background }) => ({
+        background: { ...background, color },
+      })),
+    setBackgroundImage: (image) =>
+      set(({ background }) => ({
+        background: { ...background, image },
+      })),
   },
-  setBackgroundType: (type) =>
-    set(({ background }) => ({ background: { ...background, type } })),
-  setBackgroundColor: (color) =>
-    set(({ background }) => ({
-      background: { ...background, color },
-    })),
-  setBackgroundImage: (image) =>
-    set(({ background }) => ({
-      background: { ...background, image },
-    })),
 
-  title: { backgroundColor: "#D53F8C", isBold: false },
-  setTitleBgColor: (backgroundColor) =>
-    set(({ title }) => ({
-      title: { ...title, backgroundColor },
-    })),
-  setTitleIsBold: (isBold) =>
-    set(({ title }) => ({
-      title: { ...title, isBold },
-    })),
+  title: {
+    backgroundColor: "#D53F8C",
+    isBold: false,
+    setTitleBgColor: (backgroundColor) =>
+      set(({ title }) => ({
+        title: { ...title, backgroundColor },
+      })),
+    setTitleIsBold: (isBold) =>
+      set(({ title }) => ({
+        title: { ...title, isBold },
+      })),
+  },
 }));
 
 export default useCanvasStore;

@@ -15,15 +15,17 @@ const sketchPickerStyle = {
 
 const BackgroundAccordion: React.FC = () => {
   const {
-    background,
-    setBackgroundColor,
-    setBackgroundImage,
-    setBackgroundType,
+    background: {
+      type,
+      color,
+      image,
+      setBackgroundColor,
+      setBackgroundImage,
+      setBackgroundType,
+    },
   } = useCanvasStore();
 
-  const [radioValue, setRadioValue] = useState<"color" | "image">(
-    background.type
-  );
+  const [radioValue, setRadioValue] = useState<"color" | "image">(type);
 
   return (
     <>
@@ -41,7 +43,7 @@ const BackgroundAccordion: React.FC = () => {
       {radioValue === "color" ? (
         <Box display="flex" justifyContent="center">
           <SketchPicker
-            color={background.color}
+            color={color}
             onChangeComplete={(color: ColorResult) => {
               setBackgroundType("color");
               setBackgroundColor(color.hex);
@@ -52,7 +54,7 @@ const BackgroundAccordion: React.FC = () => {
         </Box>
       ) : (
         <ImageGallery
-          selectedImage={background.image}
+          selectedImage={image}
           onSelectImage={(image) => {
             setBackgroundType("image");
             setBackgroundImage(image);

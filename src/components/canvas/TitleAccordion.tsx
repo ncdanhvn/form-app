@@ -4,8 +4,7 @@ import useCanvasStore from "../../stores/canvasStore";
 
 const TitleAccordion = () => {
   const {
-    title: { isBold },
-    setTitleIsBold,
+    title: { isBold, setTitleIsBold },
   } = useCanvasStore();
 
   return (
