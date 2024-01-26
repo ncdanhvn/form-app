@@ -32,6 +32,9 @@ interface Title {
 
   fontFamily: string;
   setFontFamily: (fontFamily: string) => void;
+
+  textColor: string;
+  setTextColor: (textColor: string) => void;
 }
 
 interface CanvasState {
@@ -96,7 +99,13 @@ export const useCanvasStore = create<CanvasState>((set) => ({
     fontFamily: "Grape Nuts",
     setFontFamily: (fontFamily) =>
       set(({ title }) => ({
-        title: { ...title, fontFamily: fontFamily },
+        title: { ...title, fontFamily },
+      })),
+
+    textColor: "#ffffff",
+    setTextColor: (textColor) =>
+      set(({ title }) => ({
+        title: { ...title, textColor },
       })),
   },
 }));

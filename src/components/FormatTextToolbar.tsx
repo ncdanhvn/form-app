@@ -1,25 +1,39 @@
-import React from "react";
 import {
-  IconButton,
   Box,
-  Select,
-  Input,
   HStack,
-  Text,
+  IconButton,
+  Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Select,
   VStack,
 } from "@chakra-ui/react";
+import React from "react";
+import { ColorResult, SketchPicker } from "react-color";
 import {
+  FaAlignCenter,
+  FaAlignLeft,
+  FaAlignRight,
   FaBold,
   FaItalic,
-  FaUnderline,
-  FaAlignLeft,
-  FaAlignCenter,
-  FaAlignRight,
   FaMinus,
+  FaPaintBrush,
   FaPlus,
+  FaUnderline,
 } from "react-icons/fa";
-import { Align } from "../types/canvas";
 import fonts from "../resources/fontResources";
+import { Align } from "../types/canvas";
+
+const sketchPickerStyle = {
+  default: {
+    picker: {
+      width: "236px",
+    },
+  },
+};
 
 export interface FormatState {
   isBold: boolean;
@@ -28,6 +42,7 @@ export interface FormatState {
   align: Align;
   fontSize: number;
   fontFamily: string;
+  textColor: string;
 }
 
 export interface SetFormatStates {
@@ -37,6 +52,7 @@ export interface SetFormatStates {
   setAlign: (align: Align) => void;
   setFontSize: (fontSize: number) => void;
   setFontFamily: (fontFamily: string) => void;
+  setTextColor: (color: string) => void;
 }
 
 interface Props {
@@ -45,7 +61,15 @@ interface Props {
 }
 
 const FormatTextToolbar: React.FC<Props> = ({
-  formatStates: { isBold, isItalic, isUnderline, align, fontSize, fontFamily },
+  formatStates: {
+    isBold,
+    isItalic,
+    isUnderline,
+    align,
+    fontSize,
+    fontFamily,
+    textColor,
+  },
   setFormatStates: {
     setBold,
     setItalic,
@@ -53,6 +77,7 @@ const FormatTextToolbar: React.FC<Props> = ({
     setAlign,
     setFontSize,
     setFontFamily,
+    setTextColor,
   },
 }) => {
   const onClickBold = () => {
@@ -112,6 +137,27 @@ const FormatTextToolbar: React.FC<Props> = ({
             () => onClickAlign(Align.Right)
           )}
         </Box>
+        <Popover>
+          <PopoverTrigger>
+            <IconButton
+              icon={<FaPaintBrush />}
+              aria-label="Text Color"
+              size={"sm"}
+            />
+          </PopoverTrigger>
+          <PopoverContent width="auto" maxWidth="fit-content">
+            <PopoverArrow />
+            <PopoverBody>
+              <SketchPicker
+                color={textColor}
+                onChangeComplete={(color: ColorResult) => {
+                  setTextColor(color.hex);
+                }}
+                styles={sketchPickerStyle}
+              />
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       </HStack>
       <HStack spacing={3}>
         <Select value={fontFamily} onChange={onFontFamilyChange} size="sm">
@@ -121,7 +167,7 @@ const FormatTextToolbar: React.FC<Props> = ({
             </option>
           ))}
         </Select>
-        <HStack spacing={2}>
+        <HStack spacing={1}>
           {ToggleButton(<FaMinus />, false, decrementFontSize)}
           <Input
             type="number"

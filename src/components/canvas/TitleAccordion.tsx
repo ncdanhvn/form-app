@@ -17,6 +17,8 @@ const TitleAccordion = () => {
       setFontSize,
       fontFamily,
       setFontFamily,
+      textColor,
+      setTextColor,
     },
   } = useCanvasStore();
 
@@ -30,6 +32,7 @@ const TitleAccordion = () => {
           align,
           fontSize,
           fontFamily,
+          textColor,
         }}
         setFormatStates={{
           setBold: setTitleIsBold,
@@ -38,6 +41,7 @@ const TitleAccordion = () => {
           setAlign: setTitleAlign,
           setFontSize,
           setFontFamily,
+          setTextColor,
         }}
       />
     </>

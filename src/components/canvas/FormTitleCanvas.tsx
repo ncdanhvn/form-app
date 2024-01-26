@@ -16,11 +16,12 @@ const FormTitleCanvas = ({ title }: Props) => {
       align,
       fontSize,
       fontFamily,
+      textColor,
     },
   } = useCanvasStore();
 
   return (
-    <Box bg={backgroundColor} color="white" w={"100%"} py={8} px={4}>
+    <Box bg={backgroundColor} w={"100%"} py={8} px={4}>
       <Heading
         as="h1"
         fontSize={`${fontSize}`}
@@ -29,6 +30,7 @@ const FormTitleCanvas = ({ title }: Props) => {
         fontStyle={isItalic ? "italic" : "normal"}
         textDecoration={isUnderline ? "underline" : "normal"}
         textAlign={align}
+        color={textColor}
       >
         {title}
       </Heading>
