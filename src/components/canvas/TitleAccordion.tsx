@@ -47,7 +47,7 @@ const TitleAccordion = () => {
   } = useCanvasStore();
 
   return (
-    <VStack align={"normal"} spacing={3}>
+    <VStack align={"normal"} spacing={4}>
       <HStack>
         <Text fontSize={"medium"} color={"GrayText"}>
           Background color
