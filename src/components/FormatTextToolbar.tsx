@@ -80,18 +80,6 @@ const FormatTextToolbar: React.FC<Props> = ({
     setTextColor,
   },
 }) => {
-  const onClickBold = () => {
-    setBold(!isBold);
-  };
-  const onClickItalic = () => {
-    setItalic(!isItalic);
-  };
-  const onClickUnderline = () => {
-    setUnderline(!isUnderline);
-  };
-  const onClickAlign = (align: Align) => {
-    setAlign(align);
-  };
   const onFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSize = parseInt(event.target.value, 10);
     if (!isNaN(newSize)) {
@@ -114,27 +102,27 @@ const FormatTextToolbar: React.FC<Props> = ({
     <VStack align={"normal"} spacing={3}>
       <HStack spacing={3}>
         <Box display="flex" alignItems="center" gap={1}>
-          {ToggleButton(<FaBold></FaBold>, isBold, onClickBold)}
-          {ToggleButton(<FaItalic></FaItalic>, isItalic, onClickItalic)}
-          {ToggleButton(
-            <FaUnderline></FaUnderline>,
-            isUnderline,
-            onClickUnderline
+          {ToggleButton(<FaBold></FaBold>, isBold, () => setBold(!isBold))}
+          {ToggleButton(<FaItalic></FaItalic>, isItalic, () =>
+            setItalic(!isItalic)
+          )}
+          {ToggleButton(<FaUnderline></FaUnderline>, isUnderline, () =>
+            setUnderline(!isUnderline)
           )}
         </Box>
-        <Box>
+        <Box display="flex" alignItems="center" gap={1}>
           {ToggleButton(<FaAlignLeft></FaAlignLeft>, align === Align.Left, () =>
-            onClickAlign(Align.Left)
+            setAlign(Align.Left)
           )}
           {ToggleButton(
             <FaAlignCenter></FaAlignCenter>,
             align === Align.Center,
-            () => onClickAlign(Align.Center)
+            () => setAlign(Align.Center)
           )}
           {ToggleButton(
             <FaAlignRight></FaAlignRight>,
             align === Align.Right,
-            () => onClickAlign(Align.Right)
+            () => setAlign(Align.Right)
           )}
         </Box>
         <Popover>
@@ -159,7 +147,7 @@ const FormatTextToolbar: React.FC<Props> = ({
           </PopoverContent>
         </Popover>
       </HStack>
-      <HStack spacing={3}>
+      <HStack spacing={3} width={"264px"}>
         <Select value={fontFamily} onChange={onFontFamilyChange} size="sm">
           {fonts.map((font) => (
             <option key={font} value={font}>
