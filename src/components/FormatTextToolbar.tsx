@@ -25,7 +25,8 @@ import {
   FaUnderline,
 } from "react-icons/fa";
 import fonts from "../resources/fontResources";
-import { Align } from "../types/canvas";
+import { UseBoundStore, StoreApi } from "zustand";
+import ToolbarState, { Align } from "../stores/toolbarStore/toolbarTypes";
 
 const sketchPickerStyle = {
   default: {
@@ -35,51 +36,28 @@ const sketchPickerStyle = {
   },
 };
 
-export interface FormatState {
-  isBold: boolean;
-  isItalic: boolean;
-  isUnderline: boolean;
-  align: Align;
-  fontSize: number;
-  fontFamily: string;
-  textColor: string;
-}
-
-export interface SetFormatStates {
-  setBold: (isBold: boolean) => void;
-  setItalic: (isItalic: boolean) => void;
-  setUnderline: (isUnderline: boolean) => void;
-  setAlign: (align: Align) => void;
-  setFontSize: (fontSize: number) => void;
-  setFontFamily: (fontFamily: string) => void;
-  setTextColor: (color: string) => void;
-}
-
 interface Props {
-  formatStates: FormatState;
-  setFormatStates: SetFormatStates;
+  useToolbarStore: UseBoundStore<StoreApi<ToolbarState>>;
 }
 
-const FormatTextToolbar: React.FC<Props> = ({
-  formatStates: {
-    isBold,
-    isItalic,
-    isUnderline,
-    align,
-    fontSize,
-    fontFamily,
-    textColor,
-  },
-  setFormatStates: {
+const FormatTextToolbar: React.FC<Props> = ({ useToolbarStore }) => {
+  const {
+    bold,
     setBold,
+    italic,
     setItalic,
+    underline,
     setUnderline,
+    align,
     setAlign,
-    setFontSize,
+    fontFamily,
     setFontFamily,
+    fontSize,
+    setFontSize,
+    textColor,
     setTextColor,
-  },
-}) => {
+  } = useToolbarStore();
+
   const onFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSize = parseInt(event.target.value, 10);
     if (!isNaN(newSize)) {
@@ -102,12 +80,12 @@ const FormatTextToolbar: React.FC<Props> = ({
     <VStack align={"normal"} spacing={3}>
       <HStack spacing={3}>
         <Box display="flex" alignItems="center" gap={1}>
-          {ToggleButton(<FaBold></FaBold>, isBold, () => setBold(!isBold))}
-          {ToggleButton(<FaItalic></FaItalic>, isItalic, () =>
-            setItalic(!isItalic)
+          {ToggleButton(<FaBold></FaBold>, bold, () => setBold(!bold))}
+          {ToggleButton(<FaItalic></FaItalic>, italic, () =>
+            setItalic(!italic)
           )}
-          {ToggleButton(<FaUnderline></FaUnderline>, isUnderline, () =>
-            setUnderline(!isUnderline)
+          {ToggleButton(<FaUnderline></FaUnderline>, underline, () =>
+            setUnderline(!underline)
           )}
         </Box>
         <Box display="flex" alignItems="center" gap={1}>

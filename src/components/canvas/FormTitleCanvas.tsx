@@ -1,6 +1,6 @@
 import { Box, Heading } from "@chakra-ui/react";
 import useCanvasStore from "../../stores/canvasStore";
-import { Align } from "../../types/canvas";
+import useTitleToolbarStore from "../../stores/toolbarStore/titleToolbarStore";
 
 interface Props {
   title: string;
@@ -8,17 +8,11 @@ interface Props {
 
 const FormTitleCanvas = ({ title }: Props) => {
   const {
-    title: {
-      backgroundColor,
-      isBold,
-      isItalic,
-      isUnderline,
-      align,
-      fontSize,
-      fontFamily,
-      textColor,
-    },
+    title: { backgroundColor },
   } = useCanvasStore();
+
+  const { bold, italic, underline, align, textColor, fontFamily, fontSize } =
+    useTitleToolbarStore();
 
   return (
     <Box bg={backgroundColor} w={"100%"} py={8} px={4}>
@@ -26,9 +20,9 @@ const FormTitleCanvas = ({ title }: Props) => {
         as="h1"
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
-        fontWeight={isBold ? "bold" : "normal"}
-        fontStyle={isItalic ? "italic" : "normal"}
-        textDecoration={isUnderline ? "underline" : "normal"}
+        fontWeight={bold ? "bold" : "normal"}
+        fontStyle={italic ? "italic" : "normal"}
+        textDecoration={underline ? "underline" : "normal"}
         textAlign={align}
         color={textColor}
       >

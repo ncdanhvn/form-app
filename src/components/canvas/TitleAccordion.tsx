@@ -1,20 +1,18 @@
-import React from "react";
-import FormatTextToolbar from "../FormatTextToolbar";
-import useCanvasStore from "../../stores/canvasStore";
 import {
-  HStack,
-  VStack,
-  Text,
   Button,
-  IconButton,
+  HStack,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { SketchPicker, ColorResult } from "react-color";
-import { FaPaintBrush } from "react-icons/fa";
+import { ColorResult, SketchPicker } from "react-color";
+import useCanvasStore from "../../stores/canvasStore";
+import useTitleToolbarStore from "../../stores/toolbarStore/titleToolbarStore";
+import FormatTextToolbar from "../FormatTextToolbar";
 
 const sketchPickerStyle = {
   default: {
@@ -26,24 +24,7 @@ const sketchPickerStyle = {
 
 const TitleAccordion = () => {
   const {
-    title: {
-      backgroundColor,
-      setTitleBgColor,
-      isBold,
-      setTitleIsBold,
-      isItalic,
-      setTitleIsItalic,
-      isUnderline,
-      setTitleIsUnderline,
-      align,
-      setTitleAlign,
-      fontSize,
-      setFontSize,
-      fontFamily,
-      setFontFamily,
-      textColor,
-      setTextColor,
-    },
+    title: { backgroundColor, setTitleBgColor },
   } = useCanvasStore();
 
   return (
@@ -77,26 +58,7 @@ const TitleAccordion = () => {
           </PopoverContent>
         </Popover>
       </HStack>
-      <FormatTextToolbar
-        formatStates={{
-          isBold,
-          isItalic,
-          isUnderline,
-          align,
-          fontSize,
-          fontFamily,
-          textColor,
-        }}
-        setFormatStates={{
-          setBold: setTitleIsBold,
-          setItalic: setTitleIsItalic,
-          setUnderline: setTitleIsUnderline,
-          setAlign: setTitleAlign,
-          setFontSize,
-          setFontFamily,
-          setTextColor,
-        }}
-      />
+      <FormatTextToolbar useToolbarStore={useTitleToolbarStore} />
     </VStack>
   );
 };
