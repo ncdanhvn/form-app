@@ -7,8 +7,9 @@ interface Background {
   image: string;
 }
 
-interface FormTitle {
+interface Title {
   backgroundColor: string;
+  isBold: boolean;
 }
 
 interface CanvasState {
@@ -17,8 +18,9 @@ interface CanvasState {
   setBackgroundColor: (color: string) => void;
   setBackgroundImage: (image: string) => void;
 
-  formTitle: FormTitle;
-  setFormTitleBg: (color: string) => void;
+  title: Title;
+  setTitleBgColor: (color: string) => void;
+  setTitleIsBold: (isBold: boolean) => void;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
@@ -38,9 +40,15 @@ export const useCanvasStore = create<CanvasState>((set) => ({
       background: { ...background, image },
     })),
 
-  formTitle: { backgroundColor: "#D53F8C" },
-  setFormTitleBg: (backgroundColor) =>
-    set(({ formTitle }) => ({ formTitle: { ...formTitle, backgroundColor } })),
+  title: { backgroundColor: "#D53F8C", isBold: false },
+  setTitleBgColor: (backgroundColor) =>
+    set(({ title }) => ({
+      title: { ...title, backgroundColor },
+    })),
+  setTitleIsBold: (isBold) =>
+    set(({ title }) => ({
+      title: { ...title, isBold },
+    })),
 }));
 
 export default useCanvasStore;

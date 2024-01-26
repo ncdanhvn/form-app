@@ -7,6 +7,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import BackgroundAccordion from "./BackgroundAccordion";
+import TitleAccordion from "./TitleAccordion";
 
 const CanvasEditPanel = () => {
   return (
@@ -38,7 +39,9 @@ const CanvasEditPanel = () => {
             </Box>
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel pb={4}></AccordionPanel>
+          <AccordionPanel pb={4}>
+            <TitleAccordion />
+          </AccordionPanel>
         </AccordionItem>
 
         {/* Add other sections similarly */}

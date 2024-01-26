@@ -6,17 +6,24 @@ interface Props {
 }
 
 const FormTitleCanvas = ({ title }: Props) => {
-  const { formTitle } = useCanvasStore();
+  const {
+    title: { isBold, backgroundColor },
+  } = useCanvasStore();
 
   return (
     <Box
-      bg={formTitle.backgroundColor}
+      bg={backgroundColor}
       color="white"
       w={"100%"}
       textAlign={"center"}
       py={8}
     >
-      <Heading as="h1" size="xl" fontFamily="Grape Nuts, sans-serif">
+      <Heading
+        as="h1"
+        size="xl"
+        fontFamily="Grape Nuts, sans-serif"
+        fontWeight={isBold ? "bold" : "normal"}
+      >
         {title}
       </Heading>
     </Box>
