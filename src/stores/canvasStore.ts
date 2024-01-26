@@ -29,6 +29,9 @@ interface Title {
 
   fontSize: number;
   setFontSize: (fontsize: number) => void;
+
+  fontFamily: string;
+  setFontFamily: (fontFamily: string) => void;
 }
 
 interface CanvasState {
@@ -84,10 +87,16 @@ export const useCanvasStore = create<CanvasState>((set) => ({
         title: { ...title, align },
       })),
 
-    fontSize: 26,
-    setFontSize: (fontsize) =>
+    fontSize: 36,
+    setFontSize: (fontSize) =>
       set(({ title }) => ({
-        title: { ...title, fontSize: fontsize },
+        title: { ...title, fontSize },
+      })),
+
+    fontFamily: "Grape Nuts",
+    setFontFamily: (fontFamily) =>
+      set(({ title }) => ({
+        title: { ...title, fontFamily: fontFamily },
       })),
   },
 }));

@@ -19,6 +19,7 @@ import {
   FaPlus,
 } from "react-icons/fa";
 import { Align } from "../types/canvas";
+import fonts from "../resources/fontResources";
 
 export interface FormatState {
   isBold: boolean;
@@ -26,6 +27,7 @@ export interface FormatState {
   isUnderline: boolean;
   align: Align;
   fontSize: number;
+  fontFamily: string;
 }
 
 export interface SetFormatStates {
@@ -34,6 +36,7 @@ export interface SetFormatStates {
   setUnderline: (isUnderline: boolean) => void;
   setAlign: (align: Align) => void;
   setFontSize: (fontSize: number) => void;
+  setFontFamily: (fontFamily: string) => void;
 }
 
 interface Props {
@@ -42,8 +45,15 @@ interface Props {
 }
 
 const FormatTextToolbar: React.FC<Props> = ({
-  formatStates: { isBold, isItalic, isUnderline, align, fontSize },
-  setFormatStates: { setBold, setItalic, setUnderline, setAlign, setFontSize },
+  formatStates: { isBold, isItalic, isUnderline, align, fontSize, fontFamily },
+  setFormatStates: {
+    setBold,
+    setItalic,
+    setUnderline,
+    setAlign,
+    setFontSize,
+    setFontFamily,
+  },
 }) => {
   const onClickBold = () => {
     setBold(!isBold);
@@ -57,7 +67,7 @@ const FormatTextToolbar: React.FC<Props> = ({
   const onClickAlign = (align: Align) => {
     setAlign(align);
   };
-  const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSize = parseInt(event.target.value, 10);
     if (!isNaN(newSize)) {
       setFontSize(newSize);
@@ -71,9 +81,12 @@ const FormatTextToolbar: React.FC<Props> = ({
       setFontSize(fontSize - 2);
     }
   };
+  const onFontFamilyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFontFamily(event.target.value);
+  };
 
   return (
-    <VStack align={"normal"}>
+    <VStack align={"normal"} spacing={3}>
       <HStack spacing={3}>
         <Box display="flex" alignItems="center" gap={1}>
           {ToggleButton(<FaBold></FaBold>, isBold, onClickBold)}
@@ -100,19 +113,27 @@ const FormatTextToolbar: React.FC<Props> = ({
           )}
         </Box>
       </HStack>
-      <HStack spacing={2}>
-        {ToggleButton(<FaMinus />, false, decrementFontSize)}
-        <Input
-          type="number"
-          value={fontSize}
-          onChange={handleFontSizeChange}
-          size="sm"
-          width="36px" // Adjust width as needed
-          p={2}
-          fontSize={16}
-        />
-        {/* <Text size="sm">{fontSize}</Text> */}
-        {ToggleButton(<FaPlus />, false, incrementFontSize)}
+      <HStack spacing={3}>
+        <Select value={fontFamily} onChange={onFontFamilyChange} size="sm">
+          {fonts.map((font) => (
+            <option key={font} value={font}>
+              {font}
+            </option>
+          ))}
+        </Select>
+        <HStack spacing={2}>
+          {ToggleButton(<FaMinus />, false, decrementFontSize)}
+          <Input
+            type="number"
+            value={fontSize}
+            onChange={onFontSizeChange}
+            size="sm"
+            width="36px" // Adjust width as needed
+            p={2}
+          />
+          {/* <Text size="sm">{fontSize}</Text> */}
+          {ToggleButton(<FaPlus />, false, incrementFontSize)}
+        </HStack>
       </HStack>
     </VStack>
   );
