@@ -4,14 +4,28 @@ import useCanvasStore from "../../stores/canvasStore";
 
 const TitleAccordion = () => {
   const {
-    title: { isBold, setTitleIsBold },
+    title: {
+      isBold,
+      setTitleIsBold,
+      isItalic,
+      setTitleIsItalic,
+      isUnderline,
+      setTitleIsUnderline,
+      align,
+      setTitleAlign,
+    },
   } = useCanvasStore();
 
   return (
     <>
       <FormatTextToolbar
-        formatStates={{ isBold }}
-        setFormatStates={{ setBold: setTitleIsBold }}
+        formatStates={{ isBold, isItalic, isUnderline, align }}
+        setFormatStates={{
+          setBold: setTitleIsBold,
+          setItalic: setTitleIsItalic,
+          setUnderline: setTitleIsUnderline,
+          setAlign: setTitleAlign,
+        }}
       />
     </>
   );

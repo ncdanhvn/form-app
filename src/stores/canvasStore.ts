@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { backgroundGallery } from "../resources/imageResources";
+import { Align } from "../types/canvas";
 
 interface Background {
   type: "color" | "image";
@@ -12,14 +13,23 @@ interface Background {
 
 interface Title {
   backgroundColor: string;
-  isBold: boolean;
   setTitleBgColor: (color: string) => void;
+
+  isBold: boolean;
   setTitleIsBold: (isBold: boolean) => void;
+
+  isItalic: boolean;
+  setTitleIsItalic: (isItalic: boolean) => void;
+
+  isUnderline: boolean;
+  setTitleIsUnderline: (isUnderline: boolean) => void;
+
+  align: Align;
+  setTitleAlign: (align: Align) => void;
 }
 
 interface CanvasState {
   background: Background;
-
   title: Title;
 }
 
@@ -42,14 +52,33 @@ export const useCanvasStore = create<CanvasState>((set) => ({
 
   title: {
     backgroundColor: "#D53F8C",
-    isBold: false,
     setTitleBgColor: (backgroundColor) =>
       set(({ title }) => ({
         title: { ...title, backgroundColor },
       })),
+
+    isBold: false,
     setTitleIsBold: (isBold) =>
       set(({ title }) => ({
         title: { ...title, isBold },
+      })),
+
+    isItalic: false,
+    setTitleIsItalic: (isItalic) =>
+      set(({ title }) => ({
+        title: { ...title, isItalic },
+      })),
+
+    isUnderline: false,
+    setTitleIsUnderline: (isUnderline) =>
+      set(({ title }) => ({
+        title: { ...title, isUnderline },
+      })),
+
+    align: Align.Center,
+    setTitleAlign: (align) =>
+      set(({ title }) => ({
+        title: { ...title, align },
       })),
   },
 }));

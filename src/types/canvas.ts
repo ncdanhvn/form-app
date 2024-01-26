@@ -3,3 +3,9 @@ export enum CanvasItems {
   Header = "1",
   Title = "2",
 }
+
+export enum Align {
+  Left = "left",
+  Center = "center",
+  Right = "right",
+}
