@@ -26,6 +26,9 @@ interface Title {
 
   align: Align;
   setTitleAlign: (align: Align) => void;
+
+  fontSize: number;
+  setFontSize: (fontsize: number) => void;
 }
 
 interface CanvasState {
@@ -79,6 +82,12 @@ export const useCanvasStore = create<CanvasState>((set) => ({
     setTitleAlign: (align) =>
       set(({ title }) => ({
         title: { ...title, align },
+      })),
+
+    fontSize: 26,
+    setFontSize: (fontsize) =>
+      set(({ title }) => ({
+        title: { ...title, fontSize: fontsize },
       })),
   },
 }));

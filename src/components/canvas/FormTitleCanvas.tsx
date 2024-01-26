@@ -8,14 +8,14 @@ interface Props {
 
 const FormTitleCanvas = ({ title }: Props) => {
   const {
-    title: { backgroundColor, isBold, isItalic, isUnderline, align },
+    title: { backgroundColor, isBold, isItalic, isUnderline, align, fontSize },
   } = useCanvasStore();
 
   return (
     <Box bg={backgroundColor} color="white" w={"100%"} py={8} px={4}>
       <Heading
         as="h1"
-        size="xl"
+        fontSize={`${fontSize}`}
         fontFamily="Grape Nuts, sans-serif"
         fontWeight={isBold ? "bold" : "normal"}
         fontStyle={isItalic ? "italic" : "normal"}

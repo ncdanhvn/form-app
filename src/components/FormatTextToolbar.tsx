@@ -1,5 +1,13 @@
 import React from "react";
-import { IconButton, Box, Select, Input, HStack } from "@chakra-ui/react";
+import {
+  IconButton,
+  Box,
+  Select,
+  Input,
+  HStack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import {
   FaBold,
   FaItalic,
@@ -7,6 +15,8 @@ import {
   FaAlignLeft,
   FaAlignCenter,
   FaAlignRight,
+  FaMinus,
+  FaPlus,
 } from "react-icons/fa";
 import { Align } from "../types/canvas";
 
@@ -15,6 +25,7 @@ export interface FormatState {
   isItalic: boolean;
   isUnderline: boolean;
   align: Align;
+  fontSize: number;
 }
 
 export interface SetFormatStates {
@@ -22,6 +33,7 @@ export interface SetFormatStates {
   setItalic: (isItalic: boolean) => void;
   setUnderline: (isUnderline: boolean) => void;
   setAlign: (align: Align) => void;
+  setFontSize: (fontSize: number) => void;
 }
 
 interface Props {
@@ -30,8 +42,8 @@ interface Props {
 }
 
 const FormatTextToolbar: React.FC<Props> = ({
-  formatStates: { isBold, isItalic, isUnderline, align },
-  setFormatStates: { setBold, setItalic, setUnderline, setAlign },
+  formatStates: { isBold, isItalic, isUnderline, align, fontSize },
+  setFormatStates: { setBold, setItalic, setUnderline, setAlign, setFontSize },
 }) => {
   const onClickBold = () => {
     setBold(!isBold);
@@ -45,9 +57,23 @@ const FormatTextToolbar: React.FC<Props> = ({
   const onClickAlign = (align: Align) => {
     setAlign(align);
   };
+  const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSize = parseInt(event.target.value, 10);
+    if (!isNaN(newSize)) {
+      setFontSize(newSize);
+    }
+  };
+  const incrementFontSize = () => {
+    setFontSize(fontSize + 2);
+  };
+  const decrementFontSize = () => {
+    if (fontSize > 2) {
+      setFontSize(fontSize - 2);
+    }
+  };
 
   return (
-    <>
+    <VStack align={"normal"}>
       <HStack spacing={3}>
         <Box display="flex" alignItems="center" gap={1}>
           {ToggleButton(<FaBold></FaBold>, isBold, onClickBold)}
@@ -74,7 +100,21 @@ const FormatTextToolbar: React.FC<Props> = ({
           )}
         </Box>
       </HStack>
-    </>
+      <HStack spacing={2}>
+        {ToggleButton(<FaMinus />, false, decrementFontSize)}
+        <Input
+          type="number"
+          value={fontSize}
+          onChange={handleFontSizeChange}
+          size="sm"
+          width="36px" // Adjust width as needed
+          p={2}
+          fontSize={16}
+        />
+        {/* <Text size="sm">{fontSize}</Text> */}
+        {ToggleButton(<FaPlus />, false, incrementFontSize)}
+      </HStack>
+    </VStack>
   );
 
   function ToggleButton(

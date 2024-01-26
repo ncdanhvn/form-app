@@ -13,18 +13,21 @@ const TitleAccordion = () => {
       setTitleIsUnderline,
       align,
       setTitleAlign,
+      fontSize,
+      setFontSize,
     },
   } = useCanvasStore();
 
   return (
     <>
       <FormatTextToolbar
-        formatStates={{ isBold, isItalic, isUnderline, align }}
+        formatStates={{ isBold, isItalic, isUnderline, align, fontSize }}
         setFormatStates={{
           setBold: setTitleIsBold,
           setItalic: setTitleIsItalic,
           setUnderline: setTitleIsUnderline,
           setAlign: setTitleAlign,
+          setFontSize,
         }}
       />
     </>
