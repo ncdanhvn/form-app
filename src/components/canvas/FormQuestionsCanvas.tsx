@@ -1,6 +1,7 @@
 import { VStack } from "@chakra-ui/react";
 import { InputType, Question } from "../../types/question";
 import MultipleChoiceQuestionCanvas from "./MultipleChoiceQuestionCanvas";
+import DropdownQuestionCanvas from "./DropdownQuestionCanvas";
 
 interface Props {
   questions: Question[];
@@ -13,14 +14,8 @@ const FormQuestionsCanvas = ({ questions }: Props) => {
         switch (q.inputType) {
           case InputType.MultiChoices:
             return <MultipleChoiceQuestionCanvas key={index} question={q} />;
-          // case InputType.Dropdown:
-          //   return (
-          //     <DropdownQuestion
-          //       key={index}
-          //       question={q}
-          //       onChange={(value) => handleAnswerChange(q.questionUid, value)}
-          //     />
-          //   );
+          case InputType.Dropdown:
+            return <DropdownQuestionCanvas key={index} question={q} />;
           // case InputType.Checkbox:
           //   return (
           //     <CheckboxQuestion
