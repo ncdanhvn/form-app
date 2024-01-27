@@ -15,9 +15,15 @@ interface Title {
   setTitleBgColor: (color: string) => void;
 }
 
+interface SubmitButton {
+  bgColor: string;
+  setBgColor: (color: string) => void;
+}
+
 interface CanvasState {
   background: Background;
   title: Title;
+  submitButton: SubmitButton;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
@@ -42,6 +48,14 @@ export const useCanvasStore = create<CanvasState>((set) => ({
     setTitleBgColor: (backgroundColor) =>
       set(({ title }) => ({
         title: { ...title, backgroundColor },
+      })),
+  },
+
+  submitButton: {
+    bgColor: "#D53F8C",
+    setBgColor: (bgColor) =>
+      set(({ submitButton }) => ({
+        submitButton: { ...submitButton, bgColor },
       })),
   },
 }));

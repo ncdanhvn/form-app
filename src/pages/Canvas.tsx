@@ -10,6 +10,7 @@ import { Form as FormType } from "../types/form";
 import FormDescriptionCanvas from "../components/canvas/FormDescriptionCanvas";
 import FormQuestionsCanvas from "../components/canvas/FormQuestionsCanvas";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
+import FormButtonCanvas from "../components/canvas/FormButtonCanvas";
 
 const formUid = "yBpOOBYf1uzKgAMsByQu";
 
@@ -64,9 +65,7 @@ const Canvas: React.FC = () => {
                   >
                     <FormQuestionsCanvas questions={form.questions} />
                   </Box>
-                  <Flex justifyContent="center" width="full" mt={8}>
-                    <Button colorScheme="pink">Submit</Button>
-                  </Flex>
+                  <FormButtonCanvas />
                 </VStack>
               </VStack>
             </Container>

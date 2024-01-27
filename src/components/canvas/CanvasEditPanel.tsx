@@ -11,6 +11,7 @@ import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarSt
 import FormatTextToolbar from "../FormatTextToolbar";
 import BackgroundAccordion from "./BackgroundAccordion";
 import TitleAccordion from "./TitleAccordion";
+import SubmitButtonAccordion from "./SubmitButtonAccordion";
 
 const CanvasEditPanel = () => {
   return (
@@ -69,6 +70,18 @@ const CanvasEditPanel = () => {
           </AccordionButton>
           <AccordionPanel pb={4}>
             <FormatTextToolbar useToolbarStore={useQuestionToolbarStore} />
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <AccordionButton>
+            <Box flex="1" textAlign="left">
+              Submit Button
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <SubmitButtonAccordion />
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
