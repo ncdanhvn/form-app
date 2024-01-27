@@ -3,6 +3,8 @@ import { InputType, Question } from "../../types/question";
 import MultipleChoiceQuestionCanvas from "./MultipleChoiceQuestionCanvas";
 import DropdownQuestionCanvas from "./DropdownQuestionCanvas";
 import CheckboxQuestionCanvas from "./CheckboxQuestionCanvas";
+import ShortAnswerQuestionCanvas from "./ShortAnswerQuestionCanvas";
+import ParagraphQuestionCanvas from "./ParagraphQuestionCanvas";
 
 interface Props {
   questions: Question[];
@@ -19,22 +21,10 @@ const FormQuestionsCanvas = ({ questions }: Props) => {
             return <DropdownQuestionCanvas key={index} question={q} />;
           case InputType.Checkbox:
             return <CheckboxQuestionCanvas key={index} question={q} />;
-          // case InputType.ShortAnswer:
-          //   return (
-          //     <ShortAnswerQuestion
-          //       key={index}
-          //       question={q}
-          //       onChange={(value) => handleAnswerChange(q.questionUid, value)}
-          //     />
-          //   );
-          // case InputType.Paragraph:
-          //   return (
-          //     <ParagraphQuestion
-          //       key={index}
-          //       question={q}
-          //       onChange={(value) => handleAnswerChange(q.questionUid, value)}
-          //     />
-          //   );
+          case InputType.ShortAnswer:
+            return <ShortAnswerQuestionCanvas key={index} question={q} />;
+          case InputType.Paragraph:
+            return <ParagraphQuestionCanvas key={index} question={q} />;
           default:
             return null;
         }
