@@ -15,7 +15,7 @@ const FormTitleCanvas = ({ title }: Props) => {
     useTitleToolbarStore();
 
   return (
-    <Box bg={backgroundColor} w={"100%"} py={8} px={4}>
+    <Box bg={backgroundColor} w={"100%"} py={8} px={8}>
       <Heading
         as="h1"
         fontSize={`${fontSize}`}

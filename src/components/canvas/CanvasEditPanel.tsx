@@ -6,12 +6,11 @@ import {
   AccordionPanel,
   Box,
 } from "@chakra-ui/react";
+import useDescriptionToolbarStore from "../../stores/toolbarStore/descriptionToolbarStore";
+import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import FormatTextToolbar from "../FormatTextToolbar";
 import BackgroundAccordion from "./BackgroundAccordion";
 import TitleAccordion from "./TitleAccordion";
-import DescriptionAccordion from "./DescriptionAccordion";
-import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
-import useDescriptionToolbarStore from "../../stores/toolbarStore/descriptionToolbarStore";
-import FormatTextToolbar from "../FormatTextToolbar";
 
 const CanvasEditPanel = () => {
   return (

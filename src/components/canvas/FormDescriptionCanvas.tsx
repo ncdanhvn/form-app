@@ -10,7 +10,7 @@ const FormDescriptionCanvas = ({ description }: Props) => {
     useDescriptionToolbarStore();
 
   return (
-    <Box display={"flex"} justifyContent={align} w={"100%"} px={4} py={4}>
+    <Box display={"flex"} justifyContent={align} w={"100%"} px={8} py={4}>
       <Text
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
