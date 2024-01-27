@@ -33,7 +33,7 @@ const MultipleChoiceQuestionCanvas: React.FC<Props> = ({ question }) => {
       <RadioGroup value={""}>
         <Stack direction="column">
           {question.options.map((option, index) => (
-            <Radio key={index} value={option}>
+            <Radio key={index} value={option} px={2}>
               {option}
             </Radio>
           ))}

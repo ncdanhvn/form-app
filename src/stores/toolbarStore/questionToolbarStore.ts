@@ -2,7 +2,7 @@ import { create } from "zustand";
 import ToolbarState, { Align } from "./toolbarTypes";
 
 export const useQuestionToolbarStore = create<ToolbarState>((set) => ({
-  bold: false,
+  bold: true,
   setBold: (bold) => set(() => ({ bold })),
 
   italic: false,
@@ -11,16 +11,16 @@ export const useQuestionToolbarStore = create<ToolbarState>((set) => ({
   underline: false,
   setUnderline: (underline) => set(() => ({ underline })),
 
-  align: Align.Center,
+  align: Align.Left,
   setAlign: (align) => set(() => ({ align })),
 
-  fontSize: 20,
+  fontSize: 16,
   setFontSize: (fontSize) => set(() => ({ fontSize })),
 
-  fontFamily: "Times New Roman",
+  fontFamily: "Arial",
   setFontFamily: (fontFamily) => set(() => ({ fontFamily })),
 
-  textColor: "#5FAD0A",
+  textColor: "#000000",
   setTextColor: (textColor) => set(() => ({ textColor })),
 }));
 
