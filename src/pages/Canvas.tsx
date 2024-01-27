@@ -1,4 +1,4 @@
-import { Box, Container, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import CanvasEditPanel from "../components/canvas/CanvasEditPanel"; // Import the CanvasEditPanel component
 import useCanvasStore from "../stores/canvasStore";
@@ -8,6 +8,8 @@ import { FormHeader } from "../components/form/FormHeader";
 import { loadForm } from "../services/formServices";
 import { Form as FormType } from "../types/form";
 import FormDescriptionCanvas from "../components/canvas/FormDescriptionCanvas";
+import FormQuestionsCanvas from "../components/canvas/FormQuestionsCanvas";
+import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 
 const formUid = "yBpOOBYf1uzKgAMsByQu";
 
@@ -29,6 +31,8 @@ const Canvas: React.FC = () => {
     fetchForm();
   }, [formUid]);
 
+  const { align } = useQuestionToolbarStore();
+
   return (
     form && (
       <>
@@ -48,9 +52,21 @@ const Canvas: React.FC = () => {
             <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
               <VStack spacing={0}>
                 <FormHeader />
-                <VStack w={"100%"} spacing={0}>
+                <VStack w={"100%"} spacing={0} mb={8}>
                   <FormTitleCanvas title={form.title} />
                   <FormDescriptionCanvas description={form.description} />
+                  <Box
+                    display={"flex"}
+                    justifyContent={align}
+                    w={"100%"}
+                    px={8}
+                    py={4}
+                  >
+                    <FormQuestionsCanvas questions={form.questions} />
+                  </Box>
+                  <Flex justifyContent="center" width="full" mt={8}>
+                    <Button colorScheme="pink">Submit</Button>
+                  </Flex>
                 </VStack>
               </VStack>
             </Container>

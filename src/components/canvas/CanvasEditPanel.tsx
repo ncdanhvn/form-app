@@ -9,6 +9,9 @@ import {
 import BackgroundAccordion from "./BackgroundAccordion";
 import TitleAccordion from "./TitleAccordion";
 import DescriptionAccordion from "./DescriptionAccordion";
+import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import useDescriptionToolbarStore from "../../stores/toolbarStore/descriptionToolbarStore";
+import FormatTextToolbar from "../FormatTextToolbar";
 
 const CanvasEditPanel = () => {
   return (
@@ -33,6 +36,7 @@ const CanvasEditPanel = () => {
             <BackgroundAccordion />
           </AccordionPanel>
         </AccordionItem>
+
         <AccordionItem>
           <AccordionButton>
             <Box flex="1" textAlign="left">
@@ -44,6 +48,7 @@ const CanvasEditPanel = () => {
             <TitleAccordion />
           </AccordionPanel>
         </AccordionItem>
+
         <AccordionItem>
           <AccordionButton>
             <Box flex="1" textAlign="left">
@@ -52,11 +57,21 @@ const CanvasEditPanel = () => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
-            <DescriptionAccordion />
+            <FormatTextToolbar useToolbarStore={useDescriptionToolbarStore} />
           </AccordionPanel>
         </AccordionItem>
 
-        {/* Add other sections similarly */}
+        <AccordionItem>
+          <AccordionButton>
+            <Box flex="1" textAlign="left">
+              Questions
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <FormatTextToolbar useToolbarStore={useQuestionToolbarStore} />
+          </AccordionPanel>
+        </AccordionItem>
       </Accordion>
     </Box>
   );
