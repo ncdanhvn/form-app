@@ -72,7 +72,7 @@ const Canvas: React.FC = () => {
           </Box>
 
           <Box width="300px" flexShrink={0} height="100vh">
-            <CanvasEditPanel />
+            <CanvasEditPanel formUid={formUid} />
           </Box>
         </Box>
       </>

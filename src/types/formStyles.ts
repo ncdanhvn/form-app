@@ -1,6 +1,6 @@
 import { Align } from "../stores/toolbarStore/toolbarTypes";
 
-interface ToolbarAttributes {
+export interface ToolbarAttributes {
   bold: boolean;
   italic: boolean;
   underline: boolean;
