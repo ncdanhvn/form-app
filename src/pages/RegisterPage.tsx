@@ -1,16 +1,14 @@
-import React, { useState } from "react";
 import {
   Box,
   Button,
+  Link as ChakraLink,
+  Container,
   Input,
   VStack,
-  Container,
   useToast,
-  Link as ChakraLink,
 } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
 import { registerUser } from "../services/authServices";
 
 const RegisterPage: React.FC = () => {
@@ -34,9 +32,8 @@ const RegisterPage: React.FC = () => {
       await registerUser(email, password, username);
       toast({
         title: "Account created successfully",
-        description: "Redirect you to the homepage",
         status: "success",
-        duration: 3000,
+        duration: 2000,
       });
       setTimeout(() => navigate("/home"), 3000); // Redirect to Home page after 3 seconds
     } catch (error) {

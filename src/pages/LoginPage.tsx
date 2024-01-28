@@ -9,19 +9,24 @@ import {
 } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const toast = useToast();
 
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      toast({ title: "Logged in successfully", status: "success" });
-      // Redirect to home or another page as needed
+      toast({
+        title: "Logged in successfully",
+        status: "success",
+        duration: 2000,
+      });
+      navigate("/home");
     } catch (error) {
       toast({
         title: "Failed to log in",
