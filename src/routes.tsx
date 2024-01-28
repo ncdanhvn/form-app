@@ -8,6 +8,7 @@ import CreateNew from "./pages/CreateNew";
 import LoginPage from "./pages/LoginPage";
 import AuthCheck from "./components/AuthCheck";
 import RegisterPage from "./pages/RegisterPage";
+import FormOwnerCheck from "./components/FormOwnerCheck";
 
 const router = createBrowserRouter([
   { path: "/", element: <Form /> },
@@ -25,9 +26,9 @@ const router = createBrowserRouter([
   {
     path: "/create-new/:formUid",
     element: (
-      <AuthCheck>
+      <FormOwnerCheck>
         <CreateNew />
-      </AuthCheck>
+      </FormOwnerCheck>
     ),
   },
   { path: "/login", element: <LoginPage /> },
