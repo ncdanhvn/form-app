@@ -14,9 +14,16 @@ const router = createBrowserRouter([
   { path: "/createForm", element: <CreateForm /> },
   { path: "/reponses", element: <Reponses /> },
   { path: "/canvas", element: <Canvas /> },
-  { path: "/home", element: <Home /> },
   {
-    path: "/create-new",
+    path: "/home",
+    element: (
+      <AuthCheck>
+        <Home />
+      </AuthCheck>
+    ),
+  },
+  {
+    path: "/create-new/:formUid",
     element: (
       <AuthCheck>
         <CreateNew />

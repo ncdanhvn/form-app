@@ -1,4 +1,4 @@
-import { firestore } from "../firebaseConfig";
+import { firestore, auth } from "../firebaseConfig";
 import {
   collection,
   doc,
@@ -7,26 +7,21 @@ import {
   getDoc,
   getDocs,
   deleteDoc,
+  addDoc,
 } from "firebase/firestore";
 import { Form } from "../types/form";
 import { Question } from "../types/question";
 
-export const createForm = async () => {
-  try {
-    const formRef = doc(collection(firestore, "forms"));
-    const blankForm = {
-      uid: formRef.id,
-      title: "",
-      description: "",
-      questions: [],
-    };
+export const createNewForm = async () => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("No authenticated user found");
 
-    await setDoc(formRef, blankForm);
-    return blankForm;
-  } catch (error) {
-    console.error("Error creating form: ", error);
-    throw error;
-  }
+  const formCollection = collection(firestore, "forms");
+  const formDocRef = await addDoc(formCollection, {
+    userId: user.uid,
+    createdAt: new Date(),
+  });
+  return formDocRef.id;
 };
 
 export const updateForm = async (formUid: string, updatedForm: Form) => {
