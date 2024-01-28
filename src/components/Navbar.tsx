@@ -1,6 +1,5 @@
-import React from "react";
 import {
-  Box,
+  Avatar,
   Flex,
   Image,
   Link,
@@ -8,11 +7,21 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import React, { useEffect, useState } from "react";
+import { auth } from "../firebaseConfig";
+import { getUserUsername, logout } from "../services/authServices";
 
 const Navbar: React.FC = () => {
+  const user = auth.currentUser;
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    getUserUsername().then((result) => {
+      setUsername(result);
+    });
+  }, []);
+
   return (
     <Flex as="nav" justify="space-between" align="center" padding="1.5rem">
       {/* App Logo */}
@@ -20,23 +29,26 @@ const Navbar: React.FC = () => {
 
       {/* Navigation Links */}
       <Flex align="center">
-        <Link href="/community" marginRight="2rem">
-          Community
-        </Link>
-        <Link href="/my-forms" marginRight="2rem">
-          My Forms
-        </Link>
-
-        {/* User Menu */}
-        <Menu>
-          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-            <Image src="/path-to-user-logo.png" alt="User Logo" />
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Profile</MenuItem>
-            <MenuItem>Logout</MenuItem>
-          </MenuList>
-        </Menu>
+        {user ? (
+          <>
+            {/* User Menu */}
+            <Menu>
+              <MenuButton as={Avatar} name={username}></MenuButton>
+              <MenuList>
+                <MenuItem>Hi {username}</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          </>
+        ) : (
+          <>
+            {/* Register and Login Links */}
+            <Link href="/register" marginRight="2rem">
+              Register
+            </Link>
+            <Link href="/login">Login</Link>
+          </>
+        )}
       </Flex>
     </Flex>
   );
