@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import CreateNew from "./pages/CreateNew";
 import LoginPage from "./pages/LoginPage";
 import AuthCheck from "./components/AuthCheck";
+import RegisterPage from "./pages/RegisterPage";
 
 const router = createBrowserRouter([
   { path: "/", element: <Form /> },
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
     ),
   },
   { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
 ]);
 
 export default router;

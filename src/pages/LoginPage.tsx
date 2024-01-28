@@ -1,7 +1,16 @@
-import { Button, Container, Input, VStack, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Link as ChakraLink,
+  Container,
+  Input,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig"; // adjust the path as needed
+import { Link as RouterLink } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -49,6 +58,11 @@ const LoginPage: React.FC = () => {
         <Button onClick={handleLogin} colorScheme="blue">
           Log In
         </Button>
+        <Box textAlign={"center"}>
+          <ChakraLink as={RouterLink} to="/register" color="blue.500" mt="4">
+            or Register instead
+          </ChakraLink>
+        </Box>
       </VStack>
     </Container>
   );
