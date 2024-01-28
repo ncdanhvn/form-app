@@ -71,9 +71,7 @@ const CreateNew: React.FC = () => {
       </Box>
       <Flex>
         <Box width="200px" height="100vh" />
-        <Box flex="1" padding="20px" overflowY="auto">
-          {stepsComponents[activeStep]}
-        </Box>
+        <Box flex="1">{stepsComponents[activeStep]}</Box>
       </Flex>
     </>
   );

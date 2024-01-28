@@ -37,18 +37,25 @@ const Canvas: React.FC = () => {
   return (
     form && (
       <>
-        <Box display="flex" height="100vh" width="100vw">
+        <Box
+          height="100vh"
+          width="100vw"
+          position={"fixed"}
+          zIndex={-1}
+          {...(background.type === "color"
+            ? { bg: background.color }
+            : { bgImage: background.image })}
+          bgPosition="center"
+          bgRepeat="no-repeat"
+          bgSize="cover"
+        ></Box>
+        <Flex>
           <Box
-            {...(background.type === "color"
-              ? { bg: background.color }
-              : { bgImage: background.image })}
             flex="1"
             display="flex"
             alignItems="center"
             justifyContent="center"
-            bgPosition="center"
-            bgRepeat="no-repeat"
-            bgSize="cover"
+            py={16}
           >
             <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
               <VStack spacing={0}>
@@ -70,11 +77,9 @@ const Canvas: React.FC = () => {
               </VStack>
             </Container>
           </Box>
-
-          <Box width="300px" flexShrink={0} height="100vh">
-            <CanvasEditPanel formUid={formUid} />
-          </Box>
-        </Box>
+          <Box width="300px" flexShrink={0} height="100vh"></Box>
+        </Flex>
+        <CanvasEditPanel formUid={formUid} />
       </>
     )
   );
