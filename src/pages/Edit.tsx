@@ -27,7 +27,7 @@ const CreateNew: React.FC = () => {
   const stepsComponents = [<AddContent />, <AddStyles />, <Share />];
 
   const { activeStep, setActiveStep } = useSteps({
-    index: 1,
+    index: 0,
     count: steps.length,
   });
 

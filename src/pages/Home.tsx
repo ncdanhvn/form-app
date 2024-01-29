@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       if (user) {
         await addFormToUser(user.uid, formUid);
       }
-      navigate(`/create-new/${formUid}`);
+      navigate(`/edit/${formUid}`);
     } catch (error) {
       console.error("Failed to create new form:", error);
     } finally {

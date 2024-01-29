@@ -4,7 +4,7 @@ import CreateForm from "./pages/CreateForm";
 import Reponses from "./pages/Reponses";
 import Canvas from "./pages/Canvas";
 import Home from "./pages/Home";
-import CreateNew from "./pages/CreateNew";
+import CreateNew from "./pages/Edit";
 import LoginPage from "./pages/LoginPage";
 import AuthCheck from "./components/AuthCheck";
 import RegisterPage from "./pages/RegisterPage";
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/create-new/:formUid",
+    path: "/edit/:formUid",
     element: (
       <FormOwnerCheck>
         <CreateNew />
