@@ -1,18 +1,23 @@
 import { Button, Container, Input, Textarea, VStack } from "@chakra-ui/react";
-import { useState } from "react";
-import OneQuestion from "../components/createForm/OneQuestion";
+import { useEffect, useState } from "react";
+import OneQuestion from "./createForm/OneQuestion";
 import { InputType, Question } from "../types/question";
 import {
   loadForm,
   updateForm,
   deleteFormQuestion,
 } from "../services/formServices";
+import { Form } from "../types/form";
 
-const formUid = "H7HbmDTJOJDSDwpyENA5"; // Replace this with dynamic UID later
-const form = await loadForm(formUid);
+const EditFormContent = ({ formUid }: { formUid: string }) => {
+  const [form, setForm] = useState<Form>();
+  useEffect(() => {
+    (async () => {
+      setForm(await loadForm(formUid));
+    })();
+  }, []);
 
-const CreateForm = () => {
-  const [questions, setQuestions] = useState<Question[]>(form.questions);
+  const [questions, setQuestions] = useState<Question[]>(form?.questions ?? []);
 
   const onUpdateQuestion = (index: number, updatedQuestion: Question) => {
     const newQuestions = [...questions];
@@ -43,8 +48,8 @@ const CreateForm = () => {
     );
   };
 
-  const [title, setTitle] = useState(form.title);
-  const [description, setDescription] = useState(form.description);
+  const [title, setTitle] = useState(form?.title ?? "");
+  const [description, setDescription] = useState(form?.description ?? "");
 
   const onUploadForm = async () => {
     await updateForm(formUid, {
@@ -92,4 +97,4 @@ const CreateForm = () => {
   );
 };
 
-export default CreateForm;
+export default EditFormContent;

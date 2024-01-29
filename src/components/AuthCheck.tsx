@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import Loading from "./Loading";
 
 const AuthCheck: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const AuthCheck: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [navigate]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return <>{children}</>;

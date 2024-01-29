@@ -13,18 +13,20 @@ import {
   StepStatus,
   StepTitle,
 } from "@chakra-ui/react";
-import AddContent from "./CreateForm";
+import EditFormContent from "../components/EditFormContent";
 import AddStyles from "./Canvas";
 import Share from "./Share";
+import { useParams } from "react-router-dom";
 
-const steps = [
-  { title: "Add Content" },
-  { title: "Styling" },
-  { title: "Share" },
-];
+const steps = [{ title: "Content" }, { title: "Styling" }, { title: "Share" }];
 
-const CreateNew: React.FC = () => {
-  const stepsComponents = [<AddContent />, <AddStyles />, <Share />];
+const EditForm: React.FC = () => {
+  const { formUid } = useParams();
+  const stepsComponents = [
+    <EditFormContent formUid={formUid!} />,
+    <AddStyles />,
+    <Share />,
+  ];
 
   const { activeStep, setActiveStep } = useSteps({
     index: 0,
@@ -77,4 +79,4 @@ const CreateNew: React.FC = () => {
   );
 };
 
-export default CreateNew;
+export default EditForm;

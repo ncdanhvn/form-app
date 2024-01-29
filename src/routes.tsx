@@ -1,19 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import Form from "./pages/Form";
-import CreateForm from "./pages/CreateForm";
-import Reponses from "./pages/Reponses";
-import Canvas from "./pages/Canvas";
-import Home from "./pages/Home";
-import CreateNew from "./pages/Edit";
-import LoginPage from "./pages/LoginPage";
 import AuthCheck from "./components/AuthCheck";
-import RegisterPage from "./pages/RegisterPage";
 import FormOwnerCheck from "./components/FormOwnerCheck";
 import Layout from "./components/Layout";
+import Canvas from "./pages/Canvas";
+import EditForm from "./pages/Edit";
+import Form from "./pages/Form";
+import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Reponses from "./pages/Reponses";
 
 const router = createBrowserRouter([
   { path: "/", element: <Form /> },
-  { path: "/createForm", element: <CreateForm /> },
   { path: "/reponses", element: <Reponses /> },
   { path: "/canvas", element: <Canvas /> },
   {
@@ -29,9 +27,11 @@ const router = createBrowserRouter([
   {
     path: "/edit/:formUid",
     element: (
-      <FormOwnerCheck>
-        <CreateNew />
-      </FormOwnerCheck>
+      <AuthCheck>
+        <FormOwnerCheck>
+          <EditForm />
+        </FormOwnerCheck>
+      </AuthCheck>
     ),
   },
   { path: "/login", element: <LoginPage /> },
