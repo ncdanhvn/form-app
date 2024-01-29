@@ -26,18 +26,16 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Center h="100vh">
-      <Box textAlign="center">
-        <Button
-          colorScheme="blue"
-          onClick={handleCreateNewClick}
-          disabled={isCreatingNewPage}
-          width="150px"
-        >
-          {isCreatingNewPage ? <Spinner size="sm" /> : "Create New"}
-        </Button>
-      </Box>
-    </Center>
+    <Box py={8}>
+      <Button
+        colorScheme="blue"
+        onClick={handleCreateNewClick}
+        disabled={isCreatingNewPage}
+        width="150px"
+      >
+        {isCreatingNewPage ? <Spinner size="sm" /> : "Create New"}
+      </Button>
+    </Box>
   );
 };
 
