@@ -46,7 +46,7 @@ const CreateMultiOptionsQuestion: React.FC<Props> = ({
   const handleOtherOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onUpdateQuestion(index, {
       ...question,
-      other: !question.inputType,
+      other: !question.other,
     });
   };
 

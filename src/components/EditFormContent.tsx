@@ -8,25 +8,32 @@ import {
   deleteFormQuestion,
 } from "../services/formServices";
 import { Form } from "../types/form";
+import useFormContentStore from "../stores/formContentStore";
 
 const EditFormContent = ({ formUid }: { formUid: string }) => {
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    questions,
+    setQuestions,
+    updateQuestion: onUpdateQuestion,
+    addQuestion,
+    deleteQuestion,
+  } = useFormContentStore();
+
   const [form, setForm] = useState<Form>();
   useEffect(() => {
     (async () => {
       setForm(await loadForm(formUid));
     })();
+    setTitle(form?.title ?? "");
+    setDescription(form?.description ?? "");
+    setQuestions(form?.questions ?? []);
   }, []);
 
-  const [questions, setQuestions] = useState<Question[]>(form?.questions ?? []);
-
-  const onUpdateQuestion = (index: number, updatedQuestion: Question) => {
-    const newQuestions = [...questions];
-    newQuestions[index] = updatedQuestion;
-    console.log(newQuestions);
-    setQuestions(newQuestions);
-  };
-
-  const addQuestion = () => {
+  const onAddQuestion = () => {
     const newQuestion: Question = {
       questionNumber: questions.length,
       question: "",
@@ -37,19 +44,14 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
       questionUid: "",
     };
 
-    setQuestions([...questions, newQuestion]);
+    addQuestion(newQuestion);
   };
 
-  const deleteQuestion = async (index: number) => {
+  const onDeleteQuestion = async (index: number) => {
     const questionUid = questions[index].questionUid;
     if (questionUid) await deleteFormQuestion(formUid, questionUid);
-    setQuestions(
-      questions.filter((_, questionIndex) => questionIndex !== index)
-    );
+    deleteQuestion(index);
   };
-
-  const [title, setTitle] = useState(form?.title ?? "");
-  const [description, setDescription] = useState(form?.description ?? "");
 
   const onUploadForm = async () => {
     await updateForm(formUid, {
@@ -83,11 +85,11 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
               index={index}
               question={question}
               onUpdateQuestion={onUpdateQuestion}
-              deleteQuestion={deleteQuestion}
+              deleteQuestion={onDeleteQuestion}
               key={index}
             />
           ))}
-          <Button onClick={addQuestion} mt={4} colorScheme="blue">
+          <Button onClick={onAddQuestion} mt={4} colorScheme="blue">
             Add Question
           </Button>
           <Button onClick={onUploadForm}>Save Form</Button>
