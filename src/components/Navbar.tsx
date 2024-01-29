@@ -24,22 +24,17 @@ const Navbar: React.FC = () => {
 
   return (
     <Flex as="nav" justify="space-between" align="center" padding="1.5rem">
-      {/* App Logo */}
       <Image src="/path-to-your-logo.png" alt="App Logo" />
 
-      {/* Navigation Links */}
       <Flex align="center">
         {user ? (
-          <>
-            {/* User Menu */}
-            <Menu>
-              <MenuButton as={Avatar} name={username}></MenuButton>
-              <MenuList>
-                <MenuItem>Hi {username}</MenuItem>
-                <MenuItem onClick={logout}>Logout</MenuItem>
-              </MenuList>
-            </Menu>
-          </>
+          <Menu>
+            <MenuButton as={Avatar} name={username}></MenuButton>
+            <MenuList>
+              <MenuItem>Hi {username}</MenuItem>
+              <MenuItem onClick={logout}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
         ) : (
           <>
             {/* Register and Login Links */}
