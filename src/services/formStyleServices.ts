@@ -10,6 +10,7 @@ export const saveFormStyles = async (
   formStyles: FormStyles
 ): Promise<void> => {
   try {
+    console.log("save form: ", formUid, formStyles);
     await setDoc(doc(firestore, collectionName, formUid), formStyles);
     console.log("Form styles saved successfully");
   } catch (error) {

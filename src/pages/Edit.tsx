@@ -12,6 +12,7 @@ import {
   StepSeparator,
   StepStatus,
   StepTitle,
+  background,
 } from "@chakra-ui/react";
 import EditFormContent from "../components/EditFormContent";
 import AddStyles from "./Canvas";
@@ -19,6 +20,13 @@ import Share from "./Share";
 import { useParams } from "react-router-dom";
 import useFormContentStore from "../stores/formContentStore";
 import { updateForm } from "../services/formServices";
+import useCanvasStore from "../stores/canvasStore";
+import useButtonToolbarStore from "../stores/toolbarStore/buttonToolbarStore";
+import useDescriptionToolbarStore from "../stores/toolbarStore/descriptionToolbarStore";
+import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
+import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
+import { FormStyles } from "../types/formStyles";
+import { saveFormStyles } from "../services/formStyleServices";
 
 const steps = [{ title: "Content" }, { title: "Styling" }, { title: "Share" }];
 
@@ -26,7 +34,7 @@ const EditForm: React.FC = () => {
   const { formUid } = useParams();
   const stepsComponents = [
     <EditFormContent formUid={formUid!} />,
-    <AddStyles />,
+    <AddStyles formUid={formUid!} />,
     <Share />,
   ];
 
@@ -46,10 +54,62 @@ const EditForm: React.FC = () => {
     console.log("Loaded form content to db", title);
   };
 
+  const canvasStore = useCanvasStore();
+  const titleToolbar = useTitleToolbarStore();
+  const descriptionToolbar = useDescriptionToolbarStore();
+  const questionsToolbar = useQuestionToolbarStore();
+  const buttonToolbar = useButtonToolbarStore();
+  const formStyles: FormStyles = {
+    background: {
+      type: canvasStore.background.type,
+      color: canvasStore.background.color,
+      image: canvasStore.background.image,
+    },
+    titleBgColor: canvasStore.title.backgroundColor,
+    titleText: {
+      bold: titleToolbar.bold,
+      italic: titleToolbar.italic,
+      underline: titleToolbar.underline,
+      align: titleToolbar.align,
+      color: titleToolbar.textColor,
+      font: titleToolbar.fontFamily,
+      size: titleToolbar.fontSize,
+    },
+    descriptionText: {
+      bold: descriptionToolbar.bold,
+      italic: descriptionToolbar.italic,
+      underline: descriptionToolbar.underline,
+      align: descriptionToolbar.align,
+      color: descriptionToolbar.textColor,
+      font: descriptionToolbar.fontFamily,
+      size: descriptionToolbar.fontSize,
+    },
+    questionsText: {
+      bold: questionsToolbar.bold,
+      italic: questionsToolbar.italic,
+      underline: questionsToolbar.underline,
+      align: questionsToolbar.align,
+      color: questionsToolbar.textColor,
+      font: questionsToolbar.fontFamily,
+      size: questionsToolbar.fontSize,
+    },
+    buttonBgColor: canvasStore.submitButton.bgColor,
+    buttonText: {
+      bold: buttonToolbar.bold,
+      italic: buttonToolbar.italic,
+      underline: buttonToolbar.underline,
+      align: buttonToolbar.align,
+      color: buttonToolbar.textColor,
+      font: buttonToolbar.fontFamily,
+      size: buttonToolbar.fontSize,
+    },
+  };
+
   useEffect(() => {
     // At last step
     if (activeStep == steps.length - 1) {
       uploadForm();
+      saveFormStyles(formUid!, formStyles);
     }
   }, [activeStep]);
 

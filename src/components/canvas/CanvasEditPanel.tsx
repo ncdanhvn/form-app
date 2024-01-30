@@ -26,10 +26,10 @@ import TitleAccordion from "./TitleAccordion";
 
 interface Props {
   formUid: string;
-  setIsFinishLoadingStyle: () => void;
+  setIsLoadingFormStyle: (isLoading: boolean) => void;
 }
 
-const CanvasEditPanel = ({ formUid, setIsFinishLoadingStyle }: Props) => {
+const CanvasEditPanel = ({ formUid, setIsLoadingFormStyle }: Props) => {
   const { background, submitButton, title } = useCanvasStore();
   const titleToolbar = useTitleToolbarStore();
   const descriptionToolbar = useDescriptionToolbarStore();
@@ -85,9 +85,9 @@ const CanvasEditPanel = ({ formUid, setIsFinishLoadingStyle }: Props) => {
   // Get form styles if it exists
   const loadFormStylesData = async () => {
     try {
+      console.log("loadFormStylesData", formUid);
       const styles = await loadFormStyles(formUid);
       setFormStyles(styles);
-      setIsFinishLoadingStyle();
     } catch (err) {
       console.log("Form styles doesn't exist yet, load the default one");
     }
@@ -122,7 +122,9 @@ const CanvasEditPanel = ({ formUid, setIsFinishLoadingStyle }: Props) => {
   };
 
   useEffect(() => {
+    setIsLoadingFormStyle(true);
     loadFormStylesData();
+    setIsLoadingFormStyle(false);
   }, []);
 
   return (
