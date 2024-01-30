@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { Badge, Box, Button, IconButton, Image, Text } from "@chakra-ui/react";
 import Excel from "exceljs";
 import { saveAs } from "file-saver";
-import {
-  Box,
-  Image,
-  Text,
-  Button,
-  Link,
-  Badge,
-  Spinner,
-  IconButton,
-} from "@chakra-ui/react";
-import { Form } from "../types/form";
 import moment from "moment";
-import { collection, getDoc } from "firebase/firestore";
-import { firestore } from "../firebaseConfig";
+import { useEffect, useState } from "react";
 import { loadSubmissions } from "../services/submissionServices";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { Form } from "../types/form";
+import { useNavigate } from "react-router-dom";
 
 const FormRow = ({ form }: { form: Form }) => {
   const [responseCount, setResponseCount] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [submissions, setSubmissions] = useState<any>([]);
+  const navigate = useNavigate();
+
   const createdAtFormatted = moment(form.createdAt.toDate()).fromNow();
 
   useEffect(() => {
@@ -41,6 +33,10 @@ const FormRow = ({ form }: { form: Form }) => {
     setIsDownloading(true);
     await createExcelFile(form, submissions); // Replace with your actual download function
     setIsDownloading(false);
+  };
+
+  const handleEdit = () => {
+    navigate(`/edit/${form.uid}`);
   };
 
   return (
@@ -91,7 +87,7 @@ const FormRow = ({ form }: { form: Form }) => {
           Questions: {form.questions.length}
         </Text>
       </Box>
-      <Button marginRight="4" colorScheme="blue">
+      <Button marginRight="4" colorScheme="blue" onClick={handleEdit}>
         Edit
       </Button>
       <Button onClick={handleDownload} marginRight="4" disabled={isDownloading}>
