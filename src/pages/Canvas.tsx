@@ -1,38 +1,24 @@
 import { Box, Button, Container, Flex, VStack } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
 import CanvasEditPanel from "../components/canvas/CanvasEditPanel"; // Import the CanvasEditPanel component
 import useCanvasStore from "../stores/canvasStore";
 
-import FormTitleCanvas from "../components/canvas/FormTitleCanvas";
-import { FormHeader } from "../components/form/FormHeader";
-import { loadForm } from "../services/formServices";
-import { Form as FormType } from "../types/form";
+import html2canvas from "html2canvas";
+import FormButtonCanvas from "../components/canvas/FormButtonCanvas";
 import FormDescriptionCanvas from "../components/canvas/FormDescriptionCanvas";
 import FormQuestionsCanvas from "../components/canvas/FormQuestionsCanvas";
+import FormTitleCanvas from "../components/canvas/FormTitleCanvas";
+import { FormHeader } from "../components/form/FormHeader";
+import useFormContentStore from "../stores/formContentStore";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
-import FormButtonCanvas from "../components/canvas/FormButtonCanvas";
-import html2canvas from "html2canvas";
+import { useState } from "react";
 
-const formUid = "H7HbmDTJOJDSDwpyENA5";
+const Canvas = ({ formUid }: { formUid: string }) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-const Canvas: React.FC = () => {
+  const { title, description, questions } = useFormContentStore();
+
   const { background } = useCanvasStore();
   const { align } = useQuestionToolbarStore();
-
-  // Get form from db to display
-  const [form, setForm] = useState<FormType>();
-
-  useEffect(() => {
-    const fetchForm = async () => {
-      try {
-        const form = await loadForm(formUid);
-        setForm(form);
-      } catch (error) {
-        console.error("Error loading form: ", error);
-      }
-    };
-    fetchForm();
-  }, [formUid]);
 
   const onExport = async () => {
     const formElement = document.getElementById("targetCanvas");
@@ -48,8 +34,8 @@ const Canvas: React.FC = () => {
   };
 
   return (
-    form && (
-      <>
+    <>
+      {isLoading && (
         <Flex>
           <Box
             flex={1}
@@ -69,8 +55,8 @@ const Canvas: React.FC = () => {
               <VStack spacing={0}>
                 <FormHeader />
                 <VStack w={"100%"} spacing={0} mb={8}>
-                  <FormTitleCanvas title={form!.title} />
-                  <FormDescriptionCanvas description={form!.description} />
+                  <FormTitleCanvas title={title} />
+                  <FormDescriptionCanvas description={description} />
                   <Box
                     display={"flex"}
                     justifyContent={align}
@@ -78,7 +64,7 @@ const Canvas: React.FC = () => {
                     px={8}
                     py={4}
                   >
-                    <FormQuestionsCanvas questions={form!.questions} />
+                    <FormQuestionsCanvas questions={questions} />
                   </Box>
                   <FormButtonCanvas />
                 </VStack>
@@ -87,12 +73,15 @@ const Canvas: React.FC = () => {
           </Box>
           <Box width="300px" flexShrink={0} height="100vh"></Box>
         </Flex>
-        <CanvasEditPanel formUid={formUid} />
-        <Box position={"absolute"} zIndex={10} left={10} top={10}>
-          <Button onClick={() => onExport()}>Export As JPEG</Button>
-        </Box>
-      </>
-    )
+      )}
+      <CanvasEditPanel
+        formUid={formUid}
+        setIsFinishLoadingStyle={() => setIsLoading(true)}
+      />
+      <Box position={"absolute"} zIndex={10} left={10} top={10}>
+        <Button onClick={() => onExport()}>Export As JPEG</Button>
+      </Box>
+    </>
   );
 };
 

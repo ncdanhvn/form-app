@@ -26,9 +26,10 @@ import TitleAccordion from "./TitleAccordion";
 
 interface Props {
   formUid: string;
+  setIsFinishLoadingStyle: () => void;
 }
 
-const CanvasEditPanel = ({ formUid }: Props) => {
+const CanvasEditPanel = ({ formUid, setIsFinishLoadingStyle }: Props) => {
   const { background, submitButton, title } = useCanvasStore();
   const titleToolbar = useTitleToolbarStore();
   const descriptionToolbar = useDescriptionToolbarStore();
@@ -86,8 +87,9 @@ const CanvasEditPanel = ({ formUid }: Props) => {
     try {
       const styles = await loadFormStyles(formUid);
       setFormStyles(styles);
+      setIsFinishLoadingStyle();
     } catch (err) {
-      console.error("Form styles doesn't exist");
+      console.log("Form styles doesn't exist yet, load the default one");
     }
   };
 
@@ -133,7 +135,7 @@ const CanvasEditPanel = ({ formUid }: Props) => {
       bg="white"
       boxShadow="md"
     >
-      <Accordion allowToggle defaultIndex={[0]}>
+      <Accordion allowToggle>
         <AccordionItem>
           <AccordionButton>
             <Box flex="1" textAlign="left">

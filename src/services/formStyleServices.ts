@@ -13,7 +13,7 @@ export const saveFormStyles = async (
     await setDoc(doc(firestore, collectionName, formUid), formStyles);
     console.log("Form styles saved successfully");
   } catch (error) {
-    console.error("Error saving form styles: ", error);
+    // console.error("Error saving form styles: ", error);
     throw error;
   }
 };
@@ -29,7 +29,6 @@ export const loadFormStyles = async (formUid: string): Promise<FormStyles> => {
       throw new Error(`No form found with ID ${formUid}`);
     }
   } catch (error) {
-    console.error("Error loading form styles: ", error);
     throw error; // Rethrow the error for handling by the caller
   }
 };
