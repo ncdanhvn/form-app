@@ -13,14 +13,11 @@ import Reponses from "./pages/Reponses";
 const router = createBrowserRouter([
   { path: "/", element: <Form /> },
   { path: "/reponses", element: <Reponses /> },
-  { path: "/canvas", element: <Canvas /> },
   {
     path: "/home",
     element: (
       <AuthCheck>
-        <Layout>
-          <Home />
-        </Layout>
+        <Home />
       </AuthCheck>
     ),
   },
