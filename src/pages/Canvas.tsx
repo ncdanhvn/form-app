@@ -2,14 +2,14 @@ import { Box, Button, Container, Flex, VStack } from "@chakra-ui/react";
 import CanvasEditPanel from "../components/canvas/CanvasEditPanel"; // Import the CanvasEditPanel component
 import useCanvasStore from "../stores/canvasStore";
 
-import html2canvas from "html2canvas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import FormButtonCanvas from "../components/canvas/FormButtonCanvas";
 import FormDescriptionCanvas from "../components/canvas/FormDescriptionCanvas";
 import FormQuestionsCanvas from "../components/canvas/FormQuestionsCanvas";
 import FormTitleCanvas from "../components/canvas/FormTitleCanvas";
 import { FormHeader } from "../components/form/FormHeader";
+import { onExport } from "../services/canvasServices";
 import useFormContentStore from "../stores/formContentStore";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 
@@ -19,19 +19,6 @@ const Canvas = ({ formUid }: { formUid: string }) => {
   const { align } = useQuestionToolbarStore();
 
   const [isLoading, setIsLoading] = useState(isFetched ? false : true);
-
-  const onExport = async () => {
-    const formElement = document.getElementById("targetCanvas");
-
-    const canvasImage = await html2canvas(formElement!, {
-      onclone: (_, element) => {
-        if (element) element.scrollTop = 0;
-      },
-      windowWidth: 1100,
-    });
-    const image = canvasImage.toDataURL("image/png");
-    downloadThumbnail(image, "myFormThumbnail.png");
-  };
 
   return (
     <>
@@ -80,20 +67,11 @@ const Canvas = ({ formUid }: { formUid: string }) => {
       </Flex>
 
       <CanvasEditPanel formUid={formUid} setIsLoadingFormStyle={setIsLoading} />
-      <Box position={"absolute"} zIndex={10} left={10} top={10}>
+      {/* <Box position={"absolute"} zIndex={10} left={10} top={10}>
         <Button onClick={() => onExport()}>Export As JPEG</Button>
-      </Box>
+      </Box> */}
     </>
   );
 };
 
 export default Canvas;
-
-const downloadThumbnail = (imageDataUrl, filename = "thumbnail.png") => {
-  const link = document.createElement("a");
-  link.href = imageDataUrl;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
