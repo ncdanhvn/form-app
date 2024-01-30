@@ -10,6 +10,9 @@ import { loadForm } from "../services/formServices";
 import { Form as FormType } from "../types/form";
 import { Answer } from "../types/answer";
 import { useParams } from "react-router-dom";
+import Loading from "../components/Loading";
+import useCanvasStore from "../stores/canvasStore";
+import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 
 const Form = () => {
   const { formUid } = useParams();
@@ -62,43 +65,51 @@ const Form = () => {
     }
   };
 
-  return (
-    <div>
-      {form && (
-        <Box
-          bgImage="./images/party-invitation-bg.webp"
-          height="100vh"
-          width="100vw"
-          bgPosition="center"
-          bgRepeat="no-repeat"
-          bgSize="cover"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
-            <VStack gap={0}>
-              <FormHeader />
-              <VStack w={"100%"} gap={4} mb={8}>
-                <FormTitle title={form.title} />
-                <FormDescription description={form.description} />
-                <form onSubmit={handleSubmit}>
-                  <FormQuestions
-                    handleAnswerChange={handleAnswerChange}
-                    questions={form.questions}
-                  />
-                  <Flex justifyContent="center" width="full" mt={8}>
-                    <Button colorScheme="pink" type="submit">
-                      Submit
-                    </Button>
-                  </Flex>
-                </form>
-              </VStack>
-            </VStack>
-          </Container>
-        </Box>
-      )}
-    </div>
+  const { background } = useCanvasStore();
+  const { align } = useQuestionToolbarStore();
+
+  return !form ? (
+    <Loading />
+  ) : (
+    <Box
+      height="100vh"
+      width="100vw"
+      {...(background.type === "color"
+        ? { bg: background.color }
+        : { bgImage: background.image })}
+      bgPosition="center"
+      bgRepeat="no-repeat"
+      bgSize="cover"
+      overflow={"auto"}
+      py={16}
+    >
+      <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
+        <VStack spacing={0}>
+          <FormHeader />
+          <VStack w={"100%"} spacing={0} mb={8}>
+            <FormTitle title={form.title} />
+            <FormDescription description={form.description} />
+            <Box
+              display={"flex"}
+              justifyContent={align}
+              w={"100%"}
+              px={8}
+              py={4}
+            >
+              <FormQuestions
+                handleAnswerChange={handleAnswerChange}
+                questions={form!.questions}
+              />
+            </Box>
+            <Flex justifyContent="center" width="full" mt={8}>
+              <Button colorScheme="pink" type="submit">
+                Submit
+              </Button>
+            </Flex>
+          </VStack>
+        </VStack>
+      </Container>
+    </Box>
   );
 };
 
