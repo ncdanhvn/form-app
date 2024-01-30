@@ -95,19 +95,18 @@ const FormRow = ({ form }: { form: Form }) => {
         Edit
       </Button>
       <Button onClick={handleDownload} marginRight="4" disabled={isDownloading}>
-        {isDownloading ? <Spinner size="sm" /> : `Response Sheet`}
-        {responseCount !== null && (
-          <Badge
-            ml="2"
-            colorScheme="green"
-            fontSize="0.8em"
-            py="1"
-            px="2"
-            borderRadius="lg"
-          >
-            {responseCount}
-          </Badge>
-        )}
+        {/* {isDownloading ? <Spinner size="sm" /> : `Response Sheet`} */}
+        Response Sheet
+        <Badge
+          ml="2"
+          colorScheme="green"
+          fontSize="0.8em"
+          py="1"
+          px="2"
+          borderRadius="lg"
+        >
+          {responseCount}
+        </Badge>
       </Button>
     </Box>
   );
