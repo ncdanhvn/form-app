@@ -1,41 +1,26 @@
 import React, { useState } from "react";
-import { Box, Button, Center, Spinner } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { createNewForm } from "../services/formServices";
-import { addFormToUser } from "../services/userServices";
-import { auth } from "../firebaseConfig";
+import { Box, Flex } from "@chakra-ui/react";
+import Sidebar from "../components/Sidebar";
+import MyForms from "../components/MyForms";
+import Community from "../components/Community";
 
-const Home: React.FC = () => {
-  const [isCreatingNewPage, setIsCreatingNewPage] = useState(false);
-  const navigate = useNavigate();
+const sidebarWidth = 260;
 
-  const handleCreateNewClick = async () => {
-    setIsCreatingNewPage(true);
-    try {
-      const formUid = await createNewForm();
-      const user = auth.currentUser;
-      if (user) {
-        await addFormToUser(user.uid, formUid);
-      }
-      navigate(`/edit/${formUid}`);
-    } catch (error) {
-      console.error("Failed to create new form:", error);
-    } finally {
-      setIsCreatingNewPage(false);
-    }
-  };
+const Home = () => {
+  const [activeTab, setActiveTab] = useState("MyForms");
 
   return (
-    <Box py={8}>
-      <Button
-        colorScheme="blue"
-        onClick={handleCreateNewClick}
-        disabled={isCreatingNewPage}
-        width="150px"
-      >
-        {isCreatingNewPage ? <Spinner size="sm" /> : "Create New"}
-      </Button>
-    </Box>
+    <Flex>
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        width={sidebarWidth}
+      />
+      <Box flex="1" overflowY="auto" ml={sidebarWidth}>
+        {activeTab === "MyForms" && <MyForms />}
+        {activeTab === "Community" && <Community />}
+      </Box>
+    </Flex>
   );
 };
 

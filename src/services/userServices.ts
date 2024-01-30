@@ -22,3 +22,20 @@ export const getUserFormsList = async () => {
     throw new Error("User document does not exist");
   }
 };
+
+export const getUsername = async (userUid: string) => {
+  try {
+    const userRef = doc(firestore, "users", userUid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      return userSnap.data().username;
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching username:", error);
+    return null;
+  }
+};
