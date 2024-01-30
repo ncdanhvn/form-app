@@ -48,10 +48,10 @@ const ShareForm: React.FC<Props> = ({ formUid }) => {
       <ListItem>
         <HStack justifyContent="left" alignItems="center" spacing={4}>
           <Text fontSize="md">You can share Form at this URL:</Text>
-          <Link href={url} color="teal.500" fontWeight="bold" isExternal>
+          <Link href={url} color="blue.500" fontWeight="bold" isExternal>
             {url}
           </Link>
-          <Button px={4} onClick={handleCopy} colorScheme="teal" size="sm">
+          <Button px={4} onClick={handleCopy} colorScheme="blue" size="sm">
             {hasCopied ? "Copied" : "Copy URL"}
           </Button>
         </HStack>
@@ -62,7 +62,7 @@ const ShareForm: React.FC<Props> = ({ formUid }) => {
           <FormLabel htmlFor="share-toggle" mb="0">
             Share to Community
           </FormLabel>
-          <Switch id="share-toggle" colorScheme="teal" />
+          <Switch id="share-toggle" colorScheme="blue" />
         </FormControl>
       </ListItem>
     </List>
