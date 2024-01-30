@@ -1,6 +1,7 @@
 import React from "react";
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { Question } from "../../types/question";
+import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
 
 interface DropdownQuestionProps {
   question: Question;
@@ -11,12 +12,25 @@ export const DropdownQuestion: React.FC<DropdownQuestionProps> = ({
   question,
   onChange,
 }) => {
+  const { bold, italic, underline, textColor, fontFamily, fontSize } =
+    useQuestionToolbarStore();
+
   return (
     <FormControl>
-      <FormLabel fontWeight={600}>{question.question}</FormLabel>
+      <FormLabel
+        fontSize={`${fontSize}`}
+        fontFamily={`${fontFamily}, sans-serif`}
+        fontWeight={bold ? "bold" : "normal"}
+        fontStyle={italic ? "italic" : "normal"}
+        textDecoration={underline ? "underline" : "normal"}
+        color={textColor}
+      >
+        {question.question}
+      </FormLabel>
       <Select
         placeholder="Select option"
         onChange={(e) => onChange(e.target.value)}
+        px={2}
       >
         {question.options.map((option, index) => (
           <option key={index} value={option}>

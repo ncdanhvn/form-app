@@ -6,35 +6,6 @@ import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import { ParagraphQuestion } from "./ParagraphQuestion";
 import { ShortAnswerQuestion } from "./ShortAnswerQuestion";
 
-// const questions = [
-//   {
-//     question: "Question example here",
-//     inputType: "checkbox",
-//     options: ["Option 1", "Option 2", "Option 3", "Other"],
-//   },
-//   {
-//     question: "What is your meal preference?",
-//     inputType: "multiple-choice",
-//     options: ["Vegetarian", "Vegan", "Non-Vegetarian", "Gluten-Free", "Other"],
-//   },
-//   {
-//     question: "What is your meal preference?",
-//     inputType: "dropdown",
-//     options: ["Vegetarian", "Vegan", "Non-Vegetarian", "Gluten-Free"],
-//   },
-//   {
-//     question: "Example of short answer question?",
-//     inputType: "short-answer",
-//     options: [],
-//   },
-//   {
-//     question: "Example of paragraph question?",
-//     inputType: "paragraph",
-//     options: [],
-//   },
-//   // You can add more questions here
-// ];
-
 interface Props {
   questions: Question[];
   handleAnswerChange: (

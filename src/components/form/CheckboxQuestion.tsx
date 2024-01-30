@@ -8,6 +8,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import { Question } from "../../types/question";
+import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
 
 interface CheckboxQuestionProps {
   question: Question;
@@ -38,13 +39,25 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
     onAnswerValueChange(newSelectedOptions);
   };
 
+  const { bold, italic, underline, textColor, fontFamily, fontSize } =
+    useQuestionToolbarStore();
+
   return (
     <FormControl>
-      <FormLabel fontWeight={600}>{question.question}</FormLabel>
+      <FormLabel
+        fontSize={`${fontSize}`}
+        fontFamily={`${fontFamily}, sans-serif`}
+        fontWeight={bold ? "bold" : "normal"}
+        fontStyle={italic ? "italic" : "normal"}
+        textDecoration={underline ? "underline" : "normal"}
+        color={textColor}
+      >
+        {question.question}
+      </FormLabel>
       <CheckboxGroup value={selectedOptions} onChange={handleCheckboxChange}>
         <Stack direction="column">
           {question.options.map((option, index) => (
-            <Checkbox key={index} value={option}>
+            <Checkbox key={index} value={option} px={2}>
               {option}
             </Checkbox>
           ))}

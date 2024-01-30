@@ -23,7 +23,7 @@ const ParagraphQuestionCanvas: React.FC<Props> = ({ question }) => {
       >
         {question.question}
       </FormLabel>
-      <Textarea />
+      <Textarea mx={2} />
     </FormControl>
   );
 };

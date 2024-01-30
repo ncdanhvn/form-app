@@ -1,6 +1,7 @@
 import React from "react";
 import { FormControl, FormLabel, Textarea } from "@chakra-ui/react";
 import { Question } from "../../types/question";
+import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
 
 interface ParagraphQuestionProps {
   question: Question;
@@ -11,10 +12,22 @@ export const ParagraphQuestion: React.FC<ParagraphQuestionProps> = ({
   question,
   onChange,
 }) => {
+  const { bold, italic, underline, textColor, fontFamily, fontSize } =
+    useQuestionToolbarStore();
+
   return (
     <FormControl>
-      <FormLabel fontWeight={600}>{question.question}</FormLabel>
-      <Textarea onChange={(e) => onChange(e.target.value)} />
+      <FormLabel
+        fontSize={`${fontSize}`}
+        fontFamily={`${fontFamily}, sans-serif`}
+        fontWeight={bold ? "bold" : "normal"}
+        fontStyle={italic ? "italic" : "normal"}
+        textDecoration={underline ? "underline" : "normal"}
+        color={textColor}
+      >
+        {question.question}
+      </FormLabel>
+      <Textarea mx={2} onChange={(e) => onChange(e.target.value)} />
     </FormControl>
   );
 };

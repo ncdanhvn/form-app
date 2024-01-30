@@ -8,13 +8,14 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import { Question } from "../../types/question";
+import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
 
-interface MultipleChoiceQuestionProps {
+interface Props {
   question: Question;
   onAnswerValueChange: (newAnswerValue: string) => void;
 }
 
-export const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
+export const MultipleChoiceQuestion: React.FC<Props> = ({
   question,
   onAnswerValueChange,
 }) => {
@@ -35,13 +36,25 @@ export const MultipleChoiceQuestion: React.FC<MultipleChoiceQuestionProps> = ({
     onAnswerValueChange(event.target.value);
   };
 
+  const { bold, italic, underline, textColor, fontFamily, fontSize } =
+    useQuestionToolbarStore();
+
   return (
     <FormControl>
-      <FormLabel fontWeight={600}>{question.question}</FormLabel>
+      <FormLabel
+        fontSize={`${fontSize}`}
+        fontFamily={`${fontFamily}, sans-serif`}
+        fontWeight={bold ? "bold" : "normal"}
+        fontStyle={italic ? "italic" : "normal"}
+        textDecoration={underline ? "underline" : "normal"}
+        color={textColor}
+      >
+        {question.question}
+      </FormLabel>
       <RadioGroup onChange={handleSelectionChange} value={answerValue}>
         <Stack direction="column">
           {question.options.map((option, index) => (
-            <Radio key={index} value={option}>
+            <Radio key={index} value={option} px={2}>
               {option}
             </Radio>
           ))}
