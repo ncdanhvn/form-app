@@ -7,4 +7,5 @@ export interface Form {
   questions: Question[];
   createdAt: Timestamp;
   formThumbnailUrl: string;
+  timesOfCopies: number;
 }

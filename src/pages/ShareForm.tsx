@@ -39,6 +39,7 @@ const ShareForm: React.FC<Props> = ({ formUid }) => {
       // Update the form's isSharedToCommunity field
       await updateDoc(formRef, {
         isSharedToCommunity: newSharedStatus,
+        timesOfCopies: 0,
       });
 
       // Update the sharedFormList
