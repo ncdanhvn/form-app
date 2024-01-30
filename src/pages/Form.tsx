@@ -9,20 +9,10 @@ import { saveAnswers } from "../services/submissionServices";
 import { loadForm } from "../services/formServices";
 import { Form as FormType } from "../types/form";
 import { Answer } from "../types/answer";
-
-const formUid = "H7HbmDTJOJDSDwpyENA5";
+import { useParams } from "react-router-dom";
 
 const Form = () => {
-  const [boxHeight, setBoxHeight] = useState("100vh");
-  const parentRef = useRef<HTMLDivElement>(null);
-  const updateHeight = () => {
-    if (parentRef.current) {
-      const parentHeight = parentRef.current.getBoundingClientRect().height;
-      const viewportHeight = window.innerHeight;
-
-      setBoxHeight(viewportHeight > parentHeight ? "100vh" : "100%");
-    }
-  };
+  const { formUid } = useParams();
 
   // Get form from db to display
   const [form, setForm] = useState<FormType>();
@@ -31,8 +21,10 @@ const Form = () => {
   useEffect(() => {
     const fetchForm = async () => {
       try {
-        const form = await loadForm(formUid);
+        const form = await loadForm(formUid!);
         setForm(form);
+
+        // Init the answers
         if (form)
           setAnswers(
             form.questions.map(
@@ -63,7 +55,7 @@ const Form = () => {
     event.preventDefault();
 
     try {
-      await saveAnswers(formUid, answers);
+      await saveAnswers(formUid!, answers);
       console.log("Answers saved successfully");
     } catch (error) {
       console.error("Error saving answers: ", error);
@@ -71,11 +63,11 @@ const Form = () => {
   };
 
   return (
-    <div ref={parentRef}>
+    <div>
       {form && (
         <Box
           bgImage="./images/party-invitation-bg.webp"
-          height={boxHeight}
+          height="100vh"
           width="100vw"
           bgPosition="center"
           bgRepeat="no-repeat"

@@ -11,7 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Reponses from "./pages/Reponses";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Form /> },
+  { path: "/forms/:formUid", element: <Form /> },
   { path: "/reponses", element: <Reponses /> },
   {
     path: "/home",
