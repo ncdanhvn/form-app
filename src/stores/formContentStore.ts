@@ -3,6 +3,8 @@ import { Question } from "../types/question";
 import { loadForm } from "../services/formServices";
 
 interface FormContentStore {
+  isFetched: boolean;
+
   title: string;
   setTitle: (title: string) => void;
 
@@ -15,10 +17,12 @@ interface FormContentStore {
   updateQuestion: (index: number, updatedQuestion: Question) => void;
   deleteQuestion: (index: number) => void;
 
-  fetchForm: (formUid: string) => void;
+  fetchForm: (formUid: string) => Promise<void>;
 }
 
 const useFormContentStore = create<FormContentStore>((set) => ({
+  isFetched: false,
+
   title: "",
   setTitle: (title: string) => set(() => ({ title })),
 
@@ -44,7 +48,7 @@ const useFormContentStore = create<FormContentStore>((set) => ({
 
   fetchForm: async (formUid) => {
     const { title, description, questions } = await loadForm(formUid);
-    set(() => ({ title, description, questions }));
+    set(() => ({ title, description, questions, isFetched: true }));
   },
 }));
 

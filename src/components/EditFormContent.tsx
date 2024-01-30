@@ -8,6 +8,7 @@ import OneQuestion from "./createForm/OneQuestion";
 
 const EditFormContent = ({ formUid }: { formUid: string }) => {
   const {
+    isFetched,
     title,
     setTitle,
     description,
@@ -28,7 +29,7 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
       await fetchForm(formUid);
       setIsLoading(false);
     };
-    loadFormOnMounted();
+    if (!isFetched) loadFormOnMounted();
 
     return () => controller.abort();
   }, []);
