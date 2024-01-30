@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Question } from "../types/question";
+import { loadForm } from "../services/formServices";
 
 interface FormContentStore {
   title: string;
@@ -13,6 +14,8 @@ interface FormContentStore {
   addQuestion: (question: Question) => void;
   updateQuestion: (index: number, updatedQuestion: Question) => void;
   deleteQuestion: (index: number) => void;
+
+  fetchForm: (formUid: string) => void;
 }
 
 const useFormContentStore = create<FormContentStore>((set) => ({
@@ -38,6 +41,11 @@ const useFormContentStore = create<FormContentStore>((set) => ({
         (_, questionIndex) => questionIndex !== index
       ),
     })),
+
+  fetchForm: async (formUid) => {
+    const { title, description, questions } = await loadForm(formUid);
+    set(() => ({ title, description, questions }));
+  },
 }));
 
 export default useFormContentStore;

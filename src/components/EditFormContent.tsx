@@ -1,14 +1,10 @@
 import { Button, Container, Input, Textarea, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import OneQuestion from "./createForm/OneQuestion";
-import { InputType, Question } from "../types/question";
-import {
-  loadForm,
-  updateForm,
-  deleteFormQuestion,
-} from "../services/formServices";
-import { Form } from "../types/form";
+import { deleteFormQuestion, updateForm } from "../services/formServices";
 import useFormContentStore from "../stores/formContentStore";
+import { InputType, Question } from "../types/question";
+import Loading from "./Loading";
+import OneQuestion from "./createForm/OneQuestion";
 
 const EditFormContent = ({ formUid }: { formUid: string }) => {
   const {
@@ -17,21 +13,35 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
     description,
     setDescription,
     questions,
-    setQuestions,
     updateQuestion: onUpdateQuestion,
     addQuestion,
     deleteQuestion,
+    fetchForm,
   } = useFormContentStore();
 
-  const [form, setForm] = useState<Form>();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    (async () => {
-      setForm(await loadForm(formUid));
-    })();
-    setTitle(form?.title ?? "");
-    setDescription(form?.description ?? "");
-    setQuestions(form?.questions ?? []);
+    const controller = new AbortController();
+
+    const loadFormOnMounted = async () => {
+      setIsLoading(true);
+      await fetchForm(formUid);
+      setIsLoading(false);
+    };
+    loadFormOnMounted();
+
+    return () => controller.abort();
   }, []);
+
+  const uploadForm = async () => {
+    await updateForm(formUid, {
+      title,
+      description,
+      questions,
+      uid: formUid,
+    });
+    console.log("Loaded form content to db", title);
+  };
 
   const onAddQuestion = () => {
     const newQuestion: Question = {
@@ -53,49 +63,48 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
     deleteQuestion(index);
   };
 
-  const onUploadForm = async () => {
-    await updateForm(formUid, {
-      title,
-      description,
-      questions,
-      uid: formUid,
-    });
-  };
-
   return (
-    <Container my={6}>
-      {/* Questions */}
-      <VStack spacing={4}>
-        <Input
-          value={title ?? ""}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Form Title"
-          mb={4}
-        />
-        <Textarea
-          value={description ?? ""}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Form Description"
-          mb={4}
-          rows={3}
-        />
-        <VStack spacing={2} width={"100%"}>
-          {questions.map((question, index) => (
-            <OneQuestion
-              index={index}
-              question={question}
-              onUpdateQuestion={onUpdateQuestion}
-              deleteQuestion={onDeleteQuestion}
-              key={index}
+    <>
+      {isLoading && <Loading />}
+      {isLoading || (
+        <Container my={6}>
+          {/* Questions */}
+          <VStack spacing={4}>
+            <Input
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                console.log(title);
+              }}
+              placeholder="Form Title"
+              mb={4}
             />
-          ))}
-          <Button onClick={onAddQuestion} mt={4} colorScheme="blue">
-            Add Question
-          </Button>
-          <Button onClick={onUploadForm}>Save Form</Button>
-        </VStack>
-      </VStack>
-    </Container>
+            <Textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Form Description"
+              mb={4}
+              rows={3}
+            />
+            <VStack spacing={2} width={"100%"}>
+              {questions.map((question, index) => (
+                <OneQuestion
+                  index={index}
+                  question={question}
+                  onUpdateQuestion={onUpdateQuestion}
+                  deleteQuestion={onDeleteQuestion}
+                  key={index}
+                />
+              ))}
+              <Button onClick={onAddQuestion} mt={4} colorScheme="blue">
+                Add Question
+              </Button>
+              <Button onClick={uploadForm}>Save Form</Button>
+            </VStack>
+          </VStack>
+        </Container>
+      )}
+    </>
   );
 };
 
