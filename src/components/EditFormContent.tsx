@@ -33,16 +33,6 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
     return () => controller.abort();
   }, []);
 
-  const uploadForm = async () => {
-    await updateForm(formUid, {
-      title,
-      description,
-      questions,
-      uid: formUid,
-    });
-    console.log("Loaded form content to db", title);
-  };
-
   const onAddQuestion = () => {
     const newQuestion: Question = {
       questionNumber: questions.length,
@@ -72,10 +62,7 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
           <VStack spacing={4}>
             <Input
               value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                console.log(title);
-              }}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Form Title"
               mb={4}
             />
@@ -96,10 +83,10 @@ const EditFormContent = ({ formUid }: { formUid: string }) => {
                   key={index}
                 />
               ))}
-              <Button onClick={onAddQuestion} mt={4} colorScheme="blue">
+              <Button onClick={onAddQuestion} mt={4}>
                 Add Question
               </Button>
-              <Button onClick={uploadForm}>Save Form</Button>
+              {/* <Button onClick={uploadForm}>Save Form</Button> */}
             </VStack>
           </VStack>
         </Container>

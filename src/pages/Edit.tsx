@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Flex,
   Box,
@@ -17,6 +17,8 @@ import EditFormContent from "../components/EditFormContent";
 import AddStyles from "./Canvas";
 import Share from "./Share";
 import { useParams } from "react-router-dom";
+import useFormContentStore from "../stores/formContentStore";
+import { updateForm } from "../services/formServices";
 
 const steps = [{ title: "Content" }, { title: "Styling" }, { title: "Share" }];
 
@@ -32,6 +34,24 @@ const EditForm: React.FC = () => {
     index: 0,
     count: steps.length,
   });
+
+  const { title, questions, description } = useFormContentStore();
+  const uploadForm = async () => {
+    await updateForm(formUid!, {
+      title,
+      description,
+      questions,
+      uid: formUid!,
+    });
+    console.log("Loaded form content to db", title);
+  };
+
+  useEffect(() => {
+    // At last step
+    if (activeStep == steps.length - 1) {
+      uploadForm();
+    }
+  }, [activeStep]);
 
   return (
     <>
