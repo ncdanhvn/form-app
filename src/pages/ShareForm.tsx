@@ -1,13 +1,17 @@
-import React, { useState } from "react";
 import {
-  Box,
   Button,
-  Text,
-  useToast,
-  Flex,
-  Center,
+  FormControl,
+  FormLabel,
   HStack,
+  Link,
+  List,
+  ListItem,
+  Switch,
+  Text,
+  useClipboard,
+  useToast,
 } from "@chakra-ui/react";
+import React from "react";
 
 const formUrlPrefix = import.meta.env.VITE_FORM_PREFIX_URL;
 
@@ -16,11 +20,13 @@ interface Props {
 }
 
 const ShareForm: React.FC<Props> = ({ formUid }) => {
+  const url = `${formUrlPrefix}${formUid}`;
+  const { hasCopied, onCopy } = useClipboard(url);
   const toast = useToast();
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(formUid);
+      await navigator.clipboard.writeText(url);
       toast({
         title: "Copied to clipboard",
         status: "success",
@@ -38,22 +44,28 @@ const ShareForm: React.FC<Props> = ({ formUid }) => {
   };
 
   return (
-    <HStack mt={8} justifyContent={"center"} alignItems={"center"} spacing={2}>
-      <Text>You can share Form at this URL: </Text>
-      <Text color="teal.500" fontWeight="bold">
-        {`${formUrlPrefix}${formUid}`}
-      </Text>
-      <Button
-        px={2}
-        onClick={handleCopy}
-        color={"gray.500"}
-        fontStyle={"oblique"}
-        fontWeight={"normal"}
-        variant={"ghost"}
-      >
-        copy URL
-      </Button>
-    </HStack>
+    <List spacing={4} mt={8} mx={8}>
+      <ListItem>
+        <HStack justifyContent="left" alignItems="center" spacing={4}>
+          <Text fontSize="md">You can share Form at this URL:</Text>
+          <Link href={url} color="teal.500" fontWeight="bold" isExternal>
+            {url}
+          </Link>
+          <Button px={4} onClick={handleCopy} colorScheme="teal" size="sm">
+            {hasCopied ? "Copied" : "Copy URL"}
+          </Button>
+        </HStack>
+      </ListItem>
+
+      <ListItem>
+        <FormControl display="flex" alignItems="center">
+          <FormLabel htmlFor="share-toggle" mb="0">
+            Share to Community
+          </FormLabel>
+          <Switch id="share-toggle" colorScheme="teal" />
+        </FormControl>
+      </ListItem>
+    </List>
   );
 };
 
