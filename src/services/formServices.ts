@@ -80,7 +80,7 @@ export const loadForm = async (formUid: string): Promise<Form> => {
 
     questions.sort((a, b) => a.questionNumber - b.questionNumber);
     // Combine form data with questions
-    return { ...formData, questions } as Form;
+    return { ...formData, questions, uid: formUid } as Form;
   } catch (error) {
     console.error("Error loading form: ", error);
     throw error;
