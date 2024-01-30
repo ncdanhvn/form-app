@@ -14,12 +14,11 @@ import useFormContentStore from "../stores/formContentStore";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 
 const Canvas = ({ formUid }: { formUid: string }) => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const { title, description, questions } = useFormContentStore();
-
-  const { background } = useCanvasStore();
+  const { background, isFetched } = useCanvasStore();
   const { align } = useQuestionToolbarStore();
+
+  const [isLoading, setIsLoading] = useState(isFetched ? false : true);
 
   const onExport = async () => {
     const formElement = document.getElementById("targetCanvas");
@@ -36,58 +35,51 @@ const Canvas = ({ formUid }: { formUid: string }) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Flex>
-            <Box
-              flex={1}
-              height="100vh"
-              maxHeight={"100vh"}
-              {...(background.type === "color"
-                ? { bg: background.color }
-                : { bgImage: background.image })}
-              bgPosition="center"
-              bgRepeat="no-repeat"
-              bgSize="cover"
-              id="targetCanvas"
-              overflow={"auto"}
-              py={16}
-            >
-              <Container
-                bg="white"
-                borderRadius={"lg"}
-                p={0}
-                overflow={"hidden"}
-              >
-                <VStack spacing={0}>
-                  <FormHeader />
-                  <VStack w={"100%"} spacing={0} mb={8}>
-                    <FormTitleCanvas title={title} />
-                    <FormDescriptionCanvas description={description} />
-                    <Box
-                      display={"flex"}
-                      justifyContent={align}
-                      w={"100%"}
-                      px={8}
-                      py={4}
-                    >
-                      <FormQuestionsCanvas questions={questions} />
-                    </Box>
-                    <FormButtonCanvas />
-                  </VStack>
+      <Flex>
+        {isLoading ? (
+          <Box flex={1} height="100vh" maxHeight={"100vh"}>
+            <Loading />
+          </Box>
+        ) : (
+          <Box
+            flex={1}
+            height="100vh"
+            maxHeight={"100vh"}
+            {...(background.type === "color"
+              ? { bg: background.color }
+              : { bgImage: background.image })}
+            bgPosition="center"
+            bgRepeat="no-repeat"
+            bgSize="cover"
+            id="targetCanvas"
+            overflow={"auto"}
+            py={16}
+          >
+            <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
+              <VStack spacing={0}>
+                <FormHeader />
+                <VStack w={"100%"} spacing={0} mb={8}>
+                  <FormTitleCanvas title={title} />
+                  <FormDescriptionCanvas description={description} />
+                  <Box
+                    display={"flex"}
+                    justifyContent={align}
+                    w={"100%"}
+                    px={8}
+                    py={4}
+                  >
+                    <FormQuestionsCanvas questions={questions} />
+                  </Box>
+                  <FormButtonCanvas />
                 </VStack>
-              </Container>
-            </Box>
-            <Box width="300px" flexShrink={0} height="100vh"></Box>
-          </Flex>
-          <CanvasEditPanel
-            formUid={formUid}
-            setIsLoadingFormStyle={setIsLoading}
-          />
-        </>
-      )}
+              </VStack>
+            </Container>
+          </Box>
+        )}
+        <Box width="300px" flexShrink={0} height="100vh"></Box>
+      </Flex>
+
+      <CanvasEditPanel formUid={formUid} setIsLoadingFormStyle={setIsLoading} />
       <Box position={"absolute"} zIndex={10} left={10} top={10}>
         <Button onClick={() => onExport()}>Export As JPEG</Button>
       </Box>

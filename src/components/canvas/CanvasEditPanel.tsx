@@ -30,66 +30,24 @@ interface Props {
 }
 
 const CanvasEditPanel = ({ formUid, setIsLoadingFormStyle }: Props) => {
-  const { background, submitButton, title } = useCanvasStore();
+  const { background, submitButton, title, setIsFetched, isFetched } =
+    useCanvasStore();
   const titleToolbar = useTitleToolbarStore();
   const descriptionToolbar = useDescriptionToolbarStore();
   const questionsToolbar = useQuestionToolbarStore();
   const buttonToolbar = useButtonToolbarStore();
 
-  const formStyles: FormStyles = {
-    background: {
-      type: background.type,
-      color: background.color,
-      image: background.image,
-    },
-    titleBgColor: title.backgroundColor,
-    titleText: {
-      bold: titleToolbar.bold,
-      italic: titleToolbar.italic,
-      underline: titleToolbar.underline,
-      align: titleToolbar.align,
-      color: titleToolbar.textColor,
-      font: titleToolbar.fontFamily,
-      size: titleToolbar.fontSize,
-    },
-    descriptionText: {
-      bold: descriptionToolbar.bold,
-      italic: descriptionToolbar.italic,
-      underline: descriptionToolbar.underline,
-      align: descriptionToolbar.align,
-      color: descriptionToolbar.textColor,
-      font: descriptionToolbar.fontFamily,
-      size: descriptionToolbar.fontSize,
-    },
-    questionsText: {
-      bold: questionsToolbar.bold,
-      italic: questionsToolbar.italic,
-      underline: questionsToolbar.underline,
-      align: questionsToolbar.align,
-      color: questionsToolbar.textColor,
-      font: questionsToolbar.fontFamily,
-      size: questionsToolbar.fontSize,
-    },
-    buttonBgColor: submitButton.bgColor,
-    buttonText: {
-      bold: buttonToolbar.bold,
-      italic: buttonToolbar.italic,
-      underline: buttonToolbar.underline,
-      align: buttonToolbar.align,
-      color: buttonToolbar.textColor,
-      font: buttonToolbar.fontFamily,
-      size: buttonToolbar.fontSize,
-    },
-  };
-
   // Get form styles if it exists
   const loadFormStylesData = async () => {
     try {
-      console.log("loadFormStylesData", formUid);
+      setIsLoadingFormStyle(true);
+
       const styles = await loadFormStyles(formUid);
       setFormStyles(styles);
     } catch (err) {
       console.log("Form styles doesn't exist yet, load the default one");
+    } finally {
+      setIsLoadingFormStyle(false);
     }
   };
 
@@ -122,9 +80,10 @@ const CanvasEditPanel = ({ formUid, setIsLoadingFormStyle }: Props) => {
   };
 
   useEffect(() => {
-    setIsLoadingFormStyle(true);
-    loadFormStylesData();
-    setIsLoadingFormStyle(false);
+    if (!isFetched) {
+      loadFormStylesData();
+      setIsFetched(true);
+    }
   }, []);
 
   return (
@@ -198,11 +157,11 @@ const CanvasEditPanel = ({ formUid, setIsLoadingFormStyle }: Props) => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Box display={"flex"} justifyContent={"center"}>
+      {/* <Box display={"flex"} justifyContent={"center"}>
         <Button mt={4} onClick={() => saveFormStyles(formUid, formStyles)}>
           Save Style
         </Button>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

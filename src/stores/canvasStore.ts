@@ -21,12 +21,18 @@ interface SubmitButton {
 }
 
 interface CanvasState {
+  isFetched: boolean;
+  setIsFetched: (isFetched: boolean) => void;
+
   background: Background;
   title: Title;
   submitButton: SubmitButton;
 }
 
 export const useCanvasStore = create<CanvasState>((set) => ({
+  isFetched: false,
+  setIsFetched: (isFetched) => set(() => ({ isFetched })),
+
   background: {
     color: "#ffffff",
     image: backgroundGallery[0],
