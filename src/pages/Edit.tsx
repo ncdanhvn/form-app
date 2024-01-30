@@ -1,32 +1,30 @@
-import React, { useEffect, useState } from "react";
 import {
-  Flex,
   Box,
-  Stepper,
+  Flex,
   Step,
-  useSteps,
-  StepDescription,
   StepIcon,
   StepIndicator,
   StepNumber,
   StepSeparator,
   StepStatus,
   StepTitle,
-  background,
+  Stepper,
+  useSteps,
 } from "@chakra-ui/react";
-import EditFormContent from "../components/EditFormContent";
-import AddStyles from "./Canvas";
-import Share from "./ShareForm";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useFormContentStore from "../stores/formContentStore";
+import EditFormContent from "../components/EditFormContent";
 import { updateForm } from "../services/formServices";
+import { saveFormStyles } from "../services/formStyleServices";
+import { thumbnailGenerateRequest } from "../services/thumbnailServices";
 import useCanvasStore from "../stores/canvasStore";
+import useFormContentStore from "../stores/formContentStore";
 import useButtonToolbarStore from "../stores/toolbarStore/buttonToolbarStore";
 import useDescriptionToolbarStore from "../stores/toolbarStore/descriptionToolbarStore";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
 import { FormStyles } from "../types/formStyles";
-import { saveFormStyles } from "../services/formStyleServices";
+import AddStyles from "./Canvas";
 import ShareForm from "./ShareForm";
 
 const steps = [
@@ -115,6 +113,7 @@ const EditForm: React.FC = () => {
     if (activeStep == steps.length - 1) {
       uploadForm();
       saveFormStyles(formUid!, formStyles);
+      thumbnailGenerateRequest(formUid!);
     }
   }, [activeStep]);
 
