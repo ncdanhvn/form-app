@@ -48,7 +48,7 @@ const FormRow = ({ form }: { form: Form }) => {
       display="flex"
       alignItems="center"
       mx={2}
-      marginBottom="4"
+      marginBottom="2"
       padding="4"
       borderWidth="1px"
       borderRadius="lg"

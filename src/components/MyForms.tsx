@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Spinner, Box } from "@chakra-ui/react";
+import { Spinner, Box, IconButton } from "@chakra-ui/react";
 import FormRow from "./FormRow"; // Import the sub-component
 import { Form } from "../types/form";
-import { loadForm } from "../services/formServices";
-import { getUserFormsList } from "../services/userServices";
+import { createNewForm, loadForm } from "../services/formServices";
+import { addFormToUser, getUserFormsList } from "../services/userServices";
+import { AddIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebaseConfig";
 
 const MyForms = () => {
   const [forms, setForms] = useState<Form[]>([]);
@@ -28,6 +31,25 @@ const MyForms = () => {
     fetchForms();
   }, []);
 
+  const [isCreatingNewPage, setIsCreatingNewPage] = useState(false);
+  const navigate = useNavigate();
+
+  const onCreateNew = async () => {
+    setIsCreatingNewPage(true);
+    try {
+      const formUid = await createNewForm();
+      const user = auth.currentUser;
+      if (user) {
+        await addFormToUser(user.uid, formUid);
+      }
+      navigate(`/edit/${formUid}`);
+    } catch (error) {
+      console.error("Failed to create new form:", error);
+    } finally {
+      setIsCreatingNewPage(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <Box
@@ -42,11 +64,23 @@ const MyForms = () => {
   }
 
   return (
-    <div>
+    <>
       {forms.map((form, index) => (
         <FormRow key={index} form={form} />
       ))}
-    </div>
+      <IconButton
+        aria-label="Add new form"
+        icon={<AddIcon />}
+        size="lg"
+        isRound
+        colorScheme="blue"
+        position="fixed"
+        bottom="50px"
+        right="50px"
+        onClick={onCreateNew}
+        isLoading={isCreatingNewPage}
+      />
+    </>
   );
 };
 
