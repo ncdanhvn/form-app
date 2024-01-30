@@ -13,6 +13,12 @@ import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import useCanvasStore from "../stores/canvasStore";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
+import { loadFormStyles } from "../services/formStyleServices";
+import { FormStyles, ToolbarAttributes } from "../types/formStyles";
+import useButtonToolbarStore from "../stores/toolbarStore/buttonToolbarStore";
+import useDescriptionToolbarStore from "../stores/toolbarStore/descriptionToolbarStore";
+import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
+import ToolbarState from "../stores/toolbarStore/toolbarTypes";
 
 const Form = () => {
   const { formUid } = useParams();
@@ -20,12 +26,14 @@ const Form = () => {
   // Get form from db to display
   const [form, setForm] = useState<FormType>();
   const [answers, setAnswers] = useState<Answer[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchForm = async () => {
       try {
         const form = await loadForm(formUid!);
         setForm(form);
+        await loadFormStylesData();
 
         // Init the answers
         if (form)
@@ -36,10 +44,56 @@ const Form = () => {
           );
       } catch (error) {
         console.error("Error loading form: ", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchForm();
   }, [formUid]);
+
+  // Get form style
+  const { background, submitButton, title } = useCanvasStore();
+  const titleToolbar = useTitleToolbarStore();
+  const descriptionToolbar = useDescriptionToolbarStore();
+  const questionsToolbar = useQuestionToolbarStore();
+  const buttonToolbar = useButtonToolbarStore();
+
+  const loadFormStylesData = async () => {
+    try {
+      const styles = await loadFormStyles(formUid!);
+      setFormStyles(styles);
+    } catch (err) {
+      console.log("Form styles doesn't exist yet, load the default one");
+    }
+  };
+
+  const setFormStyles = (formStyles: FormStyles) => {
+    background.setBackgroundType(formStyles.background.type);
+    background.setBackgroundImage(formStyles.background.image);
+    background.setBackgroundColor(formStyles.background.color);
+
+    submitButton.setBgColor(formStyles.buttonBgColor);
+
+    title.setTitleBgColor(formStyles.titleBgColor);
+
+    setToolbarAttribute(formStyles.titleText, titleToolbar);
+    setToolbarAttribute(formStyles.descriptionText, descriptionToolbar);
+    setToolbarAttribute(formStyles.questionsText, questionsToolbar);
+    setToolbarAttribute(formStyles.buttonText, buttonToolbar);
+  };
+
+  const setToolbarAttribute = (
+    toolbarAttribute: ToolbarAttributes,
+    toolbarStore: ToolbarState
+  ) => {
+    toolbarStore.setBold(toolbarAttribute.bold);
+    toolbarStore.setItalic(toolbarAttribute.italic);
+    toolbarStore.setUnderline(toolbarAttribute.underline);
+    toolbarStore.setAlign(toolbarAttribute.align);
+    toolbarStore.setTextColor(toolbarAttribute.color);
+    toolbarStore.setFontFamily(toolbarAttribute.font);
+    toolbarStore.setFontSize(toolbarAttribute.size);
+  };
 
   const handleAnswerChange = (
     questionUid: string,
@@ -65,10 +119,7 @@ const Form = () => {
     }
   };
 
-  const { background } = useCanvasStore();
-  const { align } = useQuestionToolbarStore();
-
-  return !form ? (
+  return isLoading ? (
     <Loading />
   ) : (
     <Box
@@ -87,11 +138,11 @@ const Form = () => {
         <VStack spacing={0}>
           <FormHeader />
           <VStack w={"100%"} spacing={0} mb={8}>
-            <FormTitle title={form.title} />
-            <FormDescription description={form.description} />
+            <FormTitle title={form!.title} />
+            <FormDescription description={form!.description} />
             <Box
               display={"flex"}
-              justifyContent={align}
+              justifyContent={questionsToolbar.align}
               w={"100%"}
               px={8}
               py={4}

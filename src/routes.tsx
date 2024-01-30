@@ -1,8 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthCheck from "./components/AuthCheck";
 import FormOwnerCheck from "./components/FormOwnerCheck";
-import Layout from "./components/Layout";
-import Canvas from "./pages/Canvas";
 import EditForm from "./pages/Edit";
 import Form from "./pages/Form";
 import Home from "./pages/Home";
