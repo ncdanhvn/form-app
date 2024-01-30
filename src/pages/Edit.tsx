@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import EditFormContent from "../components/EditFormContent";
 import AddStyles from "./Canvas";
-import Share from "./Share";
+import Share from "./ShareForm";
 import { useParams } from "react-router-dom";
 import useFormContentStore from "../stores/formContentStore";
 import { updateForm } from "../services/formServices";
@@ -27,15 +27,20 @@ import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore
 import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
 import { FormStyles } from "../types/formStyles";
 import { saveFormStyles } from "../services/formStyleServices";
+import ShareForm from "./ShareForm";
 
-const steps = [{ title: "Content" }, { title: "Styling" }, { title: "Share" }];
+const steps = [
+  { title: "Content" },
+  { title: "Styling" },
+  { title: "Save & Share" },
+];
 
 const EditForm: React.FC = () => {
   const { formUid } = useParams();
   const stepsComponents = [
     <EditFormContent formUid={formUid!} />,
     <AddStyles formUid={formUid!} />,
-    <Share />,
+    <ShareForm formUid={formUid!} />,
   ];
 
   const { activeStep, setActiveStep } = useSteps({
