@@ -24,7 +24,7 @@ export const createNewForm = async () => {
   return formDocRef.id;
 };
 
-export const updateForm = async (formUid: string, updatedForm: Form) => {
+export const updateForm = async (formUid: string, updatedForm: any) => {
   try {
     // Reference to the form document
     const formRef = doc(firestore, "forms", formUid);

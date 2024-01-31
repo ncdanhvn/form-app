@@ -1,9 +1,11 @@
-import React from "react";
-import { Box, Image, Text, Badge, Button } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, Image, Text, Badge, Button, Spinner } from "@chakra-ui/react";
 import { Form } from "../types/form";
 import { useNavigate } from "react-router-dom";
-import { firestore } from "../firebaseConfig";
+import { auth, firestore } from "../firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
+import { createNewForm } from "../services/formServices";
+import { addFormToUser } from "../services/userServices";
 
 interface FormCardProps {
   form: Form;
@@ -11,19 +13,31 @@ interface FormCardProps {
 
 const FormCard: React.FC<FormCardProps> = ({ form }) => {
   const navigate = useNavigate();
+  const [isCopingPage, setIsCopingPage] = useState(false);
 
-  const handleUseFormClick = async () => {
-    // Navigate to the edit page
-    navigate(`/edit-copy/${form.uid}`);
-
-    // Increase the times of copies by 1
-    const formRef = doc(firestore, "forms", form.uid);
+  const onUseForm = async () => {
+    setIsCopingPage(true);
     try {
-      await updateDoc(formRef, {
-        timesOfCopies: form.timesOfCopies + 1,
-      });
+      const formUid = await createNewForm();
+      const user = auth.currentUser;
+      if (user) {
+        await addFormToUser(user.uid, formUid);
+      }
+      // Increase the times of copies by 1
+      const formRef = doc(firestore, "forms", form.uid);
+      try {
+        await updateDoc(formRef, {
+          timesOfCopies: form.timesOfCopies + 1,
+        });
+      } catch (error) {
+        console.error("Error updating times of copies: ", error);
+      }
+
+      navigate(`/edit/${formUid}/${form.uid}`);
     } catch (error) {
-      console.error("Error updating times of copies: ", error);
+      console.error("Failed to create new form:", error);
+    } finally {
+      setIsCopingPage(false);
     }
   };
 
@@ -42,9 +56,10 @@ const FormCard: React.FC<FormCardProps> = ({ form }) => {
         display="flex"
         transition="opacity 0.3s ease-in-out"
         _hover={{ opacity: "1" }}
-        onClick={handleUseFormClick}
       >
-        <Button colorScheme="blue">Use This Form</Button>
+        <Button colorScheme="blue" onClick={onUseForm} width="200px">
+          {isCopingPage ? <Spinner size="sm" /> : "Create New"}
+        </Button>
       </Box>
       <Box display={"flex"} justifyContent={"center"}>
         <Image
