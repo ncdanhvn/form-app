@@ -17,7 +17,7 @@ export const ParagraphQuestion: React.FC<ParagraphQuestionProps> = ({
     useQuestionToolbarStore();
 
   return (
-    <FormControl>
+    <FormControl isRequired={question.required}>
       <FormLabel
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
@@ -27,7 +27,6 @@ export const ParagraphQuestion: React.FC<ParagraphQuestionProps> = ({
         color={textColor}
       >
         {question.question}
-        {question.required && <RequiredMarker />}
       </FormLabel>
       <Textarea mx={2} onChange={(e) => onChange(e.target.value)} />
     </FormControl>

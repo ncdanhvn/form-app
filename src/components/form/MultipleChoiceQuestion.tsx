@@ -41,7 +41,7 @@ export const MultipleChoiceQuestion: React.FC<Props> = ({
     useQuestionToolbarStore();
 
   return (
-    <FormControl>
+    <FormControl isRequired={question.required}>
       <FormLabel
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
@@ -51,7 +51,6 @@ export const MultipleChoiceQuestion: React.FC<Props> = ({
         color={textColor}
       >
         {question.question}
-        {question.required && <RequiredMarker />}
       </FormLabel>
       <RadioGroup onChange={handleSelectionChange} value={answerValue}>
         <Stack direction="column">

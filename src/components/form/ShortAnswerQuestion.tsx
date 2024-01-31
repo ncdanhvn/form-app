@@ -16,7 +16,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
   const { bold, italic, underline, textColor, fontFamily, fontSize } =
     useQuestionToolbarStore();
   return (
-    <FormControl>
+    <FormControl isRequired={question.required}>
       <FormLabel
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
@@ -26,7 +26,6 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
         color={textColor}
       >
         {question.question}
-        {question.required && <RequiredMarker />}
       </FormLabel>
       <Input mx={2} onChange={(e) => onChange(e.target.value)} />
     </FormControl>

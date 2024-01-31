@@ -1,5 +1,5 @@
 import { Box, Container, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import FormDescription from "../components/form/FormDescription";
 import { FormHeader } from "../components/form/FormHeader";
 import { FormQuestions } from "../components/form/FormQuestions";
@@ -110,7 +110,8 @@ const Form = () => {
   };
 
   const navigate = useNavigate();
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       setIsSubmiting(true);
       await saveAnswers(formUid!, answers);
@@ -178,22 +179,21 @@ const Form = () => {
           <VStack w={"100%"} spacing={0} mb={8}>
             <FormTitle title={form!.title} />
             <FormDescription description={form!.description} />
-            <Box
-              display={"flex"}
-              justifyContent={questionsToolbar.align}
-              w={"100%"}
-              px={8}
-              py={4}
-            >
-              <FormQuestions
-                handleAnswerChange={handleAnswerChange}
-                questions={form!.questions}
-              />
-            </Box>
-            <FormButton
-              onButtonClick={handleSubmit}
-              isSubmiting={isSubmiting}
-            />
+            <form action="submit" onSubmit={handleSubmit}>
+              <Box
+                display={"flex"}
+                justifyContent={questionsToolbar.align}
+                w={"100%"}
+                px={8}
+                py={4}
+              >
+                <FormQuestions
+                  handleAnswerChange={handleAnswerChange}
+                  questions={form!.questions}
+                />
+              </Box>
+              <FormButton isSubmiting={isSubmiting} />
+            </form>
           </VStack>
         </VStack>
       </Container>

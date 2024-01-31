@@ -44,7 +44,7 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
     useQuestionToolbarStore();
 
   return (
-    <FormControl>
+    <FormControl isRequired={question.required}>
       <FormLabel
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
@@ -54,7 +54,6 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
         color={textColor}
       >
         {question.question}
-        {question.required && <RequiredMarker />}
       </FormLabel>
       <CheckboxGroup value={selectedOptions} onChange={handleCheckboxChange}>
         <Stack direction="column">

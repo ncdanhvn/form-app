@@ -17,7 +17,7 @@ export const DropdownQuestion: React.FC<DropdownQuestionProps> = ({
     useQuestionToolbarStore();
 
   return (
-    <FormControl>
+    <FormControl isRequired={question.required}>
       <FormLabel
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
@@ -27,7 +27,6 @@ export const DropdownQuestion: React.FC<DropdownQuestionProps> = ({
         color={textColor}
       >
         {question.question}
-        {question.required && <RequiredMarker />}
       </FormLabel>
       <Select
         placeholder="Select option"

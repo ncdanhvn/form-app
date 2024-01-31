@@ -2,13 +2,7 @@ import { Button, Flex, Spinner } from "@chakra-ui/react";
 import useCanvasStore from "../../stores/canvasStore";
 import useButtonToolbarStore from "../../stores/toolbarStore/buttonToolbarStore";
 
-const FormButton = ({
-  onButtonClick,
-  isSubmiting,
-}: {
-  onButtonClick: () => void;
-  isSubmiting: boolean;
-}) => {
+const FormButton = ({ isSubmiting }: { isSubmiting: boolean }) => {
   const {
     submitButton: { bgColor },
   } = useCanvasStore();
@@ -19,6 +13,7 @@ const FormButton = ({
   return (
     <Flex justifyContent={align} width="full" mt={8} px={8}>
       <Button
+        // onSubmit={onButtonClick}
         bg={bgColor}
         fontSize={`${fontSize}`}
         fontFamily={`${fontFamily}, sans-serif`}
@@ -26,7 +21,7 @@ const FormButton = ({
         fontStyle={italic ? "italic" : "normal"}
         textDecoration={underline ? "underline" : "normal"}
         color={textColor}
-        onClick={onButtonClick}
+        // onClick={onButtonClick}
         sx={{
           position: "relative",
           overflow: "hidden",
@@ -47,6 +42,7 @@ const FormButton = ({
         }}
         isDisabled={isSubmiting}
         width={"80px"}
+        type="submit"
       >
         {isSubmiting ? <Spinner color={textColor} size={"sm"} /> : "Submit"}
       </Button>
