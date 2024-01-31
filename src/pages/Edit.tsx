@@ -11,11 +11,11 @@ import {
   Stepper,
   useSteps,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditFormContent from "../components/EditFormContent";
-import { updateForm } from "../services/formServices";
-import { saveFormStyles } from "../services/formStyleServices";
+import { loadForm, updateForm } from "../services/formServices";
+import { loadFormStyles, saveFormStyles } from "../services/formStyleServices";
 import { thumbnailGenerateRequest } from "../services/thumbnailServices";
 import useCanvasStore from "../stores/canvasStore";
 import useFormContentStore from "../stores/formContentStore";
@@ -26,6 +26,7 @@ import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
 import { FormStyles } from "../types/formStyles";
 import AddStyles from "./Canvas";
 import ShareForm from "./ShareForm";
+import Loading from "../components/Loading";
 
 const steps = [
   { title: "Content" },
@@ -46,7 +47,23 @@ const EditForm: React.FC = () => {
     count: steps.length,
   });
 
-  const { title, questions, description } = useFormContentStore();
+  const [isLoading, setIsLoading] = useState(true);
+  const { title, description, questions, fetchForm } = useFormContentStore();
+  useEffect(() => {
+    // Load form content and styles when component mounted
+    const loadFormContentAndStyles = async () => {
+      try {
+        await fetchForm(formUid!);
+      } catch (error) {
+        console.log("Error when fetching form content and styles. ", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFormContentAndStyles();
+  }, []);
+
   const uploadForm = async () => {
     await updateForm(formUid!, {
       title,
@@ -117,7 +134,9 @@ const EditForm: React.FC = () => {
     }
   }, [activeStep]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <Box
         width="200px"
