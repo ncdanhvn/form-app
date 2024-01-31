@@ -19,6 +19,7 @@ import useButtonToolbarStore from "../stores/toolbarStore/buttonToolbarStore";
 import useDescriptionToolbarStore from "../stores/toolbarStore/descriptionToolbarStore";
 import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
 import ToolbarState from "../stores/toolbarStore/toolbarTypes";
+import FormButton from "../components/form/FormButton";
 
 const Form = () => {
   const { formUid } = useParams();
@@ -108,9 +109,7 @@ const Form = () => {
     console.log(`${questionUid} | ${newValue}`);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSubmit = async () => {
     try {
       await saveAnswers(formUid!, answers);
       console.log("Answers saved successfully");
@@ -152,11 +151,7 @@ const Form = () => {
                 questions={form!.questions}
               />
             </Box>
-            <Flex justifyContent="center" width="full" mt={8}>
-              <Button colorScheme="pink" type="submit">
-                Submit
-              </Button>
-            </Flex>
+            <FormButton onButtonClick={handleSubmit} />
           </VStack>
         </VStack>
       </Container>

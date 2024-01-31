@@ -2,7 +2,7 @@ import { Button, Flex } from "@chakra-ui/react";
 import useCanvasStore from "../../stores/canvasStore";
 import useButtonToolbarStore from "../../stores/toolbarStore/buttonToolbarStore";
 
-const FormButtonCanvas = () => {
+const FormButton = ({ onButtonClick }: { onButtonClick: () => void }) => {
   const {
     submitButton: { bgColor },
   } = useCanvasStore();
@@ -20,6 +20,7 @@ const FormButtonCanvas = () => {
         fontStyle={italic ? "italic" : "normal"}
         textDecoration={underline ? "underline" : "normal"}
         color={textColor}
+        onClick={onButtonClick}
         sx={{
           position: "relative",
           overflow: "hidden",
@@ -45,4 +46,4 @@ const FormButtonCanvas = () => {
   );
 };
 
-export default FormButtonCanvas;
+export default FormButton;
