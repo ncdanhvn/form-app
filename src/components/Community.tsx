@@ -5,6 +5,7 @@ import { Form } from "../types/form";
 import { firestore } from "../firebaseConfig";
 import { loadForm } from "../services/formServices";
 import { Box, Input } from "@chakra-ui/react";
+import Loading from "./Loading";
 
 const Community: React.FC = () => {
   const [forms, setForms] = useState<Form[]>([]);
@@ -27,7 +28,9 @@ const Community: React.FC = () => {
     fetchSharedForms();
   }, []);
 
-  return (
+  return !forms ? (
+    <Loading />
+  ) : (
     <>
       <Box display="flex" justifyContent="center" mb="4">
         <Input
