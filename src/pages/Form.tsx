@@ -1,25 +1,25 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
-import { Box, VStack, Button, Flex, Container } from "@chakra-ui/react";
-import { FormHeader } from "../components/form/FormHeader";
-import FormTitle from "../components/form/FormTitle";
+import { Box, Container, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import FormDescription from "../components/form/FormDescription";
+import { FormHeader } from "../components/form/FormHeader";
 import { FormQuestions } from "../components/form/FormQuestions";
+import FormTitle from "../components/form/FormTitle";
 
-import { saveAnswers } from "../services/submissionServices";
-import { loadForm } from "../services/formServices";
-import { Form as FormType } from "../types/form";
-import { Answer } from "../types/answer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
-import useCanvasStore from "../stores/canvasStore";
-import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
+import FormButton from "../components/form/FormButton";
+import { loadForm } from "../services/formServices";
 import { loadFormStyles } from "../services/formStyleServices";
-import { FormStyles, ToolbarAttributes } from "../types/formStyles";
+import { saveAnswers } from "../services/submissionServices";
+import useCanvasStore from "../stores/canvasStore";
 import useButtonToolbarStore from "../stores/toolbarStore/buttonToolbarStore";
 import useDescriptionToolbarStore from "../stores/toolbarStore/descriptionToolbarStore";
+import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
 import ToolbarState from "../stores/toolbarStore/toolbarTypes";
-import FormButton from "../components/form/FormButton";
+import { Answer } from "../types/answer";
+import { Form as FormType } from "../types/form";
+import { FormStyles, ToolbarAttributes } from "../types/formStyles";
 
 const Form = () => {
   const { formUid } = useParams();
@@ -109,14 +109,53 @@ const Form = () => {
     console.log(`${questionUid} | ${newValue}`);
   };
 
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     try {
+      setIsSubmiting(true);
       await saveAnswers(formUid!, answers);
       console.log("Answers saved successfully");
     } catch (error) {
       console.error("Error saving answers: ", error);
+    } finally {
+      setIsSubmiting(false);
     }
+
+    setIsSubmitted(true);
   };
+
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  if (isSubmitted)
+    return (
+      <Box
+        height="100vh"
+        width="100vw"
+        {...(background.type === "color"
+          ? { bg: background.color }
+          : { bgImage: background.image })}
+        bgPosition="center"
+        bgRepeat="no-repeat"
+        bgSize="cover"
+        overflow={"auto"}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Container bg="white" borderRadius={"lg"} p={0} overflow={"hidden"}>
+          <VStack spacing={0}>
+            <FormHeader />
+            <VStack w={"100%"} spacing={0} mb={8}>
+              <FormTitle title={form!.title} />
+              <FormDescription
+                description={"Your response has been recorded "}
+              />
+            </VStack>
+          </VStack>
+        </Container>
+      </Box>
+    );
 
   return isLoading ? (
     <Loading />
@@ -151,7 +190,10 @@ const Form = () => {
                 questions={form!.questions}
               />
             </Box>
-            <FormButton onButtonClick={handleSubmit} />
+            <FormButton
+              onButtonClick={handleSubmit}
+              isSubmiting={isSubmiting}
+            />
           </VStack>
         </VStack>
       </Container>
