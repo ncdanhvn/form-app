@@ -1,5 +1,8 @@
 import {
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Flex,
   Step,
   StepIcon,
@@ -9,6 +12,7 @@ import {
   StepStatus,
   StepTitle,
   Stepper,
+  VStack,
   useSteps,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -28,6 +32,9 @@ import AddStyles from "./Canvas";
 import ShareForm from "./ShareForm";
 import Loading from "../components/Loading";
 import ToolbarState from "../stores/toolbarStore/toolbarTypes";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+
+const sidebarWidth = 260;
 
 const steps = [
   { title: "Content" },
@@ -178,44 +185,58 @@ const EditForm: React.FC = () => {
     <Loading />
   ) : (
     <>
-      <Box
-        width="200px"
+      <VStack
+        width={sidebarWidth}
         padding="20px"
         position="fixed"
         top="0"
         height="100vh"
+        bg="gray.100"
         overflowY="auto"
         display={"flex"}
         alignItems={"center"}
+        justifyContent={"start"}
       >
-        <Stepper
-          index={activeStep}
-          orientation="vertical"
-          height="400px"
-          gap="0"
-          size={"lg"}
+        <Breadcrumb
+          mt={4}
+          spacing="8px"
+          separator={<ChevronRightIcon color="gray.500" />}
         >
-          {steps.map((step, index) => (
-            <Step key={index} onClick={() => setActiveStep(index)}>
-              <StepIndicator cursor={"pointer"}>
-                <StepStatus
-                  complete={<StepIcon />}
-                  incomplete={<StepNumber />}
-                  active={<StepNumber />}
-                />
-              </StepIndicator>
-
-              <Box flexShrink="0" cursor={"pointer"}>
-                <StepTitle>{step.title}</StepTitle>
-              </Box>
-
-              <StepSeparator />
-            </Step>
-          ))}
-        </Stepper>
-      </Box>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/home">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink>Edit Form</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+        <Flex flex={1} alignItems={"center"}>
+          <Stepper
+            index={activeStep}
+            orientation="vertical"
+            height="400px"
+            gap="0"
+            size={"lg"}
+          >
+            {steps.map((step, index) => (
+              <Step key={index} onClick={() => setActiveStep(index)}>
+                <StepIndicator cursor={"pointer"}>
+                  <StepStatus
+                    complete={<StepIcon />}
+                    incomplete={<StepNumber />}
+                    active={<StepNumber />}
+                  />
+                </StepIndicator>
+                <Box flexShrink="0" cursor={"pointer"}>
+                  <StepTitle>{step.title}</StepTitle>
+                </Box>
+                <StepSeparator />
+              </Step>
+            ))}
+          </Stepper>
+        </Flex>
+      </VStack>
       <Flex>
-        <Box width="200px" height="100vh" />
+        <Box width={sidebarWidth} height="100vh" />
         <Box flex="1">{stepsComponents[activeStep]}</Box>
       </Flex>
     </>
