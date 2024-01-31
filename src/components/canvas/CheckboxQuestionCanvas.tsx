@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { Question } from "../../types/question";
 import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import RequiredMarker from "../RequiredMarker";
 
 interface CheckboxQuestionProps {
   question: Question;
@@ -30,6 +31,7 @@ const CheckboxQuestionCanvas: React.FC<CheckboxQuestionProps> = ({
         color={textColor}
       >
         {question.question}
+        {question.required && <RequiredMarker />}
       </FormLabel>
       <CheckboxGroup>
         <Stack direction="column">

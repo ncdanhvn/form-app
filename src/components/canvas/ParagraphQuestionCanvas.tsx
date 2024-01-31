@@ -2,6 +2,7 @@ import React from "react";
 import { FormControl, FormLabel, Textarea } from "@chakra-ui/react";
 import { Question } from "../../types/question";
 import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import RequiredMarker from "../RequiredMarker";
 
 interface Props {
   question: Question;
@@ -22,6 +23,7 @@ const ParagraphQuestionCanvas: React.FC<Props> = ({ question }) => {
         color={textColor}
       >
         {question.question}
+        {question.required && <RequiredMarker />}
       </FormLabel>
       <Textarea mx={2} />
     </FormControl>

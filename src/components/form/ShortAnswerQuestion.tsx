@@ -2,6 +2,7 @@ import React from "react";
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { Question } from "../../types/question";
 import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import RequiredMarker from "../RequiredMarker";
 
 interface ShortAnswerQuestionProps {
   question: Question;
@@ -25,6 +26,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
         color={textColor}
       >
         {question.question}
+        {question.required && <RequiredMarker />}
       </FormLabel>
       <Input mx={2} onChange={(e) => onChange(e.target.value)} />
     </FormControl>

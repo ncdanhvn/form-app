@@ -2,6 +2,7 @@ import React from "react";
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { Question } from "../../types/question";
 import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import RequiredMarker from "../RequiredMarker";
 
 interface DropdownQuestionProps {
   question: Question;
@@ -24,6 +25,7 @@ const DropdownQuestionCanvas: React.FC<DropdownQuestionProps> = ({
         color={textColor}
       >
         {question.question}
+        {question.required && <RequiredMarker />}
       </FormLabel>
       <Select placeholder="Select option" px={2}>
         {question.options.map((option, index) => (

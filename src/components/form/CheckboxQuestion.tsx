@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Question } from "../../types/question";
 import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import RequiredMarker from "../RequiredMarker";
 
 interface CheckboxQuestionProps {
   question: Question;
@@ -53,6 +54,7 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
         color={textColor}
       >
         {question.question}
+        {question.required && <RequiredMarker />}
       </FormLabel>
       <CheckboxGroup value={selectedOptions} onChange={handleCheckboxChange}>
         <Stack direction="column">

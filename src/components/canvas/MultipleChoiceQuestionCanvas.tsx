@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Question } from "../../types/question";
 import useQuestionToolbarStore from "../../stores/toolbarStore/questionToolbarStore";
+import RequiredMarker from "../RequiredMarker";
 
 interface Props {
   question: Question;
@@ -29,6 +30,7 @@ const MultipleChoiceQuestionCanvas: React.FC<Props> = ({ question }) => {
         color={textColor}
       >
         {question.question}
+        {question.required && <RequiredMarker />}
       </FormLabel>
       <RadioGroup value={""}>
         <Stack direction="column">
