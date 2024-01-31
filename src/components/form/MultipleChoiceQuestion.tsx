@@ -59,7 +59,11 @@ export const MultipleChoiceQuestion: React.FC<Props> = ({
               {option}
             </Radio>
           ))}
-          {question.other && <Radio value={"Other"}>Other</Radio>}
+          {question.other && (
+            <Radio value={"Other"} px={2}>
+              Other
+            </Radio>
+          )}
         </Stack>
       </RadioGroup>
       {answerValue === "Other" && (

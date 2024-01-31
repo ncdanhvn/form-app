@@ -39,7 +39,11 @@ const MultipleChoiceQuestionCanvas: React.FC<Props> = ({ question }) => {
               {option}
             </Radio>
           ))}
-          {question.other && <Radio value={"Other"}>Other</Radio>}
+          {question.other && (
+            <Radio value={"Other"} px={2}>
+              Other
+            </Radio>
+          )}
         </Stack>
       </RadioGroup>
     </FormControl>

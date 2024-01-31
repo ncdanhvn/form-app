@@ -62,7 +62,11 @@ export const CheckboxQuestion: React.FC<CheckboxQuestionProps> = ({
               {option}
             </Checkbox>
           ))}
-          {question.other && <Checkbox value={"Other"}>Other</Checkbox>}
+          {question.other && (
+            <Checkbox value={"Other"} px={2}>
+              Other
+            </Checkbox>
+          )}
         </Stack>
       </CheckboxGroup>
       {selectedOptions.includes("Other") && (
