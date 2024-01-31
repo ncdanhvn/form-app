@@ -51,7 +51,7 @@ const FormRow = ({ form }: { form: Form }) => {
       overflow="hidden"
       transition="background 0.3s, transform 0.3s, box-shadow 0.3s" // Smooth transition for hover effects
       _hover={{
-        backgroundColor: "gray.100", // Change background color on hover
+        // backgroundColor: "gray.50", // Change background color on hover
         transform: "translateY(-2px)", // Slightly raise the box
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Add shadow for depth
       }}
