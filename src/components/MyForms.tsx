@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Spinner, Box, IconButton } from "@chakra-ui/react";
-import FormRow from "./FormRow"; // Import the sub-component
-import { Form } from "../types/form";
-import { createNewForm, loadForm } from "../services/formServices";
-import { addFormToUser, getUserFormsList } from "../services/userServices";
 import { AddIcon } from "@chakra-ui/icons";
+import { Box, Flex, Icon, IconButton, Spinner, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
+import { createNewForm, loadForm } from "../services/formServices";
+import { addFormToUser, getUserFormsList } from "../services/userServices";
+import { Form } from "../types/form";
+import FormRow from "./FormRow"; // Import the sub-component
+import { relative } from "path";
 
 const MyForms = () => {
   const [forms, setForms] = useState<Form[]>([]);
@@ -65,9 +66,21 @@ const MyForms = () => {
 
   return (
     <>
-      {forms.map((form, index) => (
-        <FormRow key={index} form={form} />
-      ))}
+      {forms.length === 0 ? (
+        <Flex
+          justifyContent={"center"}
+          alignItems={"center"}
+          h={"100vh"}
+          direction="column"
+        >
+          <Text fontSize="3xl">📝</Text> {/* Emoji added here */}
+          <Text color={"gray.500"} mt={2}>
+            No form yet? Just create a new one.
+          </Text>
+        </Flex>
+      ) : (
+        forms.map((form, index) => <FormRow key={index} form={form} />)
+      )}
       <IconButton
         aria-label="Add new form"
         icon={<AddIcon />}

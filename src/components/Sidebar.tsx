@@ -56,7 +56,7 @@ const Sidebar = ({
     >
       <Flex alignItems="center">
         <Avatar icon={<FaUser />} />
-        <Box marginLeft={2} w={12}>
+        <Box marginLeft={2}>
           {username ? username : <Spinner size={"sm"} />}
         </Box>
         <Menu>
