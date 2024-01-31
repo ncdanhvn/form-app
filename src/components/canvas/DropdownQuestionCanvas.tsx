@@ -27,7 +27,7 @@ const DropdownQuestionCanvas: React.FC<DropdownQuestionProps> = ({
         {question.question}
         {question.required && <RequiredMarker />}
       </FormLabel>
-      <Select placeholder="Select option" px={2}>
+      <Select placeholder="Select option">
         {question.options.map((option, index) => (
           <option key={index} value={option}>
             {option}

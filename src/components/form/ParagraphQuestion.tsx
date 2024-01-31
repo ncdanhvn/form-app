@@ -28,7 +28,7 @@ export const ParagraphQuestion: React.FC<ParagraphQuestionProps> = ({
       >
         {question.question}
       </FormLabel>
-      <Textarea mx={2} onChange={(e) => onChange(e.target.value)} />
+      <Textarea onChange={(e) => onChange(e.target.value)} />
     </FormControl>
   );
 };

@@ -179,7 +179,7 @@ const Form = () => {
           <VStack w={"100%"} spacing={0} mb={8}>
             <FormTitle title={form!.title} />
             <FormDescription description={form!.description} />
-            <form action="submit" onSubmit={handleSubmit}>
+            <Box as="form" action="submit" onSubmit={handleSubmit} w={"100%"}>
               <Box
                 display={"flex"}
                 justifyContent={questionsToolbar.align}
@@ -193,7 +193,7 @@ const Form = () => {
                 />
               </Box>
               <FormButton isSubmiting={isSubmiting} />
-            </form>
+            </Box>
           </VStack>
         </VStack>
       </Container>

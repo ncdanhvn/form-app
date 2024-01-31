@@ -55,15 +55,11 @@ export const MultipleChoiceQuestion: React.FC<Props> = ({
       <RadioGroup onChange={handleSelectionChange} value={answerValue}>
         <Stack direction="column">
           {question.options.map((option, index) => (
-            <Radio key={index} value={option} px={2}>
+            <Radio key={index} value={option}>
               {option}
             </Radio>
           ))}
-          {question.other && (
-            <Radio value={"Other"} px={2}>
-              Other
-            </Radio>
-          )}
+          {question.other && <Radio value={"Other"}>Other</Radio>}
         </Stack>
       </RadioGroup>
       {answerValue === "Other" && (

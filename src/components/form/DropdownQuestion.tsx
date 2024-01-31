@@ -31,7 +31,6 @@ export const DropdownQuestion: React.FC<DropdownQuestionProps> = ({
       <Select
         placeholder="Select option"
         onChange={(e) => onChange(e.target.value)}
-        px={2}
       >
         {question.options.map((option, index) => (
           <option key={index} value={option}>

@@ -35,15 +35,11 @@ const MultipleChoiceQuestionCanvas: React.FC<Props> = ({ question }) => {
       <RadioGroup value={""}>
         <Stack direction="column">
           {question.options.map((option, index) => (
-            <Radio key={index} value={option} px={2}>
+            <Radio key={index} value={option}>
               {option}
             </Radio>
           ))}
-          {question.other && (
-            <Radio value={"Other"} px={2}>
-              Other
-            </Radio>
-          )}
+          {question.other && <Radio value={"Other"}>Other</Radio>}
         </Stack>
       </RadioGroup>
     </FormControl>

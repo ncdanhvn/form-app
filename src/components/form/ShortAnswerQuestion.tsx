@@ -27,7 +27,7 @@ export const ShortAnswerQuestion: React.FC<ShortAnswerQuestionProps> = ({
       >
         {question.question}
       </FormLabel>
-      <Input mx={2} onChange={(e) => onChange(e.target.value)} />
+      <Input onChange={(e) => onChange(e.target.value)} />
     </FormControl>
   );
 };

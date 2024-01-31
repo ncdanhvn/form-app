@@ -36,15 +36,11 @@ const CheckboxQuestionCanvas: React.FC<CheckboxQuestionProps> = ({
       <CheckboxGroup>
         <Stack direction="column">
           {question.options.map((option, index) => (
-            <Checkbox key={index} value={option} px={2}>
+            <Checkbox key={index} value={option}>
               {option}
             </Checkbox>
           ))}
-          {question.other && (
-            <Checkbox value={"Other"} px={2}>
-              Other
-            </Checkbox>
-          )}
+          {question.other && <Checkbox value={"Other"}>Other</Checkbox>}
         </Stack>
       </CheckboxGroup>
     </FormControl>

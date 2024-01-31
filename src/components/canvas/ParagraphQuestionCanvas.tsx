@@ -25,7 +25,7 @@ const ParagraphQuestionCanvas: React.FC<Props> = ({ question }) => {
         {question.question}
         {question.required && <RequiredMarker />}
       </FormLabel>
-      <Textarea mx={2} />
+      <Textarea />
     </FormControl>
   );
 };

@@ -25,7 +25,7 @@ const ShortAnswerQuestionCanvas: React.FC<Props> = ({ question }) => {
         {question.question}
         {question.required && <RequiredMarker />}
       </FormLabel>
-      <Input mx={2} />
+      <Input />
     </FormControl>
   );
 };
