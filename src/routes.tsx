@@ -6,11 +6,11 @@ import Form from "./pages/Form";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import Reponses from "./pages/Reponses";
+import Redirect from "./components/Redirect";
 
 const router = createBrowserRouter([
+  { path: "/", element: <Redirect to="/home" /> },
   { path: "/forms/:formUid", element: <Form /> },
-  { path: "/reponses", element: <Reponses /> },
   {
     path: "/home",
     element: (
