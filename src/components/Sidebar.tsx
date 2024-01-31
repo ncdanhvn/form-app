@@ -16,7 +16,7 @@ import { FaUser } from "react-icons/fa";
 import { getUsername } from "../services/userServices";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import { getUserUsername } from "../services/authServices";
+import { getUserUsername, logout } from "../services/authServices";
 
 const Sidebar = ({
   activeTab,
@@ -71,7 +71,7 @@ const Sidebar = ({
           />
           <MenuList>
             <MenuItem>Profile</MenuItem>
-            <MenuItem>Logout</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
           </MenuList>
         </Menu>
       </Flex>
