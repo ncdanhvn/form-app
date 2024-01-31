@@ -61,8 +61,8 @@ const FormCard: React.FC<FormCardProps> = ({ form }) => {
         transition="opacity 0.3s ease-in-out"
         _hover={{ opacity: "1" }}
       >
-        <Button colorScheme="blue" onClick={onUseForm} width="200px">
-          {isCopingPage ? <Spinner size="sm" /> : "Create New"}
+        <Button colorScheme="blue" onClick={onUseForm} width="150px">
+          {isCopingPage ? <Spinner size="sm" /> : "Use This Form"}
         </Button>
       </Box>
       <Box display={"flex"} justifyContent={"center"}>
