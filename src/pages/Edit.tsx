@@ -23,10 +23,11 @@ import useButtonToolbarStore from "../stores/toolbarStore/buttonToolbarStore";
 import useDescriptionToolbarStore from "../stores/toolbarStore/descriptionToolbarStore";
 import useQuestionToolbarStore from "../stores/toolbarStore/questionToolbarStore";
 import useTitleToolbarStore from "../stores/toolbarStore/titleToolbarStore";
-import { FormStyles } from "../types/formStyles";
+import { FormStyles, ToolbarAttributes } from "../types/formStyles";
 import AddStyles from "./Canvas";
 import ShareForm from "./ShareForm";
 import Loading from "../components/Loading";
+import ToolbarState from "../stores/toolbarStore/toolbarTypes";
 
 const steps = [
   { title: "Content" },
@@ -38,7 +39,7 @@ const EditForm: React.FC = () => {
   const { formUid } = useParams();
   const stepsComponents = [
     <EditFormContent formUid={formUid!} />,
-    <AddStyles formUid={formUid!} />,
+    <AddStyles />,
     <ShareForm formUid={formUid!} />,
   ];
 
@@ -48,32 +49,9 @@ const EditForm: React.FC = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+
+  // Load stores
   const { title, description, questions, fetchForm } = useFormContentStore();
-  useEffect(() => {
-    // Load form content and styles when component mounted
-    const loadFormContentAndStyles = async () => {
-      try {
-        await fetchForm(formUid!);
-      } catch (error) {
-        console.log("Error when fetching form content and styles. ", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadFormContentAndStyles();
-  }, []);
-
-  const uploadForm = async () => {
-    await updateForm(formUid!, {
-      title,
-      description,
-      questions,
-      uid: formUid!,
-    });
-    console.log("Loaded form content to db", title);
-  };
-
   const canvasStore = useCanvasStore();
   const titleToolbar = useTitleToolbarStore();
   const descriptionToolbar = useDescriptionToolbarStore();
@@ -123,6 +101,68 @@ const EditForm: React.FC = () => {
       font: buttonToolbar.fontFamily,
       size: buttonToolbar.fontSize,
     },
+  };
+
+  const loadFormStylesData = async () => {
+    try {
+      const styles = await loadFormStyles(formUid!);
+      setFormStyles(styles);
+    } catch (err) {
+      console.log("Form styles doesn't exist yet, load the default one");
+    }
+  };
+  const setFormStyles = (formStyles: FormStyles) => {
+    canvasStore.background.setBackgroundType(formStyles.background.type);
+    canvasStore.background.setBackgroundImage(formStyles.background.image);
+    canvasStore.background.setBackgroundColor(formStyles.background.color);
+
+    canvasStore.submitButton.setBgColor(formStyles.buttonBgColor);
+
+    canvasStore.title.setTitleBgColor(formStyles.titleBgColor);
+
+    setToolbarAttribute(formStyles.titleText, titleToolbar);
+    setToolbarAttribute(formStyles.descriptionText, descriptionToolbar);
+    setToolbarAttribute(formStyles.questionsText, questionsToolbar);
+    setToolbarAttribute(formStyles.buttonText, buttonToolbar);
+  };
+  const setToolbarAttribute = (
+    toolbarAttribute: ToolbarAttributes,
+    toolbarStore: ToolbarState
+  ) => {
+    toolbarStore.setBold(toolbarAttribute.bold);
+    toolbarStore.setItalic(toolbarAttribute.italic);
+    toolbarStore.setUnderline(toolbarAttribute.underline);
+    toolbarStore.setAlign(toolbarAttribute.align);
+    toolbarStore.setTextColor(toolbarAttribute.color);
+    toolbarStore.setFontFamily(toolbarAttribute.font);
+    toolbarStore.setFontSize(toolbarAttribute.size);
+  };
+
+  // Load form content and styles when component mounted
+  useEffect(() => {
+    const loadFormContentAndStyles = async () => {
+      try {
+        await fetchForm(formUid!);
+        await loadFormStylesData();
+      } catch (error) {
+        console.log("Error when fetching form content and styles. ", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFormContentAndStyles();
+  }, []);
+
+  // Upload form content and style when finish editting
+  const uploadForm = async () => {
+    await updateForm(formUid!, {
+      title,
+      description,
+      questions,
+      uid: formUid!,
+    });
+    console.log("Loaded form content to db", title);
   };
 
   useEffect(() => {

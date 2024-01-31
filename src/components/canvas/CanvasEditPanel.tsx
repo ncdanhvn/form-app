@@ -24,68 +24,7 @@ import BackgroundAccordion from "./BackgroundAccordion";
 import SubmitButtonAccordion from "./SubmitButtonAccordion";
 import TitleAccordion from "./TitleAccordion";
 
-interface Props {
-  formUid: string;
-  setIsLoadingFormStyle: (isLoading: boolean) => void;
-}
-
-const CanvasEditPanel = ({ formUid, setIsLoadingFormStyle }: Props) => {
-  const { background, submitButton, title, setIsFetched, isFetched } =
-    useCanvasStore();
-  const titleToolbar = useTitleToolbarStore();
-  const descriptionToolbar = useDescriptionToolbarStore();
-  const questionsToolbar = useQuestionToolbarStore();
-  const buttonToolbar = useButtonToolbarStore();
-
-  // Get form styles if it exists
-  const loadFormStylesData = async () => {
-    try {
-      setIsLoadingFormStyle(true);
-
-      const styles = await loadFormStyles(formUid);
-      setFormStyles(styles);
-    } catch (err) {
-      console.log("Form styles doesn't exist yet, load the default one");
-    } finally {
-      setIsLoadingFormStyle(false);
-    }
-  };
-
-  const setFormStyles = (formStyles: FormStyles) => {
-    background.setBackgroundType(formStyles.background.type);
-    background.setBackgroundImage(formStyles.background.image);
-    background.setBackgroundColor(formStyles.background.color);
-
-    submitButton.setBgColor(formStyles.buttonBgColor);
-
-    title.setTitleBgColor(formStyles.titleBgColor);
-
-    setToolbarAttribute(formStyles.titleText, titleToolbar);
-    setToolbarAttribute(formStyles.descriptionText, descriptionToolbar);
-    setToolbarAttribute(formStyles.questionsText, questionsToolbar);
-    setToolbarAttribute(formStyles.buttonText, buttonToolbar);
-  };
-
-  const setToolbarAttribute = (
-    toolbarAttribute: ToolbarAttributes,
-    toolbarStore: ToolbarState
-  ) => {
-    toolbarStore.setBold(toolbarAttribute.bold);
-    toolbarStore.setItalic(toolbarAttribute.italic);
-    toolbarStore.setUnderline(toolbarAttribute.underline);
-    toolbarStore.setAlign(toolbarAttribute.align);
-    toolbarStore.setTextColor(toolbarAttribute.color);
-    toolbarStore.setFontFamily(toolbarAttribute.font);
-    toolbarStore.setFontSize(toolbarAttribute.size);
-  };
-
-  useEffect(() => {
-    if (!isFetched) {
-      loadFormStylesData();
-      setIsFetched(true);
-    }
-  }, []);
-
+const CanvasEditPanel = () => {
   return (
     <Box
       position="fixed"
