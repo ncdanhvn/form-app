@@ -6,6 +6,7 @@ import { auth, firestore } from "../firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { createNewForm } from "../services/formServices";
 import { addFormToUser } from "../services/userServices";
+import { copyForm } from "../services/communityServices";
 
 interface FormCardProps {
   form: Form;
@@ -18,10 +19,10 @@ const FormCard: React.FC<FormCardProps> = ({ form }) => {
   const onUseForm = async () => {
     setIsCopingPage(true);
     try {
-      const formUid = await createNewForm();
+      const newFormUid = await createNewForm();
       const user = auth.currentUser;
       if (user) {
-        await addFormToUser(user.uid, formUid);
+        await addFormToUser(user.uid, newFormUid);
       }
       // Increase the times of copies by 1
       const formRef = doc(firestore, "forms", form.uid);
@@ -33,7 +34,10 @@ const FormCard: React.FC<FormCardProps> = ({ form }) => {
         console.error("Error updating times of copies: ", error);
       }
 
-      navigate(`/edit/${formUid}/${form.uid}`);
+      // Copy form content and style
+      await copyForm(form.uid, newFormUid);
+
+      navigate(`/edit/${newFormUid}`);
     } catch (error) {
       console.error("Failed to create new form:", error);
     } finally {

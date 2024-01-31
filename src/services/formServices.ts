@@ -33,6 +33,7 @@ export const updateForm = async (formUid: string, updatedForm: any) => {
     await updateDoc(formRef, {
       title: updatedForm.title,
       description: updatedForm.description,
+      formThumbnailUrl: updatedForm.formThumbnailUrl,
     });
 
     // Update each question in the questions sub-collection
