@@ -12,8 +12,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { firestore } from "../firebaseConfig";
+import { loadFormIsSharedToCommunity } from "../services/formServices";
 
 const formUrlPrefix = import.meta.env.VITE_FORM_PREFIX_URL;
 
@@ -27,6 +28,14 @@ const ShareForm: React.FC<Props> = ({ formUid }) => {
   const toast = useToast();
 
   const [isShared, setIsShared] = useState(false);
+
+  useEffect(() => {
+    const getIsShareToCommunity = async () => {
+      const result = await loadFormIsSharedToCommunity(formUid);
+      setIsShared(result);
+    };
+    getIsShareToCommunity();
+  }, []);
 
   const handleToggle = async () => {
     const newSharedStatus = !isShared;

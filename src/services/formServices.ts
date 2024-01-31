@@ -88,6 +88,19 @@ export const loadForm = async (formUid: string): Promise<Form> => {
   }
 };
 
+export const loadFormIsSharedToCommunity = async (
+  formUid: string
+): Promise<boolean> => {
+  const formRef = doc(firestore, "forms", formUid);
+  const formSnap = await getDoc(formRef);
+  if (!formSnap.exists()) {
+    throw new Error(`No form found with UID: ${formUid}`);
+  }
+  const formData = formSnap.data();
+
+  return formData.isSharedToCommunity ?? false;
+};
+
 export const deleteFormQuestion = async (
   formUid: string,
   questionUid: string
