@@ -33,6 +33,7 @@ import ShareForm from "./ShareForm";
 import Loading from "../components/Loading";
 import ToolbarState from "../stores/toolbarStore/toolbarTypes";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import useDocumentTitle from "../services/useDocumentTitle";
 
 const sidebarWidth = 260;
 
@@ -43,6 +44,8 @@ const steps = [
 ];
 
 const EditForm: React.FC = () => {
+  useDocumentTitle("Edit Form");
+
   const { formUid } = useParams();
   const stepsComponents = [
     <EditFormContent formUid={formUid!} />,

@@ -3,10 +3,13 @@ import { Box, Flex } from "@chakra-ui/react";
 import Sidebar from "../components/Sidebar";
 import MyForms from "../components/MyForms";
 import Community from "../components/Community";
+import useDocumentTitle from "../services/useDocumentTitle";
 
 const sidebarWidth = 260;
 
 const Home = () => {
+  useDocumentTitle("Form | Home");
+
   const [activeTab, setActiveTab] = useState("MyForms");
 
   return (

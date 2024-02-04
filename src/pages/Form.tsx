@@ -20,8 +20,11 @@ import ToolbarState from "../stores/toolbarStore/toolbarTypes";
 import { Answer } from "../types/answer";
 import { Form as FormType } from "../types/form";
 import { FormStyles, ToolbarAttributes } from "../types/formStyles";
+import useDocumentTitle from "../services/useDocumentTitle";
 
 const Form = () => {
+  useDocumentTitle("Submission");
+
   const { formUid } = useParams();
 
   // Get form from db to display
