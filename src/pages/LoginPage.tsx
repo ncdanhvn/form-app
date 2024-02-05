@@ -4,6 +4,7 @@ import {
   Link as ChakraLink,
   Container,
   Input,
+  Text,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -54,12 +55,18 @@ const LoginPage: React.FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <Text fontSize="sm" color="gray.600" fontStyle="italic">
+          Testing account: "teppi@email.com"
+        </Text>
         <Input
           placeholder="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <Text fontSize="sm" color="gray.600" fontStyle="italic">
+          Testing password: "password"
+        </Text>
         <Button onClick={handleLogin} colorScheme="blue">
           Log In
         </Button>
